@@ -3,7 +3,7 @@
 ## Goal
 The organisation wants a report on countries with the report containing: Code, Name, Continent, Region, Population, Captial of each country in the database.
 ## Scope
-Country
+Country Database
 ## Level
 Primary Task
 ## Preconditions
