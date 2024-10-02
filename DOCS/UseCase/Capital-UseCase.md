@@ -1,4 +1,4 @@
-# Use Case: 03 Produce a City Report
+# Use Case: 03 Produce a Capital City Report
 # Information
 ## Goal
 The organisation wants a report on Capital Cities with the report containing: Name, Country, Population of each Capital City in the database.
