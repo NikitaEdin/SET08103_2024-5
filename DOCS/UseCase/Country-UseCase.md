@@ -24,6 +24,7 @@ Pressing run on the program to produce the report.
 3. Organisation gets displayed the country report.
 # Extensions
 No country database found.
+Number Provided is out of bounds.
 # Sub-variations
 None.
 # Schedule
