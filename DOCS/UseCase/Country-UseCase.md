@@ -3,6 +3,7 @@
 ## Goal
 The organisation wants a report on countries with the report containing: Code, Name, Continent, Region, Population, Capital of each country in the database.
 The report will also contain these: All the countries in the world organised by largest population to smallest, All the countries in a continent organised by largest population to smallest. All the countries in a region organised by largest population to smallest.
+They also want in the report is: The top N most populated countries in the world, where N is specified by the user. The top N most populated countries in a continent, based on the user’s input. The top N most populated countries in a specific region, as chosen by the user.
 ## Scope
 Country Database
 ## Level
