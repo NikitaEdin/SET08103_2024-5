@@ -7,11 +7,6 @@ Develop Build status ![GitHub Workflow Status (branch)](https://img.shields.io/g
 
 License [![LICENSE](https://img.shields.io/github/license/NikitaEdin/sem.svg?style=flat-square)](https://github.com/NikitaEdin/SET09103_2024-5/blob/main/LICENSE)
 
-## Links
-Kanban Board: https://zube.io/napier-366/set08103/w/workspace-1/kanban
-
-Team Contribution Excel: It's in your shared with me on Office365
-
 ## Team Members
 
 - **Stephen Banks**
@@ -37,3 +32,7 @@ This Code of Conduct outlines the expectations for members to ensure a positive 
 ## Conclusion
 By following this Code of Conduct, we can create a respectful and effective working environment for everyone involved :)
 
+## Links
+Kanban Board: https://zube.io/napier-366/set08103/w/workspace-1/kanban
+
+Team Contribution Excel: It's in your shared with me on Office365
