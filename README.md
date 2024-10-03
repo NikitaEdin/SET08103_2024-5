@@ -32,3 +32,7 @@ This Code of Conduct outlines the expectations for members to ensure a positive 
 ## Conclusion
 By following this Code of Conduct, we can create a respectful and effective working environment for everyone involved :)
 
+## Links
+Kanban Board: https://zube.io/napier-366/set08103/w/workspace-1/kanban
+
+Team Contribution Excel: It's in your shared with me on Office365
