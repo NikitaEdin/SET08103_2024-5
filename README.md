@@ -9,6 +9,7 @@ License [![LICENSE](https://img.shields.io/github/license/NikitaEdin/sem.svg?sty
 
 ## Links
 Kanban Board: https://zube.io/napier-366/set08103/w/workspace-1/kanban
+
 Team Contribution Excel: It's in your shared with me on Office365
 
 ## Team Members
