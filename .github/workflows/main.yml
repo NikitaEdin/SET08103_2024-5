@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-20.04
     defaults:
       run:
-          working-directory: sem
+          working-directory: /sem
 
     steps:
       - name: Checkout
