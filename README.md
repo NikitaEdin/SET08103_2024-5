@@ -1,9 +1,9 @@
 # SET09103---2024-5
 Napier University Team project for SET09103 module 2024/2025
 
-Master Build status ![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/NikitaEdin/<>/.github/workflows/main.yml?branch=master)
+Main Build status ![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/NikitaEdin/SET09103_2024-5/.github/workflows/main.yml?branch=main)
 
-Develop Build status ![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/NikitaEdin/<>/.github/workflows/main.yml?branch=develop)
+Develop Build status ![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/NikitaEdin/SET09103_2024-5/.github/workflows/main.yml?branch=develop)
 
 License [![LICENSE](https://img.shields.io/github/license/NikitaEdin/sem.svg?style=flat-square)](https://github.com/NikitaEdin/SET09103_2024-5/blob/main/LICENSE)
 
