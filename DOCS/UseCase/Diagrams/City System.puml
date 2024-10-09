@@ -1,0 +1,17 @@
+@startuml
+
+actor mem as "Org. Member"
+
+rectangle Database
+
+rectangle "City System" {
+    usecase UC1 as "Get cities by population"
+
+    usecase UCa as "Print cities"
+
+    mem - UC1
+    UC1 ..> UCa : include
+    UC1 - Database
+}
+
+@enduml
