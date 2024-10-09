@@ -1,0 +1,17 @@
+@startuml
+
+actor mem as "Org. Member"
+
+rectangle Database
+
+rectangle "Country System" {
+    usecase UC1 as "Get countries by population"
+
+    usecase UCa as "Print countries"
+
+    mem - UC1
+    UC1 ..> UCa : include
+    UC1 - Database
+}
+
+@enduml
