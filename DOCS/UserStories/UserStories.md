@@ -1,0 +1,6 @@
+# User Stories
+1. As a member of the organisation I want to produce a report on languages from database, sorted by the number of global speakers and their percentage of the world population, so that I can have a comprehensive view of the information.
+2. As a member of the organisation I want to create a report of all the countries sorted by population, so that I can compare country data.
+3. As a member of the organisation I want to generate a report of the cities organised by population for the world, a continent, a  region and a country, so that I can analyze the data of the cities.
+4. As a member of the organisation I want to create a report on capital cities that includes their name, country, district and population so that I can deliver information about each capital city.
+5. As a member of the organisation I want to produce a report that shows the total population, percentage of the global population, and the non-city dwelling population of a continent so that population distribution can be researched.
