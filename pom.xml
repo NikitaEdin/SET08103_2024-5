@@ -6,7 +6,7 @@
 
     <groupId>com.napier.sem</groupId>
     <artifactId>seMethods</artifactId>
-    <version>0.1.0.1</version>
+    <version>0.1.0.3</version>
 
     <!--  Maven SDK and versions  -->
     <properties>
@@ -31,7 +31,6 @@
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
-                    <appendAssemblyId>false</appendAssemblyId>
                 </configuration>
                 <executions>
                     <execution>
