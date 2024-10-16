@@ -1,6 +1,8 @@
 package com.napier.sem;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class App {
 
@@ -17,11 +19,6 @@ public class App {
 
 
         // ######## REPORTS BEGIN HERE ######## ///
-        try {
-            a.report_PopulationDESC();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
 
 
         // Disconnect from database before termination
@@ -31,20 +28,138 @@ public class App {
 
     ///////////////////// REPORTS /////////////////////
 //<editor-fold desc="SQL Reports">
-    public void report_PopulationDESC() throws SQLException {
-        ResultSet rs = executeQuery("SELECT name, population FROM country ORDER BY population DESC");
-        System.out.println("List of countries by population (from largest to smallest):");
-        while (rs.next()) {
-            String countryName = rs.getString("name");
-            int population = rs.getInt("population");
-            System.out.println(countryName + ": " + population);
-        }
-    }
+
+
 
 
 //</editor-fold>
     ///////////////////// UTILS AND DATABASE CONNECTIONS /////////////////////
 //<editor-fold desc="SQL Connection UTILS">
+
+
+    /**
+     * Generic method to print ToString of all items of a given List
+     * @param items List of ANY objects
+     */
+    public static <T> void print_Items(List<T> items) {
+        if(items != null && !items.isEmpty()) {
+            for (Object item : items) {
+                System.out.println(item);
+            }
+        }
+    }
+
+
+    /**
+     * Executes the given query and returns a list of Country objects
+     *
+     * @param query SQL query to execute
+     * @return List of Country objects resulting from the query
+     */
+    public static List<Country> getReport_Country(String query) {
+        // Create ArrayList to hold Countries
+        List<Country> countries = new ArrayList<>();
+
+        // Execute query
+        ResultSet rs = executeQuery(query);
+        try {
+            // Populate bjects from the ResultSet
+            while (rs.next()) {
+                // Extract the country details from the ResultSet
+                String code = rs.getString("Code");
+                String name = rs.getString("Name");
+                String continent = rs.getString("Continent");
+                String region = rs.getString("Region");
+                double surfaceArea = rs.getDouble("SurfaceArea");
+                Integer indepYear = rs.getObject("IndepYear") != null ? rs.getInt("IndepYear") : null;
+                int population = rs.getInt("Population");
+                Double lifeExpectancy = rs.getObject("LifeExpectancy") != null ? rs.getDouble("LifeExpectancy") : null;
+                Double gnp = rs.getObject("GNP") != null ? rs.getDouble("GNP") : null;
+                Double gnpOld = rs.getObject("GNPOld") != null ? rs.getDouble("GNPOld") : null;
+                String localName = rs.getString("LocalName");
+                String governmentForm = rs.getString("GovernmentForm");
+                String headOfState = rs.getString("HeadOfState");
+                Integer capital = rs.getObject("Capital") != null ? rs.getInt("Capital") : null;
+                String code2 = rs.getString("Code2");
+
+                // Create Country with extracted data
+                Country country = new Country(code, name, continent, region, surfaceArea, indepYear, population, lifeExpectancy, gnp, gnpOld, localName, governmentForm, headOfState, capital, code2);
+
+                // Add Country to List
+                countries.add(country);
+            }
+        } catch (Exception ignored) {}
+
+        // Return populated List of Countries
+        return countries;
+    }
+
+    /**
+     * Retrieves a list of cities based on the specified SQL query
+     *
+     * @param query SQL query to execute for retrieving city records
+     * @return A list of City objects populated with data retrieved from the database
+     */
+    public static List<City> getReport_City(String query) {
+        // Create List of Cities
+        List<City> cities = new ArrayList<>();
+
+        // Execute query
+        ResultSet rs = executeQuery(query);
+        try {
+            // Populate objects from ResultSet
+            while (rs.next()) {
+                // Extract city details from ResultSet
+                int id = rs.getInt("ID");
+                String name = rs.getString("Name");
+                String countryCode = rs.getString("CountryCode");
+                String district = rs.getString("District");
+                int population = rs.getInt("Population");
+
+                // Create City object
+                City city = new City(id, name, countryCode, district, population);
+
+                // Add to List
+                cities.add(city);
+            }
+        } catch (Exception ignored) {}
+
+        return cities;
+    }
+
+    /**
+     * Retrieves a list of country languages based on the specified SQL query
+     *
+     * @param query SQL query to execute for retrieving country language records
+     * @return A list of CountryLanguage objects populated with data retrieved from the database
+     */
+    public static List<CountryLanguage> getReport_CountryLanguage(String query) {
+        // Create List of CountryLanguages
+        List<CountryLanguage> countryLanguages = new ArrayList<>();
+
+        // Execute query
+        ResultSet rs = executeQuery(query);
+        try {
+            // Populate objects from ResultSet
+            while (rs.next()) {
+                // Extract country-language details from ResultSet
+                String countryCode = rs.getString("CountryCode");
+                String language = rs.getString("Language");
+                String isOfficial = rs.getString("IsOfficial");
+                double percentage = rs.getDouble("Percentage");
+
+                // Create CountryLanguage and add to list
+                CountryLanguage countryLanguage = new CountryLanguage(countryCode, language, isOfficial, percentage);
+
+                countryLanguages.add(countryLanguage);
+            }
+        } catch (Exception ignored) {}
+
+        return countryLanguages;
+    }
+
+
+
     /**
      * Executes the given SQL query and returns the ResultSet.
      *
