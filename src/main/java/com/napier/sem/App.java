@@ -48,6 +48,8 @@ public class App {
         print_Items(a.report_CitiesInContinentDESC("Africa"));
         System.out.println("report_CitiesInRegionDESC: ");
         print_Items(a.report_CitiesInRegionDESC("Central America"));
+        System.out.println("report_CitiesInCountryDESC: ");
+        print_Items(a.report_CitiesInCountryDESC("Angola"));
          */
 
 
@@ -216,6 +218,17 @@ public class App {
     public List<City> report_CitiesInRegionDESC(String region) {
         if(region.isEmpty()) return null;
         String query = "SELECT * FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Region = '" + region + "' ORDER BY city.population DESC";
+        return getReport_City(query);
+    }
+
+    /**
+     * All the cities in a country organised by largest population to smallest.
+     * @param country Name of country to filter the cities by.
+     * @return List of cities in the specified country, sorted by descending order by population.
+     */
+    public List<City> report_CitiesInCountryDESC(String country) {
+        if(country.isEmpty()) return null;
+        String query = "SELECT * FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Name = '" + country + "' ORDER BY city.population DESC";
         return getReport_City(query);
     }
 
