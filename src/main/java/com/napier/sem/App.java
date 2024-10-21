@@ -50,10 +50,13 @@ public class App {
         print_Items(a.report_CitiesInRegionDESC("Central America"));
         System.out.println("report_CitiesInCountryDESC: ");
         print_Items(a.report_CitiesInCountryDESC("Angola"));
-         */
-
         System.out.println("report_CitiesInDistrictDESC: ");
         print_Items(a.report_CitiesInDistrictDESC("Scotland"));
+
+         */
+
+        System.out.println("report_CapitalCitiesInWorldDESC: ");
+        print_Items_Capitals(a.report_CapitalCitiesInWorldDESC());
 
         // Disconnect from database before termination
         a.disconnect();
@@ -232,9 +235,23 @@ public class App {
         return getReport_City(query);
     }
 
+    /**
+     * All the cities in a district organised by largest population to smallest.
+     * @param district Name of district to filter the cities by.
+     * @return List of cities in the specified country, sorted by descending order by population.
+     */
     public List<City> report_CitiesInDistrictDESC(String district) {
         if(district.isEmpty()) return null;
         String query = "SELECT * FROM city WHERE District = '" + district + "' ORDER BY city.population DESC";
+        return getReport_City(query);
+    }
+
+    /**
+     * All the capital cities in the world organised by largest population to smallest.
+     * @return List of all capital cities in the world, sorted by descending order by population.
+     */
+    public List<City> report_CapitalCitiesInWorldDESC() {
+        String query = "SELECT * FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Capital = city.ID ORDER BY city.population DESC";
         return getReport_City(query);
     }
 
@@ -251,6 +268,21 @@ public class App {
         if(items != null && !items.isEmpty()) {
             for (Object item : items) {
                 System.out.println(item);
+            }
+        }
+    }
+
+    /**
+     * Method to print specific columns for capital city reports.
+     * @param cityList List of capital cities to be printed to screen.
+     */
+    public static void print_Items_Capitals(List<City> cityList){
+        if(cityList != null && !cityList.isEmpty()) {
+            for (City city : cityList) {
+                System.out.println("City{" +
+                                    "Name='" + city.Name + '\'' +
+                                    "CountryCode='" + city.CountryCode + '\'' +
+                                    ", Population='" + city.Population + '}');
             }
         }
     }
