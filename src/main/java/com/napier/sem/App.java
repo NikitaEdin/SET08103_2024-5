@@ -52,11 +52,13 @@ public class App {
         print_Items(a.report_CitiesInCountryDESC("Angola"));
         System.out.println("report_CitiesInDistrictDESC: ");
         print_Items(a.report_CitiesInDistrictDESC("Scotland"));
-
-         */
-
         System.out.println("report_CapitalCitiesInWorldDESC: ");
         print_Items_Capitals(a.report_CapitalCitiesInWorldDESC());
+        System.out.println("report_CapitalCitiesInContinentDESC: ");
+        print_Items_Capitals(a.report_CapitalCitiesInContinentDESC("North America"));
+         */
+
+
 
         // Disconnect from database before termination
         a.disconnect();
@@ -252,6 +254,17 @@ public class App {
      */
     public List<City> report_CapitalCitiesInWorldDESC() {
         String query = "SELECT * FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Capital = city.ID ORDER BY city.population DESC";
+        return getReport_City(query);
+    }
+
+    /**
+     * All the capital cities in a continent organised by largest population to smallest.
+     * @param continent Name of district to filter the cities by.
+     * @return List of capital cities in the specified continent, sorted by descending order by population.
+     */
+    public List<City> report_CapitalCitiesInContinentDESC(String continent) {
+        if(continent.isEmpty()) return null;
+        String query = "SELECT * FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Continent = '" + continent + "' AND country.Capital = city.ID ORDER BY city.population DESC";
         return getReport_City(query);
     }
 
