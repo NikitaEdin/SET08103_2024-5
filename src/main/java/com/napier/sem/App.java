@@ -52,8 +52,8 @@ public class App {
         print_Items(a.report_CitiesInCountryDESC("Angola"));
          */
 
-
-
+        System.out.println("report_CitiesInDistrictDESC: ");
+        print_Items(a.report_CitiesInDistrictDESC("Scotland"));
 
         // Disconnect from database before termination
         a.disconnect();
@@ -229,6 +229,12 @@ public class App {
     public List<City> report_CitiesInCountryDESC(String country) {
         if(country.isEmpty()) return null;
         String query = "SELECT * FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Name = '" + country + "' ORDER BY city.population DESC";
+        return getReport_City(query);
+    }
+
+    public List<City> report_CitiesInDistrictDESC(String district) {
+        if(district.isEmpty()) return null;
+        String query = "SELECT * FROM city WHERE District = '" + district + "' ORDER BY city.population DESC";
         return getReport_City(query);
     }
 
