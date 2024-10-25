@@ -22,8 +22,11 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
 
+      - name: Unit Tests
+        run: mvn -Dtest=com.napier.sem.AppTest test
+
       - name: Build with Maven  # Build the application
-        run: mvn package  # Compiles and packages the application
+        run: mvn package -DskipTests  # Compiles and packages the application
 
       - name: Run docker compose  # Run Docker Compose
         run: docker compose up --abort-on-container-exit  # Starts services and aborts on container exit
