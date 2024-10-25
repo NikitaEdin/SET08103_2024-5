@@ -16,6 +16,8 @@ public class AppTest {
         app = new App();
     }
 
+    ///////////////////// Country Tests /////////////////////
+//<editor-fold desc="Country Tests">
     @Test
     /**
      * Tests the print_Items method to ensure it handles an empty list without errors.
@@ -60,4 +62,6 @@ public class AppTest {
         app.print_Items(countries);
 
     }
+    //</editor-fold>
+
 }
