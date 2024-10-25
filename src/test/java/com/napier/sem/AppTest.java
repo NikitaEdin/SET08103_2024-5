@@ -17,13 +17,13 @@ public class AppTest {
     }
 
     ///////////////////// Country Tests /////////////////////
-//<editor-fold desc="Country Tests">
+    //<editor-fold desc="Country Tests">
     @Test
     /**
      * Tests the print_Items method to ensure it handles an empty list without errors.
      */
 
-    void print_ItemsContainsNull(){
+    void print_ItemsCountryContainsNull(){
         // Create ArrayList
         ArrayList<Country> countries = new ArrayList<Country>();
         // Add null into the ArrayList
@@ -36,7 +36,7 @@ public class AppTest {
     /**
      * This tests the print_Items method to test if any errors occur if its provided a empty list
      */
-    void print_ItemsContainsEmpty(){
+    void print_ItemsCountryContainsEmpty(){
         // Create ArrayList
         ArrayList<Country> countries = new ArrayList<Country>();
         // Call print_Items method
@@ -47,7 +47,7 @@ public class AppTest {
     /**
      *  This test is to test the method print_Items if it functions without errors with normal data.
      */
-    void print_Items(){
+    void print_ItemsCountry(){
         // Create the Country object using the constructor
         Country c = new Country(
                 "123", "Scotland", "Europe", "Rainy", 300.0,
@@ -64,4 +64,50 @@ public class AppTest {
     }
     //</editor-fold>
 
+    ///////////////////// City Tests /////////////////////
+    //<editor-fold desc="City Tests">
+    @Test
+    /**
+     * Tests the print_Items method to ensure it handles an empty list without errors.
+     */
+
+    void print_ItemsCityContainsNull(){
+        // Create ArrayList
+        ArrayList<City> cities = new ArrayList<City>();
+        // Add null into the ArrayList
+        cities.add(null);
+        // Call print_Items Method
+        app.print_Items(cities);
+    }
+
+    @Test
+    /**
+     * This tests the print_Items method to test if any errors occur if its provided a empty list
+     */
+    void print_ItemsCitiesContainsEmpty(){
+        // Create ArrayList
+        ArrayList<City> cities = new ArrayList<City>();
+        cities.add(null);
+        // Call print_Items method
+        app.print_Items(cities);
+    }
+
+    @Test
+    /**
+     *  This test is to test the method print_Items if it functions without errors with normal data.
+     */
+    void print_ItemsCity(){
+        // Create the Country object using the constructor
+        City c = new City(
+                001,"Edinburgh","123","District",1000000
+        );
+        // Create ArrayList to store the info
+        ArrayList<City> cities = new ArrayList<>();
+        // Add test data to the ArrayList
+        cities.add(c);
+        // Use print_items method
+        app.print_Items(cities);
+
+    }
+    //</editor-fold>
 }
