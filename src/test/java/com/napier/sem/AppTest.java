@@ -121,11 +121,53 @@ public class AppTest {
 
     ///////////////////// City Tests /////////////////////
     //<editor-fold desc="City Tests">
+
+    /**
+     *
+     * @param cityList is a list of cities
+     * @return returns a list of cities that are not null
+     */
+    public static List<City> getCityList(List<City> cityList) {
+        List<City> city = new ArrayList<>();
+        for (City cities : cityList) {
+            if (cities != null) {
+                city.add(cities);
+            }
+        }
+        return city;
+    }
+
+    /**
+     *  Tests the method getReport_City method to test if it causes errors when no city is provided,
+     *  and to check that the data provided returns the same when once inputted.
+     */
+    void getReport_City(){
+        List<City> testData = new ArrayList<City>();
+        // Test case for New York
+        testData.add(new City(1,"New York","USA","District",19571216));
+        // Test if no city is given
+        testData.add(null);
+        // Test case for Edinburgh
+        testData.add(new City(2,"Edinburgh","SCO","District",558676));
+
+        // Create a new list with the test data
+        List<City> result = getCityList(testData);
+
+        // Test if the test data is not null
+        assertNotNull(result);
+        // Check that there is two countries created
+        assertEquals(2,result.size());
+
+        // Check that the test data is the same
+        assertEquals(1,result.get(0).getID());
+        assertEquals(2,result.get(1).getID());
+    }
+
+
     @Test
     /**
      * Tests the print_Items method to ensure it handles an empty list without errors.
      */
-
     void print_ItemsCityContainsNull(){
         // Create ArrayList
         ArrayList<City> cities = new ArrayList<City>();

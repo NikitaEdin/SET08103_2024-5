@@ -37,6 +37,10 @@ public class City {
         this.Population = Population;
     }
 
+    public int getID() {
+        return ID;
+    }
+
     /**
      * Returns a string representation of the City object.
      *
