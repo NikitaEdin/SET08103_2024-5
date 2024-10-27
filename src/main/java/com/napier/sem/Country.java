@@ -90,6 +90,10 @@ public class Country {
         this.Code2 = Code2;
     }
 
+    public String getCode() {
+        return Code;
+    }
+
     /**
      * Returns a string representation of the Country object.
      *

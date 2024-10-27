@@ -2,7 +2,13 @@ package com.napier.sem;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class AppTest {
 
@@ -25,11 +31,53 @@ public class AppTest {
 
     ///////////////////// Country Tests /////////////////////
     //<editor-fold desc="Country Tests">
+
+    /**
+     *
+     * @param countryList is a list of countries from the Country class
+     * @return Returns a list of country objects
+     */
+    public static List<Country> getCountryList(List<Country> countryList) {
+        List<Country> countries = new ArrayList<>();
+        for (Country country : countryList) {
+            if (country != null) {
+                countries.add(country);
+            }
+        }
+        return countries;
+    }
+
+    /**
+     * Method to test the getReport_Country method by  creating test data and null test data to see how the method handles it.
+     */
+    @Test
+    void getReport_Country(){
+        List<Country> testData = new ArrayList<Country>();
+        // Test case for America
+        testData.add(new Country("USA","United States","North America","North America",9987652.00,1776,345426571,77.5,21477426.0,20611819.0,"United States","Democracy","President",1,"US"));
+        // Test if no country is given
+        testData.add(null);
+        // Test case for Spain
+        testData.add(new Country("ESP", "Spain", "Europe", "Southern Europe",
+                505992.0, 1479, 47450795, 83.6, 1419043.0, 1263782.0,
+                "Espana", " Monarchy", "King", 3, "ES"));
+
+        // Create a new list with the test data
+        List<Country> result = getCountryList(testData);
+
+        // Test if the test data is not null
+        assertNotNull(result);
+        // Check that there is two countries created
+        assertEquals(2,result.size());
+
+        // Check that the test data is the same
+        assertEquals("USA",result.get(0).getCode());
+        assertEquals("ESP",result.get(1).getCode());
+    }
     @Test
     /**
      * Tests the print_Items method to ensure it handles an empty list without errors.
      */
-
     void print_ItemsCountryContainsNull(){
         // Create ArrayList
         ArrayList<Country> countries = new ArrayList<Country>();
