@@ -16,6 +16,13 @@ public class AppTest {
         app = new App();
     }
 
+    ///////////////////// Database Tests /////////////////////
+    //<editor-fold desc="Database Tests">
+
+
+
+    //</editor-fold>
+
     ///////////////////// Country Tests /////////////////////
     //<editor-fold desc="Country Tests">
     @Test
