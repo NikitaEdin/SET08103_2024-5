@@ -194,35 +194,6 @@ public class App {
     /**
      * Connect to the MySQL database.
      */
-//    public void connect() {
-//        try {
-//            // Load Database driver
-//            Class.forName("com.mysql.cj.jdbc.Driver");
-//        } catch (ClassNotFoundException e) {
-//            System.out.println("Could not load SQL driver");
-//            System.exit(-1);
-//        }
-//
-//        int retries = 10;
-//        for (int i = 0; i < retries; ++i) {
-//            System.out.println("Connecting to database...");
-//            try {
-//                // Wait a bit for db to start
-//                Thread.sleep(10000);
-//                // Connect to database
-//                con = DriverManager.getConnection("jdbc:mysql://" + "localhost:3306" +"/world?useSSL=false", "root", "");
-//                System.out.println("Successfully connected");
-//                break;
-//            } catch (SQLException sqle) {
-//                System.out.println("Failed to connect to database attempt " + Integer.toString(i));
-//                System.out.println(sqle.getMessage());
-//            }
-//            catch (InterruptedException ie) {
-//                System.out.println("Thread interrupted? Should not happen.");
-//            }
-//        }
-//    }
-
     public void connect() {
         try {
             // Load Database driver
@@ -232,45 +203,25 @@ public class App {
             System.exit(-1);
         }
 
-        // Determine the database host based on the DB_ENV variable
-        String dbEnv = System.getenv("DB_ENV"); // e.g., 'local' or 'docker'
-        String dbHost;
-        String dbPassword = ""; // Assuming you want this empty for the root user
-
-        if ("docker".equalsIgnoreCase(dbEnv)) {
-            dbHost = "db"; // Host for Docker
-            dbPassword = "example";
-        } else {
-            dbHost = "localhost"; // Host for local development
-            dbPassword = "";
-
-        }
-
-        // Connection parameters
-        String dbPort = "3306";
-        String dbName = "world";
-        String dbUser = "root";
-
         int retries = 10;
         for (int i = 0; i < retries; ++i) {
             System.out.println("Connecting to database...");
             try {
                 // Wait a bit for db to start
                 Thread.sleep(10000);
-                // Connect to the database using the determined host
-                con = DriverManager.getConnection("jdbc:mysql://" + dbHost + ":" + dbPort + "/" + dbName + "?useSSL=false", dbUser, dbPassword);
+                // Connect to database
+                con = DriverManager.getConnection("jdbc:mysql://db:3306/world?useSSL=false", "root", "example");
                 System.out.println("Successfully connected");
                 break;
             } catch (SQLException sqle) {
                 System.out.println("Failed to connect to database attempt " + Integer.toString(i));
                 System.out.println(sqle.getMessage());
-            } catch (InterruptedException ie) {
+            }
+            catch (InterruptedException ie) {
                 System.out.println("Thread interrupted? Should not happen.");
             }
         }
     }
-
-
 
     /**
      * Disconnect from the MySQL database.

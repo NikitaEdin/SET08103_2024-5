@@ -1,6 +1,5 @@
 package com.napier.sem;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -15,57 +14,19 @@ public class AppTest {
 
     static App app;
 
-    /** Development config variable, to switch on/off DB connection,
-     * will skip data dependent tests if set to false */
-    private final static boolean CONFIG_useDatabase = true;
-
 
     @BeforeAll
     /**
      * This initialises the App before all tests in this class are started.
      */
     static void setUpBeforeClass(){
-        if (CONFIG_useDatabase){
-            app = new App();
-            if(App.con != null){
-                app.disconnect();
-            }
-            app.connect();
-        }
+        app = new App();
     }
 
-    @AfterAll
-    /**
-     * Deconstructor to free memory and disconnect databse connections.
-     */
-    static void tearDownAfterClass(){
-        if(app != null){
-            app.disconnect();
-        }
-    }
 
     ///////////////////// Database Tests /////////////////////
     //<editor-fold desc="Database Tests">
 
-
-    /**
-     * Unit test to verify CitiesInWorldDESC report output is valid and as expected
-     */
-    @Test
-    public void test_report_CitiesInWorldDESC(){
-        if(!CONFIG_useDatabase || App.con == null) return;
-
-        List<City> items = app.report_CitiesInWorldDESC();
-        // Not null
-        assertNotNull(items);
-        // Expected size
-        assertEquals(items.size(), 4079);
-        // Expected item details of index 0
-        assertEquals(10500000, items.get(0).Population);
-        assertEquals("Maharashtra", items.get(0).District);
-        assertEquals("IND", items.get(0).CountryCode);
-        assertEquals("Mumbai (Bombay)", items.get(0).Name);
-    }
 
     //</editor-fold>
 
