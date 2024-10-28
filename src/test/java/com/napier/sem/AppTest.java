@@ -15,7 +15,8 @@ public class AppTest {
 
     static App app;
 
-    /** Development config variable, to switch on/off DB connection */
+    /** Development config variable, to switch on/off DB connection,
+     * will skip data dependent tests if set to false */
     private final static boolean CONFIG_useDatabase = true;
 
 
@@ -29,7 +30,7 @@ public class AppTest {
             if(App.con != null){
                 app.disconnect();
             }
-            app.connect("localhost:3306", "");
+            app.connect();
         }
     }
 
@@ -52,6 +53,8 @@ public class AppTest {
      */
     @Test
     public void test_report_CitiesInWorldDESC(){
+        if(!CONFIG_useDatabase || App.con == null) return;
+
         List<City> items = app.report_CitiesInWorldDESC();
         // Not null
         assertNotNull(items);
