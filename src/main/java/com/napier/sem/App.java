@@ -6,36 +6,280 @@ import java.util.List;
 
 public class App {
 
-
     /**
      * Main app method to initialise the application.
      * @param args launching parameters
      */
     public static void main(String[] args) {
         // Create new Application
-        App app = new App();
+        App a = new App();
 
-        app.connect();
+        // Connect to database
+        a.connect();
 
 
         // ######## REPORTS BEGIN HERE ######## ///
 
 
+        ////// Testing Data and Examples //////
+        /**
+        System.out.println("report_TopN_PopulatedCountries: ");
+        print_Items(a.report_TopN_PopulatedCountries(3));
+        System.out.println("report_TopN_PopulatedCountriesByContinent: ");
+        print_Items(a.report_TopN_PopulatedCountriesByContinent("North America", 4));
+        System.out.println("report_TopN_PopulatedCountriesByRegion: ");
+        print_Items(a.report_TopN_PopulatedCountriesByRegion("Central Africa", 5));
+
+        System.out.println("report_TopN_PopulatedCities: ");
+        print_Items(a.report_TopN_PopulatedCities(3));
+        System.out.println("report_TopN_PopulatedCitiesByContinent: ");
+        print_Items(a.report_TopN_PopulatedCitiesByContinent("North America", 5));
+        System.out.println("report_TopN_PopulatedCitiesByRegion: ");
+        print_Items(a.report_TopN_PopulatedCitiesByRegion("Central America", 4));
+        System.out.println("report_TopN_PopulatedCitiesByCountry: ");
+        print_Items(a.report_TopN_PopulatedCitiesByCountry("United States", 2));
+        System.out.println("report_TopN_PopulatedCitiesByDistrict: ");
+        print_Items(a.report_TopN_PopulatedCitiesByDistrict("Western", 6));
+
+        System.out.println("report_CitiesInWorldDESC: ");
+        print_Items(a.report_CitiesInWorldDESC());
+        System.out.println("report_CitiesInContinentDESC: ");
+        print_Items(a.report_CitiesInContinentDESC("Africa"));
+        System.out.println("report_CitiesInRegionDESC: ");
+        print_Items(a.report_CitiesInRegionDESC("Central America"));
+        System.out.println("report_CitiesInCountryDESC: ");
+        print_Items(a.report_CitiesInCountryDESC("Angola"));
+        System.out.println("report_CitiesInDistrictDESC: ");
+        print_Items(a.report_CitiesInDistrictDESC("Scotland"));
+
+        System.out.println("report_CapitalCitiesInWorldDESC: ");
+        print_Items_Capitals(a.report_CapitalCitiesInWorldDESC());
+        System.out.println("report_CapitalCitiesInContinentDESC: ");
+        print_Items_Capitals(a.report_CapitalCitiesInContinentDESC("North America"));
+        System.out.println("report_CapitalCitiesInRegionDESC: ");
+        print_Items_Capitals(a.report_CapitalCitiesInRegionDESC("Western Europe"));
+         */
+
+
+
         // Disconnect from database before termination
-        app.disconnect();
+        a.disconnect();
     }
-
-
 
 
     ///////////////////// REPORTS /////////////////////
 //<editor-fold desc="SQL Reports">
 
+
+    /**
+     * All the countries in the world organised by largest population to smallest
+     * @return Return a list of Country type in DESC order
+     */
+    public List<Country> report_PopulationDESC() {
+        String query = "SELECT * FROM country ORDER BY population DESC";
+        return getReport_Country(query);
+    }
+
+    /**
+     * All the countries in a continent organised by largest population to smallest
+     * @param continent Continent name to filter by
+     * @return  Return a list of Country type in DESC order
+     */
+    public List<Country> report_PopulationByContinentDESC(String continent) {
+        if(continent.isEmpty()) return null;
+        String query = "SELECT * FROM country WHERE continent = '" + continent + "' ORDER BY population DESC";
+        return getReport_Country(query);
+    }
+
+    /**
+     * All the countries in a region organised by largest population to smallest
+     * @param region Region name to filter by
+     * @return Returns a list of Country type in DESC order
+     */
+    public List<Country> report_CountriesByRegionDESC(String region) {
+        if(region.isEmpty()) return null;
+        String query = "SELECT * FROM country WHERE region = '"+ region +"' ORDER BY population DESC";
+        return getReport_Country(query);
+    }
+
+
+    /**
+     * The top N populated countries in the world where N is provided by the user
+     * @param N Number of top populated countries to retrieve
+     * @return A list of the top N populated countries, sorted in descending order by population
+     */
+    public List<Country> report_TopN_PopulatedCountries(int N){
+        if (N < 1) return null;
+        return getReport_Country("SELECT * FROM country ORDER BY population DESC LIMIT "+ N);
+    }
+
+    /**
+     * The top N populated countries in a continent where N is provided by the user
+     * @param continent Name of the continent to filter the countries by
+     * @param N The number of top populated countries to retrieve for the specified continent
+     * @return List of top N populated countries in the specified continent
+     */
+    public List<Country> report_TopN_PopulatedCountriesByContinent(String continent, int N) {
+        if( N < 1 || continent.isEmpty()) return null;
+        String query = "SELECT * FROM country WHERE continent = '"+ continent +"' ORDER BY population DESC LIMIT "+ N;
+        return getReport_Country(query);
+    }
+
+    /**
+     * The top N populated countries in a region where N is provided by the user
+     * @param region Name of the region to filter the countries by
+     * @param N Number of top populated countries to retrieve for the specified region
+     * @return A list of top N populated countries in the specified region
+     */
+    public List<Country> report_TopN_PopulatedCountriesByRegion(String region, int N) {
+        if( N < 1 || region.isEmpty()) return null;
+        String query = "SELECT * FROM country WHERE region = '" + region + "' ORDER BY population DESC LIMIT "+ N;
+        return getReport_Country(query);
+    }
+
+    /**
+     * The top N populated cities in the world where N is provided by the user.
+     * @param N Number of top populated cities to retrieve
+     * @return List of top N populated cities, sorted in descending order by population
+     */
+    public List<City> report_TopN_PopulatedCities(int N) {
+        if (N < 1) return null;
+        String query = "SELECT * FROM city ORDER BY population DESC LIMIT " + N;
+        return getReport_City(query);
+    }
+
+    /**
+     * The top N populated cities in a continent where N is provided by the user.
+     * @param continent Name of the continent to filter the cities by
+     * @param N Number of top populated cities to retrieve
+     * @return List of top N populated cities in the specified continent, sorted in descending order by population
+     */
+    public List<City> report_TopN_PopulatedCitiesByContinent(String continent, int N) {
+        if (N < 1 || continent.isEmpty()) return null;
+        String query = "SELECT city.* FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Continent = '" + continent + "' ORDER BY city.Population DESC LIMIT " + N;
+        return getReport_City(query);
+    }
+
+
+    /**
+     * The top N populated cities in a region where N is provided by the user.
+     * @param region Name of the region to filter the cities by
+     * @param N Number of top populated cities to retrieve
+     * @return List of top N populated cities in specified region, sorted in descending order by population
+     */
+    public List<City> report_TopN_PopulatedCitiesByRegion(String region, int N) {
+        if (N < 1 || region.isEmpty()) return null;
+        String query = "SELECT city.* FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Region = '" + region + "' ORDER BY city.Population DESC LIMIT " + N;
+        return getReport_City(query);
+    }
+
+    /**
+     * The top N populated cities in a country where N is provided by the user.
+     * @param country Name of the country to filter the cities by
+     * @param N Number of top populated cities to retrieve
+     * @return List of top N populated cities in specified country, sorted in descending order by population
+     */
+    public List<City> report_TopN_PopulatedCitiesByCountry(String country, int N) {
+        if (N < 1 || country.isEmpty()) return null;
+        String query = "SELECT city.* FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Name = '" + country + "' ORDER BY city.Population DESC LIMIT " + N;
+        return getReport_City(query);
+    }
+
+    /**
+     * The top N populated cities in a district where N is provided by the user.
+     * @param district Name of district to filter the cities by
+     * @param N Number of top populated cities to retrieve
+     * @return List of top N populated cities in specified district, sorted in descending order by population
+     */
+    public List<City> report_TopN_PopulatedCitiesByDistrict(String district, int N) {
+        if (N < 1 || district.isEmpty()) return null;
+        String query = "SELECT * FROM city WHERE District = '" + district + "' ORDER BY Population DESC LIMIT " + N;
+        return getReport_City(query);
+    }
+
+    /**
+     * All the cities in the world organised by largest population to smallest.
+     * @return List of all cities in the world, sorted in descending order by population.
+     */
     public List<City> report_CitiesInWorldDESC() {
         String query = "SELECT * FROM city ORDER BY population DESC";
         return getReport_City(query);
     }
 
+    /**
+     * All the cities in a continent organised by largest population to smallest.
+     * @param continent Name of continent to filter the cities by.
+     * @return List of cities in specified continent, sorted by descending order by population.
+     */
+    public List<City> report_CitiesInContinentDESC(String continent) {
+        if(continent.isEmpty()) return null;
+        String query = "SELECT * FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Continent = '" + continent + "' ORDER BY city.population DESC";
+        return getReport_City(query);
+    }
+
+    /**
+     * All the cities in a region organised by largest population to smallest.
+     * @param region Name of region to filter the cities by.
+     * @return List of cities in specified region, sorted by descending order by population.
+     */
+    public List<City> report_CitiesInRegionDESC(String region) {
+        if(region.isEmpty()) return null;
+        String query = "SELECT * FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Region = '" + region + "' ORDER BY city.population DESC";
+        return getReport_City(query);
+    }
+
+    /**
+     * All the cities in a country organised by largest population to smallest.
+     * @param country Name of country to filter the cities by.
+     * @return List of cities in the specified country, sorted by descending order by population.
+     */
+    public List<City> report_CitiesInCountryDESC(String country) {
+        if(country.isEmpty()) return null;
+        String query = "SELECT * FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Name = '" + country + "' ORDER BY city.population DESC";
+        return getReport_City(query);
+    }
+
+    /**
+     * All the cities in a district organised by largest population to smallest.
+     * @param district Name of district to filter the cities by.
+     * @return List of cities in the specified country, sorted by descending order by population.
+     */
+    public List<City> report_CitiesInDistrictDESC(String district) {
+        if(district.isEmpty()) return null;
+        String query = "SELECT * FROM city WHERE District = '" + district + "' ORDER BY city.population DESC";
+        return getReport_City(query);
+    }
+
+    /**
+     * All the capital cities in the world organised by largest population to smallest.
+     * @return List of all capital cities in the world, sorted by descending order by population.
+     */
+    public List<City> report_CapitalCitiesInWorldDESC() {
+        String query = "SELECT * FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Capital = city.ID ORDER BY city.population DESC";
+        return getReport_City(query);
+    }
+
+    /**
+     * All the capital cities in a continent organised by largest population to smallest.
+     * @param continent Name of district to filter the cities by.
+     * @return List of capital cities in the specified continent, sorted by descending order by population.
+     */
+    public List<City> report_CapitalCitiesInContinentDESC(String continent) {
+        if(continent.isEmpty()) return null;
+        String query = "SELECT * FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Continent = '" + continent + "' AND country.Capital = city.ID ORDER BY city.population DESC";
+        return getReport_City(query);
+    }
+
+    /**
+     * All the capital cities in a region organised by largest to smallest.
+     * @param region Name of region to filter the cities by.
+     * @return List of capital cities in the specified region, sorted by descending order by population.
+     */
+    public List<City> report_CapitalCitiesInRegionDESC(String region) {
+        if(region.isEmpty()) return null;
+        String query = "SELECT * FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Region = '" + region + "' AND country.Capital = city.ID ORDER BY city.population DESC";
+        return getReport_City(query);
+    }
 
 //</editor-fold>
     ///////////////////// UTILS AND DATABASE CONNECTIONS /////////////////////
@@ -50,6 +294,21 @@ public class App {
         if(items != null && !items.isEmpty()) {
             for (Object item : items) {
                 System.out.println(item);
+            }
+        }
+    }
+
+    /**
+     * Method to print specific columns for capital city reports.
+     * @param cityList List of capital cities to be printed to screen.
+     */
+    public static void print_Items_Capitals(List<City> cityList){
+        if(cityList != null && !cityList.isEmpty()) {
+            for (City city : cityList) {
+                System.out.println("City{" +
+                                    "Name='" + city.Name + '\'' +
+                                    "CountryCode='" + city.CountryCode + '\'' +
+                                    ", Population='" + city.Population + '}');
             }
         }
     }
@@ -172,8 +431,6 @@ public class App {
      * @return the ResultSet of the executed query
      */
     public static ResultSet executeQuery(String query){
-        if(con == null) return null;
-
         try {
             // Create a statement object to execute the query
             Statement stmt = con.createStatement();
@@ -189,7 +446,7 @@ public class App {
     /**
      * Connection to MySQL database.
      */
-    public static Connection con = null;
+    private static Connection con = null;
 
     /**
      * Connect to the MySQL database.
@@ -231,7 +488,6 @@ public class App {
             try {
                 // Close connection
                 con.close();
-                System.out.println("Disconnected from database");
             } catch (Exception e) {
                 System.out.println("Error closing connection to database");
             }
