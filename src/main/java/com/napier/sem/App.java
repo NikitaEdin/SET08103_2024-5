@@ -6,30 +6,35 @@ import java.util.List;
 
 public class App {
 
+
     /**
      * Main app method to initialise the application.
      * @param args launching parameters
      */
     public static void main(String[] args) {
         // Create new Application
-        App a = new App();
+        App app = new App();
 
         // Connect to database
-        a.connect();
-
+        app.connect("db:3306", "example");
 
         // ######## REPORTS BEGIN HERE ######## ///
 
 
         // Disconnect from database before termination
-        a.disconnect();
+        app.disconnect();
     }
+
+
 
 
     ///////////////////// REPORTS /////////////////////
 //<editor-fold desc="SQL Reports">
 
-
+    public List<City> report_CitiesInWorldDESC() {
+        String query = "SELECT * FROM city ORDER BY population DESC";
+        return getReport_City(query);
+    }
 
 
 //</editor-fold>
@@ -167,6 +172,8 @@ public class App {
      * @return the ResultSet of the executed query
      */
     public static ResultSet executeQuery(String query){
+        if(con == null) return null;
+
         try {
             // Create a statement object to execute the query
             Statement stmt = con.createStatement();
@@ -182,12 +189,12 @@ public class App {
     /**
      * Connection to MySQL database.
      */
-    private static Connection con = null;
+    public static Connection con = null;
 
     /**
      * Connect to the MySQL database.
      */
-    public void connect() {
+    public void connect(String location, String password) {
         try {
             // Load Database driver
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -203,7 +210,7 @@ public class App {
                 // Wait a bit for db to start
                 Thread.sleep(10000);
                 // Connect to database
-                con = DriverManager.getConnection("jdbc:mysql://db:3306/world?useSSL=false", "root", "example");
+                con = DriverManager.getConnection("jdbc:mysql://" + location +"/world?useSSL=false", "root", password);
                 System.out.println("Successfully connected");
                 break;
             } catch (SQLException sqle) {
@@ -224,6 +231,7 @@ public class App {
             try {
                 // Close connection
                 con.close();
+                System.out.println("Disconnected from database");
             } catch (Exception e) {
                 System.out.println("Error closing connection to database");
             }
