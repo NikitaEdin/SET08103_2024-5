@@ -9,6 +9,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Class testing the App class methods.
+ */
 public class AppTest {
 
     static App app;

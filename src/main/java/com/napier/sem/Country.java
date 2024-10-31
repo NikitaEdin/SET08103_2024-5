@@ -90,6 +90,10 @@ public class Country {
         this.Code2 = Code2;
     }
 
+    /**
+     * Method to retrieve the country code of a Country object.
+     * @return Country code of the object.
+     */
     public String getCode() {
         return Code;
     }

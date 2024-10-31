@@ -37,6 +37,10 @@ public class City {
         this.Population = Population;
     }
 
+    /**
+     * Method to retrieve the City ID of the object.
+     * @return City ID of the object.
+     */
     public int getID() {
         return ID;
     }
