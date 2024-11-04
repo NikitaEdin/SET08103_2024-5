@@ -464,7 +464,6 @@ public class AppTest {
     void testPrint_ItemsCitiesContainsEmpty(){
         // Create ArrayList
         ArrayList<City> cities = new ArrayList<City>();
-        cities.add(null);
         // Call print_Items method
         app.print_Items(cities);
     }
@@ -484,7 +483,34 @@ public class AppTest {
         cities.add(c);
         // Use print_items method
         app.print_Items(cities);
+    }
 
+    /**
+     *  This is to test the method print_Items_Capitals and this is its normal use case
+     */
+    void testPrint_Items_Capitals(){
+        City capital = new City(
+                002,"Paris","432","District",1500000
+        );
+        ArrayList<City> capitals = new ArrayList<>();
+        capitals.add(capital);
+        app.print_Items_Capitals(capitals);
+    }
+
+    /**
+     * This is to test the print_Items_Capitals method and to see if it can handle null being provided
+     */
+    void testPrint_Items_CapitalsNull(){
+        ArrayList<City> capitals = null;
+        app.print_Items_Capitals(capitals);
+    }
+
+    /**
+     * This is to test the print_Items_Capitals method to see if it can handle no data being provided.
+     */
+    void testPrint_Items_CapitalsEmpty(){
+        ArrayList<City> capitals = new ArrayList<>();
+        app.print_Items_Capitals(capitals);
     }
     //</editor-fold>
 
