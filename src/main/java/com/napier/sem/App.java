@@ -14,6 +14,8 @@ public class App {
         // Create new Application
         App a = new App();
 
+
+
         // Connect to database
         a.connect();
 
@@ -442,11 +444,15 @@ public class App {
         }
     }
 
-
     /**
      * Connection to MySQL database.
      */
+
     private static Connection con = null;
+
+    public static void setConnection(Connection connection) {
+        con = connection;
+    }
 
     /**
      * Connect to the MySQL database.
