@@ -24,43 +24,42 @@ public class App {
 
 
         ////// Testing Data and Examples //////
-        /**
-        System.out.println("report_TopN_PopulatedCountries: ");
+
+        System.out.println("\nreport_TopN_PopulatedCountries: ");
         print_Items(a.report_TopN_PopulatedCountries(3));
-        System.out.println("report_TopN_PopulatedCountriesByContinent: ");
+        System.out.println("\nreport_TopN_PopulatedCountriesByContinent: ");
         print_Items(a.report_TopN_PopulatedCountriesByContinent("North America", 4));
-        System.out.println("report_TopN_PopulatedCountriesByRegion: ");
+        System.out.println("\nreport_TopN_PopulatedCountriesByRegion: ");
         print_Items(a.report_TopN_PopulatedCountriesByRegion("Central Africa", 5));
 
-        System.out.println("report_TopN_PopulatedCities: ");
+        System.out.println("\nreport_TopN_PopulatedCities: ");
         print_Items(a.report_TopN_PopulatedCities(3));
-        System.out.println("report_TopN_PopulatedCitiesByContinent: ");
+        System.out.println("\nreport_TopN_PopulatedCitiesByContinent: ");
         print_Items(a.report_TopN_PopulatedCitiesByContinent("North America", 5));
-        System.out.println("report_TopN_PopulatedCitiesByRegion: ");
+        System.out.println("\nreport_TopN_PopulatedCitiesByRegion: ");
         print_Items(a.report_TopN_PopulatedCitiesByRegion("Central America", 4));
-        System.out.println("report_TopN_PopulatedCitiesByCountry: ");
+        System.out.println("\nreport_TopN_PopulatedCitiesByCountry: ");
         print_Items(a.report_TopN_PopulatedCitiesByCountry("United States", 2));
-        System.out.println("report_TopN_PopulatedCitiesByDistrict: ");
+        System.out.println("\nreport_TopN_PopulatedCitiesByDistrict: ");
         print_Items(a.report_TopN_PopulatedCitiesByDistrict("Western", 6));
 
-        System.out.println("report_CitiesInWorldDESC: ");
+        System.out.println("\nreport_CitiesInWorldDESC: ");
         print_Items(a.report_CitiesInWorldDESC());
-        System.out.println("report_CitiesInContinentDESC: ");
+        System.out.println("\nreport_CitiesInContinentDESC: ");
         print_Items(a.report_CitiesInContinentDESC("Africa"));
-        System.out.println("report_CitiesInRegionDESC: ");
+        System.out.println("\nreport_CitiesInRegionDESC: ");
         print_Items(a.report_CitiesInRegionDESC("Central America"));
-        System.out.println("report_CitiesInCountryDESC: ");
+        System.out.println("\nreport_CitiesInCountryDESC: ");
         print_Items(a.report_CitiesInCountryDESC("Angola"));
-        System.out.println("report_CitiesInDistrictDESC: ");
+        System.out.println("\nreport_CitiesInDistrictDESC: ");
         print_Items(a.report_CitiesInDistrictDESC("Scotland"));
 
-        System.out.println("report_CapitalCitiesInWorldDESC: ");
+        System.out.println("\nreport_CapitalCitiesInWorldDESC: ");
         print_Items_Capitals(a.report_CapitalCitiesInWorldDESC());
-        System.out.println("report_CapitalCitiesInContinentDESC: ");
+        System.out.println("\nreport_CapitalCitiesInContinentDESC: ");
         print_Items_Capitals(a.report_CapitalCitiesInContinentDESC("North America"));
-        System.out.println("report_CapitalCitiesInRegionDESC: ");
+        System.out.println("\nreport_CapitalCitiesInRegionDESC: ");
         print_Items_Capitals(a.report_CapitalCitiesInRegionDESC("Western Europe"));
-         */
 
 
 
