@@ -1,7 +1,7 @@
 # User Stories
 1. As a 	data analyst	I want to	create a report of	all the countries in the world organised by largest population to smallest, so that	I can analyse the data of countries in a comprehensive manner. 
 2. As a 	data analyst	I want to	generate a report of all the countries in a continent organised by largest population to smallest,	so that	I can compare the data all countries in a continent. 
-3. As a 	researcher  	I want to	display a report of	all the countries in a region organised by largest population to smallest,	so that	I can deliver information about the populations of countries in a region. 50
+3. As a 	researcher  	I want to	display a report of	all the countries in a region organised by largest population to smallest,	so that	I can deliver information about the populations of countries in a region.
 4. As a 	researcher  	I want to	read a report of	the top 10 populated countries in the world ,	so that	global population distribution can be researched. 
 5. As a 	geographer	    I want to	create a report of	the top 5 populated countries in a continent,	so that	I can study the details of the largest populated countries in a continent. 
 6. As a 	geographer	    I want to	create a report of	the top 3 populated countries in a region,	so that I can assess regional population density. 
