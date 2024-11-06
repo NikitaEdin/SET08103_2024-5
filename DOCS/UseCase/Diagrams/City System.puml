@@ -1,17 +1,37 @@
 @startuml
+left to right direction
 
-actor mem as "Org. Member"
+actor mem as "Researcher"
 
 rectangle Database
 
 rectangle "City System" {
-    usecase UC1 as "Get cities by population"
 
-    usecase UCa as "Print cities"
+        usecase UC1 as "Get all cities in the world"
+        usecase UC2 as "Get top N cities in a country"
+        usecase UC3 as "Get all cities in a continent"
+        usecase UC4 as "Print report"
 
-    mem - UC1
-    UC1 ..> UCa : include
-    UC1 - Database
+        usecase UCa as "User input invalid"
+        usecase UCb as "No database connection"
+
+        mem -- UC1
+        mem -- UC2
+        mem -- UC3
+
+        UC1 --- Database
+        UC2 --- Database
+        UC3 --- Database
+
+        UC1 ..> UC4 : include
+        UC2 ..> UC4 : include
+        UC3 ..> UC4 : include
+
+        UC2 <.. UCa : extends
+        UC1 <. UCb : extends
+        UCb .> UC2 : extends
+        UCb .> UC3 : extends
+
 }
 
 @enduml
