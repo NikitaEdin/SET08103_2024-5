@@ -1,18 +1,34 @@
 @startuml
+left to right direction
 
-actor mem as "Org. Member"
+actor mem as "Sociologist"
 
 rectangle Database
 
 rectangle "Population System" {
-    usecase UC1 as "Get populations
-    by country"
+    usecase UC1 as "Get population data for each continent"
+    usecase UC2 as "Get population data for each country"
+    usecase UC3 as "Get population data for each region"
 
-    usecase UCa as "Print populations"
+    usecase UCa as "Print languages"
+    usecase UCb as "No database connection"
 
-    mem - UC1
+    mem -- UC1
+    mem -- UC2
+    mem -- UC3
+
+    UC1 --- Database
+    UC2 --- Database
+    UC3 --- Database
+
     UC1 ..> UCa : include
-    UC1 - Database
+    UC2 ..> UCa : include
+    UC3 ..> UCa : include
+
+
+    UCb .> UC2 : extends
+    UCb .> UC1 : extends
+    UCb .> UC3 : extends
 }
 
 @enduml

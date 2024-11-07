@@ -1,17 +1,27 @@
 @startuml
+left to right direction
 
-actor mem as "Org. Member"
+actor mem as "Linguist"
 
 rectangle Database
 
 rectangle "Language System" {
-    usecase UC1 as "Get languages by global speakers"
+    usecase UC1 as "Get languages data ordered by
+                    global speakers"
+    usecase UC2 as "Get languages data for a region"
 
     usecase UCa as "Print languages"
+    usecase UCb as "No database connection"
 
-    mem - UC1
+    mem -- UC1
+    mem -- UC2
+    UC1 --- Database
     UC1 ..> UCa : include
-    UC1 - Database
+    UCb <. UC1 : extends
+
+    UC2 --- Database
+    UC2 .> UCa : include
+    UC2 .> UCb : extends
 }
 
 @enduml
