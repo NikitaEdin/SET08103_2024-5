@@ -9,7 +9,7 @@ Napier University Team project for SET08103 module 2024/2025
 
 * Release  ![GitHub Release](https://img.shields.io/github/v/release/nikitaedin/SET09103_2024-5?include_prereleases)
 
-* Codedov Coverage [![codecov](https://codecov.io/gh/NikitaEdin/SET08103_2024-5/graph/badge.svg?token=380HR1UHWD)](https://codecov.io/gh/NikitaEdin/SET08103_2024-5)
+* Codecov Coverage [![codecov](https://codecov.io/gh/NikitaEdin/SET08103_2024-5/branch/feature%2Fcodecov-integration/graph/badge.svg?token=380HR1UHWD)](https://codecov.io/gh/NikitaEdin/SET08103_2024-5)
 
 ## Team Members
 - **Stephen Banks**

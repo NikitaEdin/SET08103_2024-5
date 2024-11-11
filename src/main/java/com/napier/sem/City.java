@@ -46,6 +46,12 @@ public class City {
     }
 
     /**
+     * Method to retrieve the Name of the city.
+     * @return Name of the City.
+     */
+    public String getName() {return Name;}
+
+    /**
      * Returns a string representation of the City object.
      *
      * @return A string containing the city's information.

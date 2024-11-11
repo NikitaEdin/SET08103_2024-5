@@ -25,7 +25,7 @@ public class App {
 
 
         ////// Testing Data and Examples //////
-
+        /*
         System.out.println("\nreport_TopN_PopulatedCountries: ");
         print_Items(a.report_TopN_PopulatedCountries(3));
         System.out.println("\nreport_TopN_PopulatedCountriesByContinent: ");
@@ -61,7 +61,7 @@ public class App {
         print_Items_Capitals(a.report_CapitalCitiesInContinentDESC("North America"));
         System.out.println("\nreport_CapitalCitiesInRegionDESC: ");
         print_Items_Capitals(a.report_CapitalCitiesInRegionDESC("Western Europe"));
-
+        */
 
 
         // Disconnect from database before termination

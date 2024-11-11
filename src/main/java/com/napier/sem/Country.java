@@ -99,6 +99,20 @@ public class Country {
     }
 
     /**
+     * Method to retrive the country name.
+     * @return Name of the country.
+     */
+    public String getName() {
+        return Name;
+    }
+
+    /**
+     * Method to retrieve the total population of this country.
+     * @return Number of population
+     */
+    public int getPopulation() { return Population;}
+
+    /**
      * Returns a string representation of the Country object.
      *
      * @return A string containing the country's information.
