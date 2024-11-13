@@ -207,18 +207,54 @@ public class AppIntegrationTest {
         assertEquals("Wien", items.get(2).getName(), "The third country should be Wien.");
     }
 
+    /**
+     * Test if CapitalCitiesInRegionDESC can handle empty parameter
+     */
     @Test
     void test_empty_CapitalCitiesInRegionDESC(){
         List<City> cities = app.report_CapitalCitiesInRegionDESC("");
     }
+
+    /**
+     * Test if CapitalCitiesInRegionDESC can handle null parameter
+     */
     @Test
     void test_null_CapitalCitiesInRegionDESC(){
         List<City> cities = app.report_CapitalCitiesInRegionDESC(null);
     }
+
+    /**
+     * Test if CapitalCitiesInRegionDESC can handle invalid parameter
+     */
     @Test
     void test_invalid_CapitalCitiesInRegionDESC(){
         List<City> cities = app.report_CapitalCitiesInRegionDESC("Scotland");
     }
+
+    /**
+     * Test report_CitiesInWorldDESC outputs correct number of reports & if it is pulling the correct data.
+     *  And to also check if its outputting in DESC order
+     */
+    @Test
+    void test_report_CitiesInWorldDESC(){
+        // Put the report into a list
+        List<City> cities = app.report_CitiesInWorldDESC();
+
+        // Check if the size of cities is the same as expected
+        assertEquals(4079, cities.size());
+
+        // Check that the cities pulled are correct
+        assertEquals("Mumbai (Bombay)", cities.get(0).getName(),"The first city should be Mumbai (Bombay).");
+        assertEquals("Seoul", cities.get(1).getName(),"The second city should be Seoul.");
+        assertEquals("São Paulo", cities.get(2).getName(),"The third city should be São Paulo .");
+
+        // Check if in desc
+        for (int i = 0; i < cities.size() - 1; i++) {
+            assertTrue(cities.get(i).Population >= cities.get(i + 1).Population,
+                    "Cities should be ordered in descending population");
+        }
+    }
+
 
 
 }
