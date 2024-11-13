@@ -290,9 +290,12 @@ public class App {
      * @return List of capital cities in the specified region, sorted by descending order by population.
      */
     public List<City> report_CapitalCitiesInRegionDESC(String region) {
-        if(region.isEmpty()) return null;
-        String query = "SELECT * FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Region = '" + region + "' AND country.Capital = city.ID ORDER BY city.population DESC";
-        return getReport_City(query);
+        if (region !=null && !region.isEmpty()){
+            String query = "SELECT * FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Region = '" + region + "' AND country.Capital = city.ID ORDER BY city.population DESC";
+            return getReport_City(query);
+        }
+        System.out.println("Invalid Region");
+       return null;
     }
 
 //</editor-fold>

@@ -207,5 +207,18 @@ public class AppIntegrationTest {
         assertEquals("Wien", items.get(2).getName(), "The third country should be Wien.");
     }
 
+    @Test
+    void test_empty_CapitalCitiesInRegionDESC(){
+        List<City> cities = app.report_CapitalCitiesInRegionDESC("");
+    }
+    @Test
+    void test_null_CapitalCitiesInRegionDESC(){
+        List<City> cities = app.report_CapitalCitiesInRegionDESC(null);
+    }
+    @Test
+    void test_invalid_CapitalCitiesInRegionDESC(){
+        List<City> cities = app.report_CapitalCitiesInRegionDESC("Scotland");
+    }
+
 
 }
