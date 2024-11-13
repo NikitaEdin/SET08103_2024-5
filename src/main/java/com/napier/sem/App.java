@@ -23,6 +23,8 @@ public class App {
 
         // ######## REPORTS BEGIN HERE ######## ///
 
+        System.out.println("\nreport_TopN_PopulatedCountries: ");
+        print_Items(a.report_TopN_PopulatedCountries(3));
 
         ////// Testing Data and Examples //////
         /*
