@@ -106,8 +106,29 @@ public class AppIntegrationTest {
         assertEquals("Indonesia", countries.get(2).getName(), "The third country should be Indonesia.");
     }
 
-    // TODO: test empty contitent parameter (test_empty_PopulationByContinentDESC)
-    // TODO: test invalid contitent parameter (test_invalid_PopulationByContinentDESC)
+    /**
+     * Test method for PopulationByContinentDESC to check if it can handle empty parameter
+     */
+    @Test
+    void test_empty_PopulationByContinentDESC(){
+        List<Country> countries = app.report_PopulationByContinentDESC("");
+    }
+
+    /**
+     * Test method for PopulationByContinentDESC to check if it can handle null parameter
+     */
+    @Test
+    void test_null_PopulationByContinentDESC(){
+        List<Country> countries = app.report_PopulationByContinentDESC(null);
+    }
+
+    /**
+     * Test method for PopulationByContinentDESC to check if it can handle invalid input in it's parameter
+     */
+    @Test
+    void test_invalid_PopulationByContinentDESC(){
+        List<Country> countries = app.report_PopulationByContinentDESC("Scotland");
+    }
 
     /**
      * Tests the report_CountriesByRegion method to ensure it returns a list of countries

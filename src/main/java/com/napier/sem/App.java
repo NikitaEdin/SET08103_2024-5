@@ -91,9 +91,15 @@ public class App {
      * @return  Return a list of Country type in DESC order
      */
     public List<Country> report_PopulationByContinentDESC(String continent) {
-        if(continent.isEmpty()) return null;
-        String query = "SELECT * FROM country WHERE continent = '" + continent + "' ORDER BY population DESC";
-        return getReport_Country(query);
+        if(continent != null && !continent.isEmpty()){
+            String query = "SELECT * FROM country WHERE continent = '" + continent + "' ORDER BY population DESC";
+            return getReport_Country(query);
+        }
+        else{
+            System.out.println("Invalid continent");
+            return null;
+        }
+
     }
 
     /**
