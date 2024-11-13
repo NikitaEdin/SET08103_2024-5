@@ -499,7 +499,6 @@ public class App {
         }
         else {
             System.out.println("Failed to connect to database");
-            System.exit(-1);
         }
     }
 

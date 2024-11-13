@@ -26,11 +26,19 @@ public class AppIntegrationTest {
         app.connect("localhost:33060", 30000);
     }
 
-    @Test void testConnectEmpty(){
+    /**
+     * Method that tests if the location to the sql database is empty
+     */
+    @Test
+    void testConnectEmpty(){
         app.connect("",0);
     }
 
-    @Test void testConnectNull(){
+    /**
+     * Method that tests if the location to the sql database is null
+     */
+    @Test
+    void testConnectNull(){
         app.connect(null,0);
     }
 
