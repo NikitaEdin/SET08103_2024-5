@@ -108,9 +108,12 @@ public class App {
      * @return Returns a list of Country type in DESC order
      */
     public List<Country> report_CountriesByRegionDESC(String region) {
-        if(region.isEmpty()) return null;
-        String query = "SELECT * FROM country WHERE region = '"+ region +"' ORDER BY population DESC";
-        return getReport_Country(query);
+        if (region !=null && !region.isEmpty()){
+            String query = "SELECT * FROM country WHERE region = '"+ region +"' ORDER BY population DESC";
+            return getReport_Country(query);
+        }
+        System.out.println("Invalid region");
+        return null;
     }
 
 

@@ -161,9 +161,29 @@ public class AppIntegrationTest {
 
     }
 
-    // TODO: test empty region parameter (test_empty_CountriesByRegionDESC)
-    // TODO: test invalid region parameter (test_invalid_CountriesByRegionDESC)
+    /**
+     * Test method CountriesByRegionDESC to check if it can handle a empty parameter
+     */
+    @Test
+    void test_empty_CountriesByRegionDESC(){
+        List<Country> countries = app.report_CountriesByRegionDESC("");
+    }
 
+    /**
+     * Test method CountriesByRegionDESC to check if it can handle a null parameter
+     */
+    @Test
+    void test_null_CountriesByRegionDESC(){
+        List<Country> countries = app.report_CountriesByRegionDESC(null);
+    }
+
+    /**
+     * Test method for CountriesByRegionDESC to check if it can handle invalid inpput
+     */
+    @Test
+    void test_invalid_CountriesByRegionDESC(){
+        List<Country> countries = app.report_CountriesByRegionDESC("Africa");
+    }
 
     /**
      * Tests the report_CapitalCitiesInRegionDESC method to ensure it returns
