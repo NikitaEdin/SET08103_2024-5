@@ -4,6 +4,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This is class is to run the program and print the reports that are needed.
+ */
 public class App {
 
     /**
@@ -458,39 +461,45 @@ public class App {
      * Connect to the MySQL database.
      */
     public void connect(String location, int delay) {
-        try {
-            // Load Database driver
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            System.out.println("Could not load SQL driver");
-            System.exit(-1);
-        }
-
-        int retries = 10;
-        boolean shouldWait = false;
-        for (int i = 0; i < retries; ++i) {
-            System.out.println("Connecting to database...");
+        if (location != null) {
             try {
-                if (shouldWait) {
-                    // Wait a bit for db to start
-                    Thread.sleep(delay);
-                }
-
-                // Connect to database
-                con = DriverManager.getConnection("jdbc:mysql://" + location
-                                + "/world?allowPublicKeyRetrieval=true&useSSL=false",
-                        "root", "example");
-                System.out.println("Successfully connected");
-                break;
-            } catch (SQLException sqle) {
-                System.out.println("Failed to connect to database attempt " + i);
-                System.out.println(sqle.getMessage());
-
-                // Let's wait before attempting to reconnect
-                shouldWait = true;
-            } catch (InterruptedException ie) {
-                System.out.println("Thread interrupted? Should not happen.");
+                // Load Database driver
+                Class.forName("com.mysql.cj.jdbc.Driver");
+            } catch (ClassNotFoundException e) {
+                System.out.println("Could not load SQL driver");
+                System.exit(-1);
             }
+
+            int retries = 10;
+            boolean shouldWait = false;
+            for (int i = 0; i < retries; ++i) {
+                System.out.println("Connecting to database...");
+                try {
+                    if (shouldWait) {
+                        // Wait a bit for db to start
+                        Thread.sleep(delay);
+                    }
+
+                    // Connect to database
+                    con = DriverManager.getConnection("jdbc:mysql://" + location
+                                    + "/world?allowPublicKeyRetrieval=true&useSSL=false",
+                            "root", "example");
+                    System.out.println("Successfully connected");
+                    break;
+                } catch (SQLException sqle) {
+                    System.out.println("Failed to connect to database attempt " + i);
+                    System.out.println(sqle.getMessage());
+
+                    // Let's wait before attempting to reconnect
+                    shouldWait = true;
+                } catch (InterruptedException ie) {
+                    System.out.println("Thread interrupted? Should not happen.");
+                }
+            }
+        }
+        else {
+            System.out.println("Failed to connect to database");
+            System.exit(-1);
         }
     }
 
