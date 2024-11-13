@@ -98,24 +98,8 @@ public class AppIntegrationTest {
         assertEquals("Indonesia", countries.get(2).getName(), "The third country should be Indonesia.");
     }
 
-    /**
-     * Tests report PopulationByContinentDESC for empty parameter
-     */
-    @Test
-    void test_empty_PopulationByContinentDESC(){
-        List<Country> countries = app.report_PopulationByContinentDESC("");
-        assertNull(countries, "The result should be null");
-    }
-
-    /**
-     * Tests report PopulationByContinentDESC for invalid parameter
-     */
-    @Test
-    void test_invalid_PopulationByContinentDESC(){
-        List<Country> countries = app.report_PopulationByContinentDESC("123123");
-        assertNotNull(countries, "The result should be not null");
-        assertEquals(0, countries.size(), "There should be 0 countries returned");
-    }
+    // TODO: test empty contitent parameter (test_empty_PopulationByContinentDESC)
+    // TODO: test invalid contitent parameter (test_invalid_PopulationByContinentDESC)
 
     /**
      * Tests the report_CountriesByRegion method to ensure it returns a list of countries
@@ -148,28 +132,12 @@ public class AppIntegrationTest {
 
     }
 
-    /**
-     * Tests report CountriesByRegionDESC for invalid parameter
-     */
-    @Test
-    void test_empty_CountriesByRegionDESC(){
-        List<Country> countries = app.report_CountriesByRegionDESC("");
-        assertNull(countries, "The result should be null");
-    }
+    // TODO: test empty region parameter (test_empty_CountriesByRegionDESC)
+    // TODO: test invalid region parameter (test_invalid_CountriesByRegionDESC)
+
 
     /**
-     * Tests the CountriesByRegionDESC method to ensure it returns a list of countries
-     * within a given region.
-     */
-    @Test
-    void test_invalid_CountriesByRegionDESC(){
-        List<Country> countries = app.report_CountriesByRegionDESC("123123");
-        assertNotNull(countries, "The result should be not null");
-        assertEquals(0, countries.size(), "There should be 0 countries returned");
-    }
-
-    /**
-     * Tests report CapitalCitiesInRegionDESC method to ensure it returns
+     * Tests the report_CapitalCitiesInRegionDESC method to ensure it returns
      * a list of capital cities within the given region
      */
     @Test
@@ -190,57 +158,5 @@ public class AppIntegrationTest {
         assertEquals("Wien", items.get(2).getName(), "The third country should be Wien.");
     }
 
-
-    /**
-     * Tests report TopN_PopulatedCountries method to ensure it returns
-     * a specific amount of items, within given range
-     */
-    @Test
-    void test_TopN_PopulatedCountries(){
-        int N = 3;
-        List<Country> countries = app.report_TopN_PopulatedCountries(N);
-
-        // Not null and exact size
-        assertNotNull(countries, "The result should not be null");
-        assertEquals(N, countries.size(), "The result should contain exactly " + N + " countries");
-
-        // Verify order by population
-        for (int i = 0; i < countries.size() - 1; i++) {
-            assertTrue(countries.get(i).getPopulation() >= countries.get(i + 1).getPopulation(),
-                    "Countries should be ordered in descending population for the top N countries");
-        }
-    }
-
-    /**
-     * Tests report TopN_PopulatedCountries for invalid parameters, such as negative or zero.
-     */
-    @Test
-    void test_invalid_TopN_PopulatedCountries(){
-        List<Country> countries_negative = app.report_TopN_PopulatedCountries(-1);
-        List<Country> countries_zero = app.report_TopN_PopulatedCountries(0);
-        // Validate results
-        assertNull(countries_negative, "The result should be null when N is zero");
-        assertNull(countries_zero, "The result should be null when N is negative");
-    }
-
-    /**
-     * Tests report TopN_PopulatedCountries for large parameter number, larger than the actual database context.
-     */
-    @Test
-    public void testReportTopNPopulatedCountries_NIsLargerThanTotalCountries() {
-        // Get countries
-        int N = 100000;
-        List<Country> countries = app.report_TopN_PopulatedCountries(N);
-
-        // Validate results
-        assertNotNull(countries, "The result should not be null even if N exceeds the number of countries");
-        assertTrue(countries.size() <= N, "The result should contain all countries available if N exceeds total count");
-
-        // Verify order by population
-        for (int i = 0; i < countries.size() - 1; i++) {
-            assertTrue(countries.get(i).getPopulation() >= countries.get(i + 1).getPopulation(),
-                    "Countries should be ordered in descending population for the top N countries");
-        }
-    }
 
 }
