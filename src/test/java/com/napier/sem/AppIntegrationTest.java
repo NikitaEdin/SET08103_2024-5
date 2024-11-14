@@ -78,17 +78,10 @@ public class AppIntegrationTest {
      * Test method for PopulationByContinentDESC to check if it can handle empty parameter
      */
     @Test
-    void test_empty_PopulationByContinentDESC(){
+    void test_nullEmpty_PopulationByContinentDESC(){
         List<Country> countries = app.report_PopulationByContinentDESC("");
         assertNull(countries, "The result should be null");
-    }
-
-    /**
-     * Test method for PopulationByContinentDESC to check if it can handle null parameter
-     */
-    @Test
-    void test_null_PopulationByContinentDESC(){
-        List<Country> countries = app.report_PopulationByContinentDESC(null);
+        countries = app.report_PopulationByContinentDESC(null);
         assertNull(countries, "The result should be null");
     }
 
@@ -133,21 +126,15 @@ public class AppIntegrationTest {
 
     }
 
-    /**
-     * Test method CountriesByRegionDESC to check if it can handle a empty parameter
-     */
-    @Test
-    void test_empty_CountriesByRegionDESC(){
-        List<Country> countries = app.report_CountriesByRegionDESC("");
-        assertNull(countries, "The result should be null");
-    }
 
     /**
      * Test method CountriesByRegionDESC to check if it can handle a null parameter
      */
     @Test
-    void test_null_CountriesByRegionDESC(){
+    void test_nullEmpty_CountriesByRegionDESC(){
         List<Country> countries = app.report_CountriesByRegionDESC(null);
+        assertNull(countries, "The result should be null");
+        countries = app.report_CountriesByRegionDESC("");
         assertNull(countries, "The result should be null");
     }
 
@@ -184,20 +171,13 @@ public class AppIntegrationTest {
     }
 
     /**
-     * Test if CapitalCitiesInRegionDESC can handle empty parameter
-     */
-    @Test
-    void test_empty_CapitalCitiesInRegionDESC(){
-        List<City> cities = app.report_CapitalCitiesInRegionDESC("");
-        assertNull(cities, "The result should be null");
-    }
-
-    /**
      * Test if CapitalCitiesInRegionDESC can handle null parameter
      */
     @Test
-    void test_null_CapitalCitiesInRegionDESC(){
+    void test_nullEmpty_CapitalCitiesInRegionDESC(){
         List<City> cities = app.report_CapitalCitiesInRegionDESC(null);
+        assertNull(cities, "The result should be null");
+        cities = app.report_CapitalCitiesInRegionDESC("");
         assertNull(cities, "The result should be null");
     }
 
@@ -226,6 +206,183 @@ public class AppIntegrationTest {
         assertEquals("Mumbai (Bombay)", cities.get(0).getName(),"The first city should be Mumbai (Bombay).");
         assertEquals("Seoul", cities.get(1).getName(),"The second city should be Seoul.");
         assertEquals("São Paulo", cities.get(2).getName(),"The third city should be São Paulo .");
+
+        // Check if in desc
+        for (int i = 0; i < cities.size() - 1; i++) {
+            assertTrue(cities.get(i).Population >= cities.get(i + 1).Population,
+                    "Cities should be ordered in descending population");
+        }
+    }
+
+
+    /**
+     * Tests the report CitiesInContinentDESC method to ensure it returns a list of all cities
+     * sorted in descending order by population within a given continent.
+     */
+    @Test
+    void test_report_CitiesInContinentDESC(){
+        // Get cities in continent
+        List<City> cities = app.report_CitiesInContinentDESC("Africa");
+
+        // Not nukll
+        assertNotNull(cities, "The result should not be null");
+
+        // Verify cities are in descending order
+        for (int i = 0; i < cities.size() - 1; i++) {
+            assertTrue(cities.get(i).Population >= cities.get(i + 1).Population,
+                    "Cities should be ordered in descending population");
+        }
+
+        // Verify top 3 cities
+        assertEquals(6789479, cities.get(0).Population);
+        assertEquals(5064000, cities.get(1).Population);
+        assertEquals(3328196, cities.get(2).Population);
+
+        // Verify top 3 cities by name
+        assertEquals("Cairo", cities.get(0).getName(), "The first country should be Cairo.");
+        assertEquals("Kinshasa", cities.get(1).getName(), "The second country should be Kinshasa.");
+        assertEquals("Alexandria", cities.get(2).getName(), "The third country should be Alexandria.");
+    }
+
+    /**
+     * Tests report CitiesInContinentDESC for empty and null as parameters
+     */
+    @Test
+    void test_emptyNull_CitiesInContinentDESC(){
+        List<City> cities = app.report_CitiesInContinentDESC("");
+        assertNull(cities);
+        cities = app.report_CitiesInContinentDESC(null);
+        assertNull(cities);
+    }
+
+    /**
+     * Tests the report CitiesInRegionDESC method to ensure it returns a list of all cities
+     * sorted in descending order by population within a given region.
+     */
+    @Test
+    void test_report_CitiesInRegionDESC(){
+        List<City> cities = app.report_CitiesInRegionDESC("Western Europe");
+        // Not null
+        assertNotNull(cities);
+
+        // Verify cities are in descending order
+        for (int i = 0; i < cities.size() - 1; i++) {
+            assertTrue(cities.get(i).Population >= cities.get(i + 1).Population,
+                    "Cities should be ordered in descending population");
+        }
+
+        // Verify top 3 cities
+        assertEquals(3386667, cities.get(0).Population);
+        assertEquals(2125246, cities.get(1).Population);
+        assertEquals(1704735, cities.get(2).Population);
+
+        // Verify top 3 cities by name
+        assertEquals("Berlin", cities.get(0).getName(), "The first country should be Berlin.");
+        assertEquals("Paris", cities.get(1).getName(), "The second country should be Paris.");
+        assertEquals("Hamburg", cities.get(2).getName(), "The third country should be Paris.");
+
+    }
+
+    /**
+     * Tests report CitiesInRegionDESC for empty and null as parameters
+     */
+    @Test
+    void test_emptyNull_CitiesInRegionDESC(){
+        List<City> cities = app.report_CitiesInRegionDESC("");
+        assertNull(cities);
+        cities = app.report_CitiesInRegionDESC(null);
+        assertNull(cities);
+    }
+
+    /**
+     * Tests the report CitiesInCountryDESC method to ensure it returns a list of all cities
+     * sorted in descending order by population within a given country.
+     */
+    @Test
+    void test_report_CitiesInCountryDESC(){
+        List<City> cities = app.report_CitiesInCountryDESC("France");
+
+        // Not null
+        assertNotNull(cities);
+
+        // Verify cities are in descending order
+        for (int i = 0; i < cities.size() - 1; i++) {
+            assertTrue(cities.get(i).Population >= cities.get(i + 1).Population,
+                    "Cities should be ordered in descending population");
+        }
+
+        // Verify top 3 cities
+        assertEquals(2125246, cities.get(0).Population);
+        assertEquals(798430, cities.get(1).Population);
+        assertEquals(445452, cities.get(2).Population);
+
+        // Verify top 3 cities by name
+        assertEquals("Paris", cities.get(0).getName(), "The first country should be Paris.");
+        assertEquals("Marseille", cities.get(1).getName(), "The second country should be Marseille.");
+        assertEquals("Lyon", cities.get(2).getName(), "The third country should be Lyon.");
+    }
+
+    /**
+     * Tests report CitiesInCountryDESC for empty and null as parameters
+     */
+    @Test
+    void test_emptyNull_CitiesInCountryDESC(){
+        List<City> cities = app.report_CitiesInCountryDESC("");
+        assertNull(cities);
+        cities = app.report_CitiesInCountryDESC(null);
+        assertNull(cities);
+    }
+
+    /**
+     * Tests the report CitiesInDistrictDESC method to ensure it returns a list of all cities
+     * sorted in descending order by population within a given district.
+     */
+    @Test
+    void test_report_CitiesInDistrictDESC(){
+        List<City> cities = app.report_CitiesInDistrictDESC("Scotland");
+
+        // Not Null
+        assertNotNull(cities);
+
+        // Verify cities are in descending order
+        for (int i = 0; i < cities.size() - 1; i++) {
+            assertTrue(cities.get(i).Population >= cities.get(i + 1).Population,
+                    "Cities should be ordered in descending population");
+        }
+
+        // Verify top 3 cities
+        assertEquals(619680, cities.get(0).Population);
+        assertEquals(450180, cities.get(1).Population);
+        assertEquals(213070, cities.get(2).Population);
+
+        // Verify top 3 cities by name
+        assertEquals("Glasgow", cities.get(0).getName(), "The first country should be Glasgow.");
+        assertEquals("Edinburgh", cities.get(1).getName(), "The second country should be Edinburgh.");
+        assertEquals("Aberdeen", cities.get(2).getName(), "The third country should be Aberdeen.");
+    }
+
+    /**
+     * Tests report CitiesInDistrictDESC for empty and null as parameters
+     */
+    @Test
+    void test_emptyNull_CitiesInDistrictDESC(){
+        List<City> cities = app.report_CitiesInDistrictDESC("");
+        assertNull(cities);
+        cities = app.report_CitiesInDistrictDESC(null);
+        assertNull(cities);
+    }
+
+    /**
+     * Tests the report CapitalCitiesInWorldDESC method to ensure it returns a list of all cities
+     * sorted in descending order by population in the world.
+     */
+    @Test
+    void test_report_CapitalCitiesInWorldDESC(){
+        List<City> cities = app.report_CapitalCitiesInWorldDESC();
+
+        // Not null or empty
+        assertNotNull(cities);
+        assertNotEquals(0, cities.size());
 
         // Check if in desc
         for (int i = 0; i < cities.size() - 1; i++) {
