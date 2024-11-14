@@ -18,7 +18,6 @@ public class AppIntegrationTest {
         app.connect("localhost:33060", 30000);
     }
 
-
     /**
      * Tests the report_PopulationDESC method to ensure it returns a list of all countries
      * sorted in descending order by population.
@@ -75,8 +74,29 @@ public class AppIntegrationTest {
         assertEquals("Indonesia", countries.get(2).getName(), "The third country should be Indonesia.");
     }
 
-    // TODO: test empty contitent parameter (test_empty_PopulationByContinentDESC)
-    // TODO: test invalid contitent parameter (test_invalid_PopulationByContinentDESC)
+    /**
+     * Test method for PopulationByContinentDESC to check if it can handle empty parameter
+     */
+    @Test
+    void test_empty_PopulationByContinentDESC(){
+        List<Country> countries = app.report_PopulationByContinentDESC("");
+    }
+
+    /**
+     * Test method for PopulationByContinentDESC to check if it can handle null parameter
+     */
+    @Test
+    void test_null_PopulationByContinentDESC(){
+        List<Country> countries = app.report_PopulationByContinentDESC(null);
+    }
+
+    /**
+     * Test method for PopulationByContinentDESC to check if it can handle invalid input in it's parameter
+     */
+    @Test
+    void test_invalid_PopulationByContinentDESC(){
+        List<Country> countries = app.report_PopulationByContinentDESC("Scotland");
+    }
 
     /**
      * Tests the report_CountriesByRegion method to ensure it returns a list of countries
@@ -109,9 +129,29 @@ public class AppIntegrationTest {
 
     }
 
-    // TODO: test empty region parameter (test_empty_CountriesByRegionDESC)
-    // TODO: test invalid region parameter (test_invalid_CountriesByRegionDESC)
+    /**
+     * Test method CountriesByRegionDESC to check if it can handle a empty parameter
+     */
+    @Test
+    void test_empty_CountriesByRegionDESC(){
+        List<Country> countries = app.report_CountriesByRegionDESC("");
+    }
 
+    /**
+     * Test method CountriesByRegionDESC to check if it can handle a null parameter
+     */
+    @Test
+    void test_null_CountriesByRegionDESC(){
+        List<Country> countries = app.report_CountriesByRegionDESC(null);
+    }
+
+    /**
+     * Test method for CountriesByRegionDESC to check if it can handle invalid inpput
+     */
+    @Test
+    void test_invalid_CountriesByRegionDESC(){
+        List<Country> countries = app.report_CountriesByRegionDESC("Africa");
+    }
 
     /**
      * Tests the report_CapitalCitiesInRegionDESC method to ensure it returns
@@ -135,5 +175,84 @@ public class AppIntegrationTest {
         assertEquals("Wien", items.get(2).getName(), "The third country should be Wien.");
     }
 
+    /**
+     * Test if CapitalCitiesInRegionDESC can handle empty parameter
+     */
+    @Test
+    void test_empty_CapitalCitiesInRegionDESC(){
+        List<City> cities = app.report_CapitalCitiesInRegionDESC("");
+    }
+
+    /**
+     * Test if CapitalCitiesInRegionDESC can handle null parameter
+     */
+    @Test
+    void test_null_CapitalCitiesInRegionDESC(){
+        List<City> cities = app.report_CapitalCitiesInRegionDESC(null);
+    }
+
+    /**
+     * Test if CapitalCitiesInRegionDESC can handle invalid parameter
+     */
+    @Test
+    void test_invalid_CapitalCitiesInRegionDESC(){
+        List<City> cities = app.report_CapitalCitiesInRegionDESC("Scotland");
+    }
+
+    /**
+     * Test report_CitiesInWorldDESC outputs correct number of reports & if it is pulling the correct data.
+     *  And to also check if its outputting in DESC order
+     */
+    @Test
+    void test_report_CitiesInWorldDESC(){
+        // Put the report into a list
+        List<City> cities = app.report_CitiesInWorldDESC();
+
+        // Check if the size of cities is the same as expected
+        assertEquals(4079, cities.size());
+
+        // Check that the cities pulled are correct
+        assertEquals("Mumbai (Bombay)", cities.get(0).getName(),"The first city should be Mumbai (Bombay).");
+        assertEquals("Seoul", cities.get(1).getName(),"The second city should be Seoul.");
+        assertEquals("São Paulo", cities.get(2).getName(),"The third city should be São Paulo .");
+
+        // Check if in desc
+        for (int i = 0; i < cities.size() - 1; i++) {
+            assertTrue(cities.get(i).Population >= cities.get(i + 1).Population,
+                    "Cities should be ordered in descending population");
+        }
+    }
+
+    /**
+     * Method that connects to a database
+     */
+    @Test
+    void testConnect(){
+        app.connect("localhost:33060", 30000);
+    }
+
+    /**
+     * Method that tests if the location to the sql database is empty
+     */
+    @Test
+    void testConnectEmpty(){
+        app.connect("",0);
+    }
+
+    /**
+     * Method that tests if the location to the sql database is null
+     */
+    @Test
+    void testConnectNull(){
+        app.connect(null,0);
+    }
+
+    /**
+     * Method that disconnects from the database
+     */
+    @Test
+    void testDisconnect() {
+        app.disconnect();
+    }
 
 }

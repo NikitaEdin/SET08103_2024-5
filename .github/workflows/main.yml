@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - develop
+      - feature/codecov-integration
+      - feature/integrationTestDB
 jobs:
   UnitTests:
     name: Unit Tests
