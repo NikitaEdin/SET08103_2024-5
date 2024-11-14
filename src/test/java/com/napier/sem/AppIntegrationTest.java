@@ -19,38 +19,6 @@ public class AppIntegrationTest {
     }
 
     /**
-     * Method that connects to a database
-     */
-    @Test
-    void testConnect(){
-        app.connect("localhost:33060", 30000);
-    }
-
-    /**
-     * Method that tests if the location to the sql database is empty
-     */
-    @Test
-    void testConnectEmpty(){
-        app.connect("",0);
-    }
-
-    /**
-     * Method that tests if the location to the sql database is null
-     */
-    @Test
-    void testConnectNull(){
-        app.connect(null,0);
-    }
-
-    /**
-     * Method that disconnects from the database
-     */
-    @Test
-    void testDisconnect() {
-        app.disconnect();
-    }
-
-    /**
      * Tests the report_PopulationDESC method to ensure it returns a list of all countries
      * sorted in descending order by population.
      */
@@ -255,6 +223,36 @@ public class AppIntegrationTest {
         }
     }
 
+    /**
+     * Method that connects to a database
+     */
+    @Test
+    void testConnect(){
+        app.connect("localhost:33060", 30000);
+    }
 
+    /**
+     * Method that tests if the location to the sql database is empty
+     */
+    @Test
+    void testConnectEmpty(){
+        app.connect("",0);
+    }
+
+    /**
+     * Method that tests if the location to the sql database is null
+     */
+    @Test
+    void testConnectNull(){
+        app.connect(null,0);
+    }
+
+    /**
+     * Method that disconnects from the database
+     */
+    @Test
+    void testDisconnect() {
+        app.disconnect();
+    }
 
 }
