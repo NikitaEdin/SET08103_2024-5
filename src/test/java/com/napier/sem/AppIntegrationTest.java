@@ -80,6 +80,7 @@ public class AppIntegrationTest {
     @Test
     void test_empty_PopulationByContinentDESC(){
         List<Country> countries = app.report_PopulationByContinentDESC("");
+        assertNull(countries, "The result should be null");
     }
 
     /**
@@ -88,6 +89,7 @@ public class AppIntegrationTest {
     @Test
     void test_null_PopulationByContinentDESC(){
         List<Country> countries = app.report_PopulationByContinentDESC(null);
+        assertNull(countries, "The result should be null");
     }
 
     /**
@@ -96,6 +98,8 @@ public class AppIntegrationTest {
     @Test
     void test_invalid_PopulationByContinentDESC(){
         List<Country> countries = app.report_PopulationByContinentDESC("Scotland");
+        assertNotNull(countries, "The result should be not null");
+        assertEquals(0, countries.size(), "The result should be empty.");
     }
 
     /**
@@ -135,6 +139,7 @@ public class AppIntegrationTest {
     @Test
     void test_empty_CountriesByRegionDESC(){
         List<Country> countries = app.report_CountriesByRegionDESC("");
+        assertNull(countries, "The result should be null");
     }
 
     /**
@@ -143,6 +148,7 @@ public class AppIntegrationTest {
     @Test
     void test_null_CountriesByRegionDESC(){
         List<Country> countries = app.report_CountriesByRegionDESC(null);
+        assertNull(countries, "The result should be null");
     }
 
     /**
@@ -151,6 +157,8 @@ public class AppIntegrationTest {
     @Test
     void test_invalid_CountriesByRegionDESC(){
         List<Country> countries = app.report_CountriesByRegionDESC("Africa");
+        assertNotNull(countries, "The result should not be null");
+        assertEquals(0, countries.size(), "The result should be empty.");
     }
 
     /**
@@ -181,6 +189,7 @@ public class AppIntegrationTest {
     @Test
     void test_empty_CapitalCitiesInRegionDESC(){
         List<City> cities = app.report_CapitalCitiesInRegionDESC("");
+        assertNull(cities, "The result should be null");
     }
 
     /**
@@ -189,6 +198,7 @@ public class AppIntegrationTest {
     @Test
     void test_null_CapitalCitiesInRegionDESC(){
         List<City> cities = app.report_CapitalCitiesInRegionDESC(null);
+        assertNull(cities, "The result should be null");
     }
 
     /**
@@ -197,6 +207,7 @@ public class AppIntegrationTest {
     @Test
     void test_invalid_CapitalCitiesInRegionDESC(){
         List<City> cities = app.report_CapitalCitiesInRegionDESC("Scotland");
+        assertEquals(0, cities.size());
     }
 
     /**
@@ -222,6 +233,9 @@ public class AppIntegrationTest {
                     "Cities should be ordered in descending population");
         }
     }
+
+
+
 
 //    /**
 //     * Method that connects to a database
