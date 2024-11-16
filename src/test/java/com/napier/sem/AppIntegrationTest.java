@@ -3,7 +3,6 @@ package com.napier.sem;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -746,6 +745,15 @@ public class AppIntegrationTest {
         items = List.of("item1", "item2", "item3");
         App.print_Items(items);
         System.out.println();
+    }
+
+    @Test
+    void test_allReports(){
+        try{
+            App.generateAllReports(app);
+        }catch (Exception e){
+            throw new AssertionError(e);
+        }
     }
 
 //    /**

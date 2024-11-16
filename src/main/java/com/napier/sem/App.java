@@ -25,6 +25,13 @@ public class App {
 
 
         // ######## REPORTS BEGIN HERE ######## ///
+        generateAllReports(a);
+
+        // Disconnect from database before termination
+        a.disconnect();
+    }
+
+    public static void generateAllReports(App a){
         // World Reports
         System.out.println("\nreport_PopulationDESC: ");
         print_Items(a.report_PopulationDESC());
@@ -69,13 +76,7 @@ public class App {
         print_Items_Capitals(a.report_CapitalCitiesInContinentDESC("North America"));
         System.out.println("\nreport_CapitalCitiesInRegionDESC: ");
         print_Items_Capitals(a.report_CapitalCitiesInRegionDESC("Western Europe"));
-
-
-
-        // Disconnect from database before termination
-        a.disconnect();
     }
-
 
     ///////////////////// REPORTS /////////////////////
 //<editor-fold desc="SQL Reports">
