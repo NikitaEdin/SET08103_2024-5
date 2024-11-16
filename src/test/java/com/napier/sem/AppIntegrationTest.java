@@ -2,6 +2,9 @@ package com.napier.sem;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -51,7 +54,7 @@ public class AppIntegrationTest {
     }
 
     /**
-     * Test method for TopN_PopulatedCountries to check if it can handle invalid input in it's parameter
+     * Test method for TopN_PopulatedCountries to check if it can handle invalid input in its parameter
      */
     @Test
     void test_invalid_TopN_PopulatedCountries(){
@@ -92,7 +95,7 @@ public class AppIntegrationTest {
     }
 
     /**
-     * Test method for TopN_PopulatedCountriesByContinent to check if it can handle invalid inputs in it's parameters
+     * Test method for TopN_PopulatedCountriesByContinent to check if it can handle invalid inputs in its parameters
      */
     @Test
     void test_invalid_TopN_PopulatedCountriesByContinent(){
@@ -133,7 +136,7 @@ public class AppIntegrationTest {
     }
 
     /**
-     * Test method for TopN_PopulatedCountriesByContinent to check if it can handle invalid inputs in it's parameters
+     * Test method for TopN_PopulatedCountriesByContinent to check if it can handle invalid inputs in its parameters
      */
     @Test
     void test_invalid_TopN_PopulatedCountriesByRegion(){
@@ -174,7 +177,7 @@ public class AppIntegrationTest {
     }
 
     /**
-     * Test method for TopN_PopulatedCities to check if it can handle invalid input in it's parameter
+     * Test method for TopN_PopulatedCities to check if it can handle invalid input in its parameter
      */
     @Test
     void test_invalid_TopN_PopulatedCities(){
@@ -215,7 +218,7 @@ public class AppIntegrationTest {
     }
 
     /**
-     * Test method for TopN_PopulatedCitiesByContinent to check if it can handle 2 invalid inputs in it's parameter
+     * Test method for TopN_PopulatedCitiesByContinent to check if it can handle 2 invalid inputs in its parameter
      */
     @Test
     void test_invalid_TopN_PopulatedCitiesByContinent(){
@@ -256,7 +259,7 @@ public class AppIntegrationTest {
     }
 
     /**
-     * Test method for TopN_PopulatedCitiesByRegion to check if it can handle 2 invalid inputs in it's parameter
+     * Test method for TopN_PopulatedCitiesByRegion to check if it can handle 2 invalid inputs in its parameter
      */
     @Test
     void test_invalid_TopN_PopulatedCitiesByRegion(){
@@ -297,7 +300,7 @@ public class AppIntegrationTest {
     }
 
     /**
-     * Test method for TopN_PopulatedCitiesByCountry to check if it can handle 2 invalid inputs in it's parameter
+     * Test method for TopN_PopulatedCitiesByCountry to check if it can handle 2 invalid inputs in its parameter
      */
     @Test
     void test_invalid_TopN_PopulatedCitiesByCountry(){
@@ -338,7 +341,7 @@ public class AppIntegrationTest {
     }
 
     /**
-     * Test method for TopN_PopulatedCitiesByDistrict to check if it can handle 2 invalid inputs in it's parameter
+     * Test method for TopN_PopulatedCitiesByDistrict to check if it can handle 2 invalid inputs in its parameter
      */
     @Test
     void test_invalid_TopN_PopulatedCitiesByDistrict(){
@@ -418,7 +421,7 @@ public class AppIntegrationTest {
     }
 
     /**
-     * Test method for PopulationByContinentDESC to check if it can handle invalid input in it's parameter
+     * Test method for PopulationByContinentDESC to check if it can handle invalid input in its parameter
      */
     @Test
     void test_invalid_PopulationByContinentDESC(){
@@ -524,7 +527,7 @@ public class AppIntegrationTest {
 
     /**
      * Test report_CitiesInWorldDESC outputs correct number of reports & if it is pulling the correct data.
-     *  And to also check if its outputting in DESC order
+     *  And to also check if it's outputting in DESC order
      */
     @Test
     void test_report_CitiesInWorldDESC(){
@@ -724,7 +727,26 @@ public class AppIntegrationTest {
     }
 
 
+    /**
+     * Test generic PrintItems with Null
+     */
+    @Test
+    void test_emptyNull_printItems(){
+        App.print_Items(null);
+        App.print_Items(Collections.emptyList());
+    }
 
+    /**
+     * Test generic PrintItems with single and multiple items
+     */
+    @Test
+    void test_singleAndMany_printItems(){
+        List<String> items = List.of("item0");
+        App.print_Items(items);
+        items = List.of("item1", "item2", "item3");
+        App.print_Items(items);
+        System.out.println();
+    }
 
 //    /**
 //     * Method that connects to a database
