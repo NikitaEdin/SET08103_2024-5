@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - develop
-      - feature/integrationTestDB
 jobs:
   UnitTests:
     name: Unit Tests
@@ -19,7 +18,7 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       - name: Unit Tests
-        run: mvn -Dtest=com.napier.sem.AppTest test
+        run: mvn -Dtest='*Test' test
 
   IntegrationTests:
     name: Integration Tests
