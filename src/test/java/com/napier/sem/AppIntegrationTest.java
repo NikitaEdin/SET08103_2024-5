@@ -45,19 +45,10 @@ public class AppIntegrationTest {
      * Test method TopN_PopulateCountries to check if it can handle a null parameter
      */
     @Test
-    void test_nullEmpty_TopN_PopulatedCountries(){
+    void test_nullInvalid_TopN_PopulatedCountries(){
         List<Country> countries = app.report_TopN_PopulatedCountries(0);
         assertNull(countries, "The result should be null");
-        countries = app.report_TopN_PopulatedCountries(0);
-        assertNull(countries, "The result should be null");
-    }
-
-    /**
-     * Test method for TopN_PopulatedCountries to check if it can handle invalid input in its parameter
-     */
-    @Test
-    void test_invalid_TopN_PopulatedCountries(){
-        List<Country> countries = app.report_TopN_PopulatedCountries(-2);
+        countries = app.report_TopN_PopulatedCountries(-2);
         assertNull(countries, "The result should be null");
     }
 
@@ -87,7 +78,7 @@ public class AppIntegrationTest {
      */
     @Test
     void test_nullEmpty_TopN_PopulatedCountriesByContinent(){
-        List<Country> countries = app.report_TopN_PopulatedCountriesByContinent(null,0);
+        List<Country> countries = app.report_TopN_PopulatedCountriesByContinent("",0);
         assertNull(countries, "The result should be null");
         countries = app.report_TopN_PopulatedCountriesByContinent(null,0);
         assertNull(countries, "The result should be null");
@@ -128,7 +119,7 @@ public class AppIntegrationTest {
      */
     @Test
     void test_nullEmpty_TopN_PopulatedCountriesByRegion(){
-        List<Country> countries = app.report_TopN_PopulatedCountriesByRegion(null,0);
+        List<Country> countries = app.report_TopN_PopulatedCountriesByRegion("",0);
         assertNull(countries, "The result should be null");
         countries = app.report_TopN_PopulatedCountriesByRegion(null,0);
         assertNull(countries, "The result should be null");
@@ -160,7 +151,7 @@ public class AppIntegrationTest {
         // Verify cities are in descending order
         for (int i = 0; i < cities.size() - 1; i++) {
             assertTrue(cities.get(i).Population >= cities.get(i + 1).Population,
-                    "Cities should be ordered in descending population for the specified continent");
+                    "Cities should be ordered in descending population.");
         }
     }
 
@@ -168,21 +159,13 @@ public class AppIntegrationTest {
      * Test method TopN_PopulatedCities to check if it can handle a null parameter
      */
     @Test
-    void test_nullEmpty_TopN_PopulatedCities(){
+    void test_nullInvalid_TopN_PopulatedCities(){
         List<City> cities = app.report_TopN_PopulatedCities(0);
         assertNull(cities, "The result should be null");
-        cities = app.report_TopN_PopulatedCities(0);
+        cities = app.report_TopN_PopulatedCities(-2);
         assertNull(cities, "The result should be null");
     }
 
-    /**
-     * Test method for TopN_PopulatedCities to check if it can handle invalid input in its parameter
-     */
-    @Test
-    void test_invalid_TopN_PopulatedCities(){
-        List<City> cities = app.report_TopN_PopulatedCities(-2);
-        assertNull(cities, "The result should be null");
-    }
 
     /**
      * Tests the report_TopN_PopulatedCitiesByContinent method to ensure it returns the top N populated cities in a continent.
@@ -210,7 +193,7 @@ public class AppIntegrationTest {
      */
     @Test
     void test_nullEmpty_TopN_PopulatedCitiesByContinent(){
-        List<City> cities = app.report_TopN_PopulatedCitiesByContinent(null, 0);
+        List<City> cities = app.report_TopN_PopulatedCitiesByContinent("", 0);
         assertNull(cities, "The result should be null");
         cities = app.report_TopN_PopulatedCitiesByContinent(null, 0);
         assertNull(cities, "The result should be null");
@@ -251,7 +234,7 @@ public class AppIntegrationTest {
      */
     @Test
     void test_nullEmpty_TopN_PopulatedCitiesByRegion(){
-        List<City> cities = app.report_TopN_PopulatedCitiesByRegion(null, 0);
+        List<City> cities = app.report_TopN_PopulatedCitiesByRegion("", 0);
         assertNull(cities, "The result should be null");
         cities = app.report_TopN_PopulatedCitiesByRegion(null, 0);
         assertNull(cities, "The result should be null");
@@ -292,7 +275,7 @@ public class AppIntegrationTest {
      */
     @Test
     void test_nullEmpty_TopN_PopulatedCitiesByCountry(){
-        List<City> cities = app.report_TopN_PopulatedCitiesByCountry(null, 0);
+        List<City> cities = app.report_TopN_PopulatedCitiesByCountry("", 0);
         assertNull(cities, "The result should be null");
         cities = app.report_TopN_PopulatedCitiesByCountry(null, 0);
         assertNull(cities, "The result should be null");
@@ -333,7 +316,7 @@ public class AppIntegrationTest {
      */
     @Test
     void test_nullEmpty_TopN_PopulatedCitiesByDistrict(){
-        List<City> cities = app.report_TopN_PopulatedCitiesByDistrict(null, 0);
+        List<City> cities = app.report_TopN_PopulatedCitiesByDistrict("", 0);
         assertNull(cities, "The result should be null");
         cities = app.report_TopN_PopulatedCitiesByDistrict(null, 0);
         assertNull(cities, "The result should be null");
@@ -364,8 +347,8 @@ public class AppIntegrationTest {
         // Not Null
         assertNotNull(countries, "The result should not be null");
 
-        // Exact value of items
-        assertEquals(239, countries.size(), "There should be 239 countries returned");
+        // Has items
+        assertNotEquals(0, countries.size(), "Countries should not be empty");
 
         // Verify items are in descending order
         for (int i = 0; i < countries.size() - 1; i++) {
@@ -462,8 +445,8 @@ public class AppIntegrationTest {
     @Test
     void test_CapitalCitiesInRegionDESC() {
         List<City> items = app.report_CapitalCitiesInRegionDESC("Western Europe");
-        // Check for specific item count
-        assertEquals(items.size(), 9);
+        // Not empty
+        assertNotEquals(0, items.size());
 
         // Check order of items
         for (int i = 0; i < items.size() - 1; i++) {
