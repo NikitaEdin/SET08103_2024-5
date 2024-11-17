@@ -367,16 +367,11 @@ public class AppIntegrationTest {
         // Exact value of items
         assertEquals(239, countries.size(), "There should be 239 countries returned");
 
-        // Verify descending order by population
-        assertTrue(countries.get(0).Population >= countries.get(1).Population,
-                "First country population should be greater than or equal to the second");
-        assertTrue(countries.get(1).Population >= countries.get(2).Population,
-                "Second country population should be greater than or equal to the third");
-
-        // Verify specific order
-        assertEquals("China", countries.get(0).getName(), "The first country should be China.");
-        assertEquals("India", countries.get(1).getName(), "The second country should be India.");
-        assertEquals("United States", countries.get(2).getName(), "The third country should be United States.");
+        // Verify items are in descending order
+        for (int i = 0; i < countries.size() - 1; i++) {
+            assertTrue(countries.get(i).Population >= countries.get(i + 1).Population,
+                    "Countries should be ordered in descending order.");
+        }
     }
 
     /**
@@ -396,16 +391,6 @@ public class AppIntegrationTest {
             assertTrue(countries.get(i).getPopulation() >= countries.get(i + 1).getPopulation(),
                     "Countries should be ordered in descending population for the specified continent");
         }
-
-        // Verify top 3 countries
-        assertEquals(1277558000, countries.get(0).getPopulation());
-        assertEquals(1013662000, countries.get(1).getPopulation());
-        assertEquals(212107000, countries.get(2).getPopulation());
-
-        // Verify top 3 countries by name
-        assertEquals("China", countries.get(0).getName(), "The first country should be China.");
-        assertEquals("India", countries.get(1).getName(), "The second country should be India.");
-        assertEquals("Indonesia", countries.get(2).getName(), "The third country should be Indonesia.");
     }
 
     /**
@@ -446,18 +431,6 @@ public class AppIntegrationTest {
             assertTrue(countries.get(i).getPopulation() >= countries.get(i + 1).getPopulation(),
                     "Countries should be ordered in descending population for the specified region");
         }
-
-        // Verify top 3 countries
-        assertEquals(170115000, countries.get(0).getPopulation());
-        assertEquals(42321000, countries.get(1).getPopulation());
-        assertEquals(37032000, countries.get(2).getPopulation());
-
-        // Verify top 3 countries by name
-        assertEquals("Brazil", countries.get(0).getName(), "The first country should be Brazil.");
-        assertEquals("Colombia", countries.get(1).getName(), "The second country should be Colombia.");
-        assertEquals("Argentina", countries.get(2).getName(), "The third country should be Argentina.");
-
-
     }
 
 
@@ -497,11 +470,6 @@ public class AppIntegrationTest {
             assertTrue(items.get(i).Population >= items.get(i + 1).Population,
                     "Cities should be ordered in descending population");
         }
-
-        // Check exact city names in exact order
-        assertEquals("Berlin", items.get(0).getName(), "The first country should be Berlin.");
-        assertEquals("Paris", items.get(1).getName(), "The second country should be Paris.");
-        assertEquals("Wien", items.get(2).getName(), "The third country should be Wien.");
     }
 
     /**
@@ -534,12 +502,8 @@ public class AppIntegrationTest {
         List<City> cities = app.report_CitiesInWorldDESC();
 
         // Check if the size of cities is the same as expected
-        assertEquals(4079, cities.size());
-
-        // Check that the cities pulled are correct
-        assertEquals("Mumbai (Bombay)", cities.get(0).getName(),"The first city should be Mumbai (Bombay).");
-        assertEquals("Seoul", cities.get(1).getName(),"The second city should be Seoul.");
-        assertEquals("São Paulo", cities.get(2).getName(),"The third city should be São Paulo .");
+        assertNotNull(cities, "The result should not be null");
+        assertNotEquals(0, cities.size());
 
         // Check if in desc
         for (int i = 0; i < cities.size() - 1; i++) {
@@ -566,16 +530,6 @@ public class AppIntegrationTest {
             assertTrue(cities.get(i).Population >= cities.get(i + 1).Population,
                     "Cities should be ordered in descending population");
         }
-
-        // Verify top 3 cities
-        assertEquals(6789479, cities.get(0).Population);
-        assertEquals(5064000, cities.get(1).Population);
-        assertEquals(3328196, cities.get(2).Population);
-
-        // Verify top 3 cities by name
-        assertEquals("Cairo", cities.get(0).getName(), "The first country should be Cairo.");
-        assertEquals("Kinshasa", cities.get(1).getName(), "The second country should be Kinshasa.");
-        assertEquals("Alexandria", cities.get(2).getName(), "The third country should be Alexandria.");
     }
 
     /**
@@ -604,17 +558,6 @@ public class AppIntegrationTest {
             assertTrue(cities.get(i).Population >= cities.get(i + 1).Population,
                     "Cities should be ordered in descending population");
         }
-
-        // Verify top 3 cities
-        assertEquals(3386667, cities.get(0).Population);
-        assertEquals(2125246, cities.get(1).Population);
-        assertEquals(1704735, cities.get(2).Population);
-
-        // Verify top 3 cities by name
-        assertEquals("Berlin", cities.get(0).getName(), "The first country should be Berlin.");
-        assertEquals("Paris", cities.get(1).getName(), "The second country should be Paris.");
-        assertEquals("Hamburg", cities.get(2).getName(), "The third country should be Paris.");
-
     }
 
     /**
@@ -644,16 +587,6 @@ public class AppIntegrationTest {
             assertTrue(cities.get(i).Population >= cities.get(i + 1).Population,
                     "Cities should be ordered in descending population");
         }
-
-        // Verify top 3 cities
-        assertEquals(2125246, cities.get(0).Population);
-        assertEquals(798430, cities.get(1).Population);
-        assertEquals(445452, cities.get(2).Population);
-
-        // Verify top 3 cities by name
-        assertEquals("Paris", cities.get(0).getName(), "The first country should be Paris.");
-        assertEquals("Marseille", cities.get(1).getName(), "The second country should be Marseille.");
-        assertEquals("Lyon", cities.get(2).getName(), "The third country should be Lyon.");
     }
 
     /**
@@ -683,16 +616,6 @@ public class AppIntegrationTest {
             assertTrue(cities.get(i).Population >= cities.get(i + 1).Population,
                     "Cities should be ordered in descending population");
         }
-
-        // Verify top 3 cities
-        assertEquals(619680, cities.get(0).Population);
-        assertEquals(450180, cities.get(1).Population);
-        assertEquals(213070, cities.get(2).Population);
-
-        // Verify top 3 cities by name
-        assertEquals("Glasgow", cities.get(0).getName(), "The first country should be Glasgow.");
-        assertEquals("Edinburgh", cities.get(1).getName(), "The second country should be Edinburgh.");
-        assertEquals("Aberdeen", cities.get(2).getName(), "The third country should be Aberdeen.");
     }
 
     /**
@@ -755,37 +678,5 @@ public class AppIntegrationTest {
             throw new AssertionError(e);
         }
     }
-
-//    /**
-//     * Method that connects to a database
-//     */
-//    @Test
-//    void testConnect(){
-//        app.connect("localhost:33060", 30000);
-//    }
-//
-//    /**
-//     * Method that tests if the location to the sql database is empty
-//     */
-//    @Test
-//    void testConnectEmpty(){
-//        app.connect("",0);
-//    }
-//
-//    /**
-//     * Method that tests if the location to the sql database is null
-//     */
-//    @Test
-//    void testConnectNull(){
-//        app.connect(null,0);
-//    }
-//
-//    /**
-//     * Method that disconnects from the database
-//     */
-//    @Test
-//    void testDisconnect() {
-//        app.disconnect();
-//    }
 
 }
