@@ -304,6 +304,34 @@ public class App {
        return null;
     }
 
+    // Reports to be implemented
+
+//    public List<City> report_TopN_PopulatedCapitalCitiesInWorld(int N) {}
+//
+//    public List<City> report_TopN_PopulatedCapitalCitiesInContinent(int N, String continent) {}
+//
+//    public List<City> report_TopN_PopulatedCapitalCitiesInRegion(int N, String region) {}
+//
+//    public void report_PopulationBreakdown_AllContinents() {}
+//
+//    public void report_PopulationBreakdown_AllRegions() {}
+//
+//    public void report_PopulationBreakdown_AllCountries() {}
+//
+//    public void report_TotalPopulation_World() {}
+//
+//    public void report_TotalPopulation_Continent(String continent) {}
+//
+//    public void report_TotalPopulation_Region(String region) {}
+//
+//    public void report_TotalPopulation_Country(String country) {}
+//
+//    public void report_TotalPopulation_District(String district) {}
+//
+//    public void report_TotalPopulation_City(String city) {}
+//
+//    public void report_WorldLanguagesBreakdown() {}
+
 //</editor-fold>
     ///////////////////// UTILS AND DATABASE CONNECTIONS /////////////////////
 //<editor-fold desc="SQL Connection UTILS">

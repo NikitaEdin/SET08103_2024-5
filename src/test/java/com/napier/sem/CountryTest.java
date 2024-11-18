@@ -66,6 +66,8 @@ class CountryTest {
         assertEquals(continent, country.Continent);
         assertEquals(region, country.Region);
         assertEquals(surfaceArea, country.SurfaceArea, 0.2);
+        assertEquals(indepYear, country.IndepYear, 4);
+        assertEquals(population, country.Population);
         assertEquals(lifeExpectancy, country.LifeExpectancy, 0.1);
         assertEquals(gnp, country.GNP, 0.2);
         assertEquals(gnpOld, country.GNPOld, 0.2);
@@ -74,5 +76,125 @@ class CountryTest {
         assertEquals(headOfState, country.HeadOfState);
         assertEquals(capital, country.Capital);
         assertEquals(code2, country.Code2);
+    }
+
+    /**
+     * Tests the getCode method.
+     */
+    @Test
+    void testGetCode(){
+        assertEquals(code, country.getCode());
+    }
+
+    /**
+     * Tests the getName method.
+     */
+    @Test
+    void testGetName(){
+        assertEquals(name, country.getName());
+    }
+
+    /**
+     * Tests the getContinent method.
+     */
+    @Test
+    void testGetContinent(){
+        assertEquals(continent, country.getContinent());
+    }
+
+    /**
+     * Tests the getRegion method.
+     */
+    @Test
+    void testGetRegion(){
+        assertEquals(region, country.getRegion());
+    }
+
+    /**
+     * Tests the getSurfaceArea method.
+     */
+    @Test
+    void testGetSurfaceArea(){
+        assertEquals(surfaceArea, country.getSurfaceArea(), 0.2);
+    }
+
+    /**
+     * Tests the getIndepYear method.
+     */
+    @Test
+    void testGetIndepYear(){
+        assertEquals(indepYear, country.getIndepYear(), 4);
+    }
+
+    /**
+     * Tests the getPopulation method.
+     */
+    @Test
+    void testGetPopulation(){
+        assertEquals(population, country.getPopulation());
+    }
+
+    /**
+     * Tests the getLifeExpectancy method.
+     */
+    @Test
+    void testGetLifeExpectancy(){
+        assertEquals(lifeExpectancy, country.getLifeExpectancy(), 0.1);
+    }
+
+    /**
+     * Tests the getGNP method.
+     */
+    @Test
+    void testGetGNP(){
+        assertEquals(gnp, country.getGNP(), 0.2);
+    }
+
+    /**
+     * Tests the getGNPOld method.
+     */
+    @Test
+    void testGetGNPOld(){
+        assertEquals(gnpOld, country.getGNPOld(), 0.2);
+    }
+
+    /**
+     * Tests the getLocalName method.
+     */
+    @Test
+    void testGetLocalName(){
+        assertEquals(localName, country.getLocalName());
+    }
+
+    /**
+     * Tests the getGovernmentForm method.
+     */
+    @Test
+    void testGetGovernmentForm(){
+        assertEquals(governmentForm, country.getGovernmentForm());
+    }
+
+    /**
+     * Tests the getHeadOfState method
+     */
+    @Test
+    void testGetHeadOfState(){
+        assertEquals(headOfState, country.getHeadOfState());
+    }
+
+    /**
+     * Tests the getCapital method.
+     */
+    @Test
+    void testGetCapital(){
+        assertEquals(capital, country.getCapital());
+    }
+
+    /**
+     * Tests the getCode2 method.
+     */
+    @Test
+    void testGetCode2(){
+        assertEquals(code2, country.getCode2());
     }
 }

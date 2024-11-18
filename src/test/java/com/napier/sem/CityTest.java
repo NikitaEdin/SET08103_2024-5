@@ -41,4 +41,44 @@ class CityTest {
         assertEquals(district, city.District);
         assertEquals(population, city.Population);
     }
+
+    /**
+     * Tests the getID method.
+     */
+    @Test
+    void testGetId() {
+        assertEquals(id, city.getID());
+    }
+
+    /**
+     * Tests the getName method.
+     */
+    @Test
+    void testGetName() {
+        assertEquals(name, city.getName());
+    }
+
+    /**
+     * Tests the getCountryCode method.
+     */
+    @Test
+    void testGetCountryCode() {
+        assertEquals(countryCode, city.getCountryCode());
+    }
+
+    /**
+     * Tests the getDistrict method.
+     */
+    @Test
+    void testGetDistrict() {
+        assertEquals(district, city.getDistrict());
+    }
+
+    /**
+     * Tests the getPopulation method.
+     */
+    @Test
+    void testGetPopulation() {
+        assertEquals(population, city.getPopulation());
+    }
 }

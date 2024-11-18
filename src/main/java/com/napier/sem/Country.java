@@ -99,7 +99,7 @@ public class Country {
     }
 
     /**
-     * Method to retrive the country name.
+     * Method to retrieve the country name.
      * @return Name of the country.
      */
     public String getName() {
@@ -107,10 +107,82 @@ public class Country {
     }
 
     /**
+     * Method to retrieve the continent of a Country object.
+     * @return Continent of the object.
+     */
+    public String getContinent() {return Continent;}
+
+    /**
+     * Method to retrieve the region of a Country object.
+     * @return Region of the object.
+     */
+    public String getRegion() {return Region;}
+
+    /**
+     * Method to retrieve the surface area of a Country object.
+     * @return Surface area of the object.
+     */
+    public double getSurfaceArea() {return SurfaceArea;}
+
+    /**
+     * Method to retrieve the Independence year of a Country object.
+     * @return Independence year of the object.
+     */
+    public Integer getIndepYear() {return IndepYear;}
+
+    /**
      * Method to retrieve the total population of this country.
      * @return Number of population
      */
     public int getPopulation() { return Population;}
+
+    /**
+     * Method to retrieve the life expectancy of a Country object.
+     * @return Life expectancy of the object.
+     */
+    public Double getLifeExpectancy() {return LifeExpectancy;}
+
+    /**
+     * Method to retrieve the GNP of a Country object.
+     * @return GNP of the object.
+     */
+    public Double getGNP() {return GNP;}
+
+    /**
+     * Method to retrieve the old GNP of a Country object.
+     * @return Old GNP of the object.
+     */
+    public Double getGNPOld() {return GNPOld;}
+
+    /**
+     * Method to retrieve the local name of a Country object.
+     * @return Local name of the object.
+     */
+    public String getLocalName() {return LocalName;}
+
+    /**
+     * Method to retrieve the form of government of a Country object.
+     * @return Form of government of the object.
+     */
+    public String getGovernmentForm() {return GovernmentForm;}
+
+    /**
+     * Method to retrieve the head of state of a Country object.
+     * @return Head of state of the object.
+     */
+    public String getHeadOfState() {return HeadOfState;}
+
+    /**
+     * Method to retrieve the capital of a Country object.
+     * @return Capital of the object.
+     */
+    public Integer getCapital() {return Capital;}
+
+    /**
+     * Method to retrieve the second country code of a Country object.
+     * @return Second country code of the object.
+     */
+    public String getCode2() {return Code2;}
 
     /**
      * Returns a string representation of the Country object.
