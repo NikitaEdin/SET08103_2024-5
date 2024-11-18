@@ -39,4 +39,36 @@ class CountryLanguageTest {
         assertEquals(isOfficial, cl.IsOfficial);
         assertEquals(percentage, cl.Percentage);
     }
+
+    /**
+     * Tests the getCountryCode method.
+     */
+    @Test
+    void testGetCountryCode() {
+        assertEquals(countryCode, cl.getCountryCode());
+    }
+
+    /**
+     * Tests the getLanguage method.
+     */
+    @Test
+    void testGetLanguage() {
+        assertEquals(language, cl.getLanguage());
+    }
+
+    /**
+     * Tests the getIsOfficial method.
+     */
+    @Test
+    void testGetIsOfficial() {
+        assertEquals(isOfficial, cl.getIsOfficial());
+    }
+
+    /**
+     * Tests the getPercentage method.
+     */
+    @Test
+    void testGetPercentage() {
+        assertEquals(percentage, cl.getPercentage());
+    }
 }
