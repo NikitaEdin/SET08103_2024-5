@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CityTest {
     // Initialising City object and variables that will be used to create City object.
     static private City city;
+    static private City cityNull;
     static private int id = 64;
     static private String name = "Dubai";
     static private String countryCode = "ARE";
@@ -28,6 +29,7 @@ class CityTest {
     @BeforeAll
     static void setUpBeforeClass(){
         city = new City(id, name, countryCode, district, population);
+        cityNull = new City(0, null, null, null, 0);
     }
 
     /**
@@ -43,10 +45,20 @@ class CityTest {
     }
 
     /**
+     * Tests the City class constructor with null values.
+     */
+    @Test
+    void testCityConstructorNull() {
+        assertNull(cityNull.Name);
+        assertNull(cityNull.CountryCode);
+        assertNull(cityNull.District);
+    }
+
+    /**
      * Tests the getID method.
      */
     @Test
-    void testGetId() {
+    void testGetID() {
         assertEquals(id, city.getID());
     }
 
@@ -59,6 +71,14 @@ class CityTest {
     }
 
     /**
+     * Tests the getName method with a null value.
+     */
+    @Test
+    void testGetNameNull(){
+        assertNull(cityNull.getName());
+    }
+
+    /**
      * Tests the getCountryCode method.
      */
     @Test
@@ -67,11 +87,27 @@ class CityTest {
     }
 
     /**
+     * Tests the getCountryCode method with a null value.
+     */
+    @Test
+    void testGetCountryCodeNull(){
+        assertNull(cityNull.getCountryCode());
+    }
+
+    /**
      * Tests the getDistrict method.
      */
     @Test
     void testGetDistrict() {
         assertEquals(district, city.getDistrict());
+    }
+
+    /**
+     * Tests the getDistrict method with a null value.
+     */
+    @Test
+    void testGetDistrictNull(){
+        assertNull(cityNull.getDistrict());
     }
 
     /**

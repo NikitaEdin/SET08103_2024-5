@@ -17,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CountryTest {
     // Initialising Country object and variables that will be used to create Country object.
     static private Country country;
+    static private Country countryNull;
     static private String code = "AND";
     static private String name = "Andorra";
     static private String continent = "Europe";
@@ -54,6 +55,23 @@ class CountryTest {
                 headOfState,
                 capital,
                 code2 );
+
+        countryNull = new Country(
+                null,
+                null,
+                null,
+                null,
+                0,
+                null,
+                0,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
     }
 
     /**
@@ -79,11 +97,39 @@ class CountryTest {
     }
 
     /**
+     * Tests the Country class constructor with null values.
+     */
+    @Test
+    void testCountryConstructorNull(){
+        assertNull(countryNull.Code);
+        assertNull(countryNull.Name);
+        assertNull(countryNull.Continent);
+        assertNull(countryNull.Region);
+        assertNull(countryNull.IndepYear);
+        assertNull(countryNull.LifeExpectancy);
+        assertNull(countryNull.GNP);
+        assertNull(countryNull.GNPOld);
+        assertNull(countryNull.LocalName);
+        assertNull(countryNull.GovernmentForm);
+        assertNull(countryNull.HeadOfState);
+        assertNull(countryNull.Capital);
+        assertNull(countryNull.Code2);
+    }
+
+    /**
      * Tests the getCode method.
      */
     @Test
     void testGetCode(){
         assertEquals(code, country.getCode());
+    }
+
+    /**
+     * Tests the getCode method with a null value.
+     */
+    @Test
+    void testGetCodeNull(){
+        assertNull(countryNull.getCode());
     }
 
     /**
@@ -95,6 +141,14 @@ class CountryTest {
     }
 
     /**
+     * Tests the getName method with a null value.
+     */
+    @Test
+    void testGetNameNull(){
+        assertNull(countryNull.getName());
+    }
+
+    /**
      * Tests the getContinent method.
      */
     @Test
@@ -103,11 +157,27 @@ class CountryTest {
     }
 
     /**
+     * Tests the getContinent method with a null value.
+     */
+    @Test
+    void testGetContinentNull(){
+        assertNull(countryNull.getContinent());
+    }
+
+    /**
      * Tests the getRegion method.
      */
     @Test
     void testGetRegion(){
         assertEquals(region, country.getRegion());
+    }
+
+    /**
+     * Tests the getRegion method with a null value.
+     */
+    @Test
+    void testGetRegionNull(){
+        assertNull(countryNull.getRegion());
     }
 
     /**
@@ -127,6 +197,14 @@ class CountryTest {
     }
 
     /**
+     * Tests the getIndepYear method with a null value.
+     */
+    @Test
+    void testGetIndepYearNull(){
+        assertNull(countryNull.getIndepYear());
+    }
+
+    /**
      * Tests the getPopulation method.
      */
     @Test
@@ -143,11 +221,27 @@ class CountryTest {
     }
 
     /**
+     * Tests the getLifeExpectancy method with a null value.
+     */
+    @Test
+    void testGetLifeExpectancyNull(){
+        assertNull(countryNull.getLifeExpectancy());
+    }
+
+    /**
      * Tests the getGNP method.
      */
     @Test
     void testGetGNP(){
         assertEquals(gnp, country.getGNP(), 0.2);
+    }
+
+    /**
+     * Tests the getGNP method with a null value.
+     */
+    @Test
+    void testGetGNPNull(){
+        assertNull(countryNull.getGNP());
     }
 
     /**
@@ -159,11 +253,27 @@ class CountryTest {
     }
 
     /**
+     * Tests the getGNPOld method with a null value.
+     */
+    @Test
+    void testGetGNPOldNull(){
+        assertNull(countryNull.getGNPOld());
+    }
+
+    /**
      * Tests the getLocalName method.
      */
     @Test
     void testGetLocalName(){
         assertEquals(localName, country.getLocalName());
+    }
+
+    /**
+     * Tests the getLocalName method with a null value.
+     */
+    @Test
+    void testGetLocalNameNull(){
+        assertNull(countryNull.getLocalName());
     }
 
     /**
@@ -175,11 +285,27 @@ class CountryTest {
     }
 
     /**
+     * Tests the getGovernmentForm method with a null value.
+     */
+    @Test
+    void testGetGovernmentFormNull(){
+        assertNull(countryNull.getGovernmentForm());
+    }
+
+    /**
      * Tests the getHeadOfState method
      */
     @Test
     void testGetHeadOfState(){
         assertEquals(headOfState, country.getHeadOfState());
+    }
+
+    /**
+     * Tests the getHeadOfState method with a null value.
+     */
+    @Test
+    void testGetHeadOfStateNull(){
+        assertNull(countryNull.getHeadOfState());
     }
 
     /**
@@ -191,10 +317,26 @@ class CountryTest {
     }
 
     /**
+     * Tests the getCapital method with a null value.
+     */
+    @Test
+    void testGetCapitalNull(){
+        assertNull(countryNull.getCapital());
+    }
+
+    /**
      * Tests the getCode2 method.
      */
     @Test
     void testGetCode2(){
         assertEquals(code2, country.getCode2());
+    }
+
+    /**
+     * Tests the getCode2 method with a null value.
+     */
+    @Test
+    void testGetCode2Null(){
+        assertNull(countryNull.getCode2());
     }
 }

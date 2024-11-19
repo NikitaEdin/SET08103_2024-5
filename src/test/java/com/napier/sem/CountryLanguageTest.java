@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CountryLanguageTest {
     // Initialising CountryLanguage object and variables that will be used to create CountryLanguage object.
     static private CountryLanguage cl;
+    static private CountryLanguage clNull;
     static private String countryCode = "ALB";
     static private String language = "Macedonian";
     static private String isOfficial = "F";
@@ -27,6 +28,7 @@ class CountryLanguageTest {
     @BeforeAll
     static void setUpBeforeClass(){
         cl = new CountryLanguage(countryCode, language, isOfficial, percentage);
+        clNull = new CountryLanguage(null, null, null, 0);
     }
 
     /**
@@ -41,11 +43,29 @@ class CountryLanguageTest {
     }
 
     /**
+     * Tests the CountryLanguage constructor with null values.
+     */
+    @Test
+    void testCountryLanguageConstructorNull() {
+        assertNull(clNull.CountryCode);
+        assertNull(clNull.Language);
+        assertNull(clNull.IsOfficial);
+    }
+
+    /**
      * Tests the getCountryCode method.
      */
     @Test
     void testGetCountryCode() {
         assertEquals(countryCode, cl.getCountryCode());
+    }
+
+    /**
+     * Tests the getCountryCode method with a null value.
+     */
+    @Test
+    void testGetCountryCodeNull() {
+        assertNull(clNull.getCountryCode());
     }
 
     /**
@@ -57,11 +77,27 @@ class CountryLanguageTest {
     }
 
     /**
+     * Tests the getLanguage method with a null value.
+     */
+    @Test
+    void testGetLanguageNull() {
+        assertNull(clNull.getLanguage());
+    }
+
+    /**
      * Tests the getIsOfficial method.
      */
     @Test
     void testGetIsOfficial() {
         assertEquals(isOfficial, cl.getIsOfficial());
+    }
+
+    /**
+     * Tests the getIsOfficial method with a null value.
+     */
+    @Test
+    void testGetIsOfficialNull() {
+        assertNull(clNull.getIsOfficial());
     }
 
     /**
