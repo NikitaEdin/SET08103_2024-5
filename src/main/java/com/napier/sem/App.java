@@ -4,6 +4,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This is class is to run the program and print the reports that are needed.
+ */
 public class App {
 
     /**
@@ -14,24 +17,37 @@ public class App {
         // Create new Application
         App a = new App();
 
-
-
-        // Connect to database
-        a.connect();
+        if (args.length < 1) {
+            a.connect("localhost:33060", 10000);
+        } else {
+            a.connect(args[0], Integer.parseInt(args[1]));
+        }
 
 
         // ######## REPORTS BEGIN HERE ######## ///
+        generateAllReports(a);
 
+        // Disconnect from database before termination
+        a.disconnect();
+    }
 
-        ////// Testing Data and Examples //////
+    public static void generateAllReports(App a){
+        // World Reports
+        System.out.println("\nreport_PopulationDESC: ");
+        print_Items(a.report_PopulationDESC());
+        System.out.println("\nreport_PopulationByContinentDESC: ");
+        print_Items(a.report_PopulationByContinentDESC("Asia"));
+        // report_CountriesByRegionDESC
+        System.out.println("\nreport_CountriesByRegionDESC: ");
+        print_Items(a.report_CountriesByRegionDESC("South America"));
 
+        // TopN Reports
         System.out.println("\nreport_TopN_PopulatedCountries: ");
         print_Items(a.report_TopN_PopulatedCountries(3));
         System.out.println("\nreport_TopN_PopulatedCountriesByContinent: ");
         print_Items(a.report_TopN_PopulatedCountriesByContinent("North America", 4));
         System.out.println("\nreport_TopN_PopulatedCountriesByRegion: ");
         print_Items(a.report_TopN_PopulatedCountriesByRegion("Central Africa", 5));
-
         System.out.println("\nreport_TopN_PopulatedCities: ");
         print_Items(a.report_TopN_PopulatedCities(3));
         System.out.println("\nreport_TopN_PopulatedCitiesByContinent: ");
@@ -43,6 +59,7 @@ public class App {
         System.out.println("\nreport_TopN_PopulatedCitiesByDistrict: ");
         print_Items(a.report_TopN_PopulatedCitiesByDistrict("Western", 6));
 
+        // City Reports
         System.out.println("\nreport_CitiesInWorldDESC: ");
         print_Items(a.report_CitiesInWorldDESC());
         System.out.println("\nreport_CitiesInContinentDESC: ");
@@ -53,20 +70,13 @@ public class App {
         print_Items(a.report_CitiesInCountryDESC("Angola"));
         System.out.println("\nreport_CitiesInDistrictDESC: ");
         print_Items(a.report_CitiesInDistrictDESC("Scotland"));
-
         System.out.println("\nreport_CapitalCitiesInWorldDESC: ");
         print_Items_Capitals(a.report_CapitalCitiesInWorldDESC());
         System.out.println("\nreport_CapitalCitiesInContinentDESC: ");
         print_Items_Capitals(a.report_CapitalCitiesInContinentDESC("North America"));
         System.out.println("\nreport_CapitalCitiesInRegionDESC: ");
         print_Items_Capitals(a.report_CapitalCitiesInRegionDESC("Western Europe"));
-
-
-
-        // Disconnect from database before termination
-        a.disconnect();
     }
-
 
     ///////////////////// REPORTS /////////////////////
 //<editor-fold desc="SQL Reports">
@@ -87,9 +97,15 @@ public class App {
      * @return  Return a list of Country type in DESC order
      */
     public List<Country> report_PopulationByContinentDESC(String continent) {
-        if(continent.isEmpty()) return null;
-        String query = "SELECT * FROM country WHERE continent = '" + continent + "' ORDER BY population DESC";
-        return getReport_Country(query);
+        if(continent != null && !continent.isEmpty()){
+            String query = "SELECT * FROM country WHERE continent = '" + continent + "' ORDER BY population DESC";
+            return getReport_Country(query);
+        }
+        else{
+            System.out.println("Invalid continent");
+            return null;
+        }
+
     }
 
     /**
@@ -98,9 +114,12 @@ public class App {
      * @return Returns a list of Country type in DESC order
      */
     public List<Country> report_CountriesByRegionDESC(String region) {
-        if(region.isEmpty()) return null;
-        String query = "SELECT * FROM country WHERE region = '"+ region +"' ORDER BY population DESC";
-        return getReport_Country(query);
+        if (region !=null && !region.isEmpty()){
+            String query = "SELECT * FROM country WHERE region = '"+ region +"' ORDER BY population DESC";
+            return getReport_Country(query);
+        }
+        System.out.println("Invalid region");
+        return null;
     }
 
 
@@ -121,7 +140,7 @@ public class App {
      * @return List of top N populated countries in the specified continent
      */
     public List<Country> report_TopN_PopulatedCountriesByContinent(String continent, int N) {
-        if( N < 1 || continent.isEmpty()) return null;
+        if( N < 1 || continent == null || continent.isEmpty()) return null;
         String query = "SELECT * FROM country WHERE continent = '"+ continent +"' ORDER BY population DESC LIMIT "+ N;
         return getReport_Country(query);
     }
@@ -133,7 +152,7 @@ public class App {
      * @return A list of top N populated countries in the specified region
      */
     public List<Country> report_TopN_PopulatedCountriesByRegion(String region, int N) {
-        if( N < 1 || region.isEmpty()) return null;
+        if( N < 1 || region == null || region.isEmpty()) return null;
         String query = "SELECT * FROM country WHERE region = '" + region + "' ORDER BY population DESC LIMIT "+ N;
         return getReport_Country(query);
     }
@@ -156,7 +175,7 @@ public class App {
      * @return List of top N populated cities in the specified continent, sorted in descending order by population
      */
     public List<City> report_TopN_PopulatedCitiesByContinent(String continent, int N) {
-        if (N < 1 || continent.isEmpty()) return null;
+        if (N < 1 || continent == null || continent.isEmpty()) return null;
         String query = "SELECT city.* FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Continent = '" + continent + "' ORDER BY city.Population DESC LIMIT " + N;
         return getReport_City(query);
     }
@@ -169,7 +188,7 @@ public class App {
      * @return List of top N populated cities in specified region, sorted in descending order by population
      */
     public List<City> report_TopN_PopulatedCitiesByRegion(String region, int N) {
-        if (N < 1 || region.isEmpty()) return null;
+        if (N < 1 || region == null || region.isEmpty()) return null;
         String query = "SELECT city.* FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Region = '" + region + "' ORDER BY city.Population DESC LIMIT " + N;
         return getReport_City(query);
     }
@@ -181,7 +200,7 @@ public class App {
      * @return List of top N populated cities in specified country, sorted in descending order by population
      */
     public List<City> report_TopN_PopulatedCitiesByCountry(String country, int N) {
-        if (N < 1 || country.isEmpty()) return null;
+        if (N < 1 || country == null || country.isEmpty()) return null;
         String query = "SELECT city.* FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Name = '" + country + "' ORDER BY city.Population DESC LIMIT " + N;
         return getReport_City(query);
     }
@@ -193,7 +212,7 @@ public class App {
      * @return List of top N populated cities in specified district, sorted in descending order by population
      */
     public List<City> report_TopN_PopulatedCitiesByDistrict(String district, int N) {
-        if (N < 1 || district.isEmpty()) return null;
+        if (N < 1 || district == null || district.isEmpty()) return null;
         String query = "SELECT * FROM city WHERE District = '" + district + "' ORDER BY Population DESC LIMIT " + N;
         return getReport_City(query);
     }
@@ -213,7 +232,7 @@ public class App {
      * @return List of cities in specified continent, sorted by descending order by population.
      */
     public List<City> report_CitiesInContinentDESC(String continent) {
-        if(continent.isEmpty()) return null;
+        if(continent == null || continent.isEmpty()) return null;
         String query = "SELECT * FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Continent = '" + continent + "' ORDER BY city.population DESC";
         return getReport_City(query);
     }
@@ -224,7 +243,7 @@ public class App {
      * @return List of cities in specified region, sorted by descending order by population.
      */
     public List<City> report_CitiesInRegionDESC(String region) {
-        if(region.isEmpty()) return null;
+        if(region == null || region.isEmpty()) return null;
         String query = "SELECT * FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Region = '" + region + "' ORDER BY city.population DESC";
         return getReport_City(query);
     }
@@ -235,7 +254,7 @@ public class App {
      * @return List of cities in the specified country, sorted by descending order by population.
      */
     public List<City> report_CitiesInCountryDESC(String country) {
-        if(country.isEmpty()) return null;
+        if(country == null || country.isEmpty()) return null;
         String query = "SELECT * FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Name = '" + country + "' ORDER BY city.population DESC";
         return getReport_City(query);
     }
@@ -246,7 +265,7 @@ public class App {
      * @return List of cities in the specified country, sorted by descending order by population.
      */
     public List<City> report_CitiesInDistrictDESC(String district) {
-        if(district.isEmpty()) return null;
+        if(district == null || district.isEmpty()) return null;
         String query = "SELECT * FROM city WHERE District = '" + district + "' ORDER BY city.population DESC";
         return getReport_City(query);
     }
@@ -266,7 +285,7 @@ public class App {
      * @return List of capital cities in the specified continent, sorted by descending order by population.
      */
     public List<City> report_CapitalCitiesInContinentDESC(String continent) {
-        if(continent.isEmpty()) return null;
+        if(continent == null || continent.isEmpty()) return null;
         String query = "SELECT * FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Continent = '" + continent + "' AND country.Capital = city.ID ORDER BY city.population DESC";
         return getReport_City(query);
     }
@@ -277,10 +296,41 @@ public class App {
      * @return List of capital cities in the specified region, sorted by descending order by population.
      */
     public List<City> report_CapitalCitiesInRegionDESC(String region) {
-        if(region.isEmpty()) return null;
-        String query = "SELECT * FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Region = '" + region + "' AND country.Capital = city.ID ORDER BY city.population DESC";
-        return getReport_City(query);
+        if (region != null && !region.isEmpty()){
+            String query = "SELECT * FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Region = '" + region + "' AND country.Capital = city.ID ORDER BY city.population DESC";
+            return getReport_City(query);
+        }
+        System.out.println("Invalid Region");
+       return null;
     }
+
+    // Reports to be implemented
+
+//    public List<City> report_TopN_PopulatedCapitalCitiesInWorld(int N) {}
+//
+//    public List<City> report_TopN_PopulatedCapitalCitiesInContinent(int N, String continent) {}
+//
+//    public List<City> report_TopN_PopulatedCapitalCitiesInRegion(int N, String region) {}
+//
+//    public void report_PopulationBreakdown_AllContinents() {}
+//
+//    public void report_PopulationBreakdown_AllRegions() {}
+//
+//    public void report_PopulationBreakdown_AllCountries() {}
+//
+//    public void report_TotalPopulation_World() {}
+//
+//    public void report_TotalPopulation_Continent(String continent) {}
+//
+//    public void report_TotalPopulation_Region(String region) {}
+//
+//    public void report_TotalPopulation_Country(String country) {}
+//
+//    public void report_TotalPopulation_District(String district) {}
+//
+//    public void report_TotalPopulation_City(String city) {}
+//
+//    public void report_WorldLanguagesBreakdown() {}
 
 //</editor-fold>
     ///////////////////// UTILS AND DATABASE CONNECTIONS /////////////////////
@@ -456,32 +506,45 @@ public class App {
     /**
      * Connect to the MySQL database.
      */
-    public void connect() {
-        try {
-            // Load Database driver
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            System.out.println("Could not load SQL driver");
-            System.exit(-1);
-        }
-
-        int retries = 10;
-        for (int i = 0; i < retries; ++i) {
-            System.out.println("Connecting to database...");
+    public void connect(String location, int delay) {
+        if (location != null) {
             try {
-                // Wait a bit for db to start
-                Thread.sleep(10000);
-                // Connect to database
-                con = DriverManager.getConnection("jdbc:mysql://db:3306/world?useSSL=false", "root", "example");
-                System.out.println("Successfully connected");
-                break;
-            } catch (SQLException sqle) {
-                System.out.println("Failed to connect to database attempt " + Integer.toString(i));
-                System.out.println(sqle.getMessage());
+                // Load Database driver
+                Class.forName("com.mysql.cj.jdbc.Driver");
+            } catch (ClassNotFoundException e) {
+                System.out.println("Could not load SQL driver");
+                System.exit(-1);
             }
-            catch (InterruptedException ie) {
-                System.out.println("Thread interrupted? Should not happen.");
+
+            int retries = 10;
+            boolean shouldWait = false;
+            for (int i = 0; i < retries; ++i) {
+                System.out.println("Connecting to database...");
+                try {
+                    if (shouldWait) {
+                        // Wait a bit for db to start
+                        Thread.sleep(delay);
+                    }
+
+                    // Connect to database
+                    con = DriverManager.getConnection("jdbc:mysql://" + location
+                                    + "/world?allowPublicKeyRetrieval=true&useSSL=false",
+                            "root", "example");
+                    System.out.println("Successfully connected");
+                    break;
+                } catch (SQLException sqle) {
+                    System.out.println("Failed to connect to database attempt " + i);
+                    System.out.println(sqle.getMessage());
+
+                    // Let's wait before attempting to reconnect
+                    shouldWait = true;
+                } catch (InterruptedException ie) {
+                    System.out.println("Thread interrupted? Should not happen.");
+                }
             }
+        }
+        else {
+            System.out.println("Failed to connect to database");
         }
     }
 

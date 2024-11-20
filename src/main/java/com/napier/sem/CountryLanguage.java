@@ -33,6 +33,38 @@ public class CountryLanguage {
     }
 
     /**
+     * Method to retrieve the Country Code of a CountryLanguage object.
+     * @return Country Code of the object.
+     */
+    public String getCountryCode() {
+        return CountryCode;
+    }
+
+    /**
+     * Method to retrieve the Language of a CountryLanguage object.
+     * @return Language of the object.
+     */
+    public String getLanguage() {
+        return Language;
+    }
+
+    /**
+     * Method to retrieve if the language is official or not of a CountryLanguage object.
+     * @return If the language is official or not of the object.
+     */
+    public String getIsOfficial() {
+        return IsOfficial;
+    }
+
+    /**
+     * Method to retrieve the Percentage of a CountryLanguage object.
+     * @return Percentage of the object.
+     */
+    public double getPercentage() {
+        return Percentage;
+    }
+
+    /**
      * Returns a string representation of the CountryLanguage object
      *
      * @return A string containing the country's language information

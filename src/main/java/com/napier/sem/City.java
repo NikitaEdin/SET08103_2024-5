@@ -46,6 +46,30 @@ public class City {
     }
 
     /**
+     * Method to retrieve the Name of the city.
+     * @return Name of the City.
+     */
+    public String getName() {return Name;}
+
+    /**
+     * Method to retrieve the Country Code of the object.
+     * @return Country Code of the object.
+     */
+    public String getCountryCode() {return CountryCode;}
+
+    /**
+     * Method to retrieve the District of the object.
+     * @return District of the object.
+     */
+    public String getDistrict() {return District;}
+
+    /**
+     * Method to retrieve the Population of the object.
+     * @return Population of the object.
+     */
+    public int getPopulation() {return Population;}
+
+    /**
      * Returns a string representation of the City object.
      *
      * @return A string containing the city's information.

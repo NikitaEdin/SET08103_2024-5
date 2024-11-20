@@ -16,6 +16,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+
+/**
+ * This class is to the database using Mockito framework to test functionality of methods that require a database connection.
+ */
 public class DatabaseTest {
 
     @Mock
@@ -29,6 +33,10 @@ public class DatabaseTest {
 
     private App app;
 
+    /**
+     * This is a setup class which sets up the mock connection of the database with Mockito
+     * @throws SQLException
+     */
     @BeforeEach
     void setUp() throws SQLException {
         App app = new App();
@@ -42,6 +50,10 @@ public class DatabaseTest {
         when(mockStatement.executeQuery(anyString())).thenReturn(mockResultSet);
     }
 
+    /**
+     * Tests  executeQuery method using Mockito to test that it can execute a query.
+     * @throws SQLException
+     */
     @Test
     void testExecuteQuery() throws SQLException {
         // Define the query to test
