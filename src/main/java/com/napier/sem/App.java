@@ -23,9 +23,36 @@ public class App {
             a.connect(args[0], Integer.parseInt(args[1]));
         }
 
-
         // ######## REPORTS BEGIN HERE ######## ///
-        generateAllReports(a);
+        //generateAllReports(a);
+
+        // TopN - CapitalCities
+        System.out.println("\nreport_TopN_PopulatedCapitalCitiesInWorld:");
+        print_Items(a.report_TopN_PopulatedCapitalCitiesInWorld(3));
+        System.out.println("\nreport_TopN_PopulatedCapitalCitiesInContinent:");
+        print_Items(a.report_TopN_PopulatedCapitalCitiesInContinent(3, "Asia"));
+        System.out.println("\nreport_TopN_PopulatedCapitalCitiesInRegion:");
+        print_Items(a.report_TopN_PopulatedCapitalCitiesInRegion(3,"Central America"));
+        // Breakdown
+        System.out.println("\nreport_PopulationBreakdown_AllContinents:");
+        print_Items(a.report_PopulationBreakdown_AllContinents());
+        System.out.println("\nreport_PopulationBreakdown_AllRegions:");
+        print_Items(a.report_PopulationBreakdown_AllRegions());
+        System.out.println("\nreport_PopulationBreakdown_AllCountries:");
+        print_Items(a.report_PopulationBreakdown_AllCountries());
+        // TotalPopulation
+        System.out.println("\nreport_TotalPopulation_World:");
+        System.out.println(a.report_TotalPopulation_World());
+        System.out.println("\nreport_TotalPopulation_Continent:");
+        System.out.println(a.report_TotalPopulation_Continent("Asia"));
+        System.out.println("\nreport_TotalPopulation_Region:");
+        System.out.println(a.report_TotalPopulation_Region("Central America"));
+        System.out.println("\nreport_TotalPopulation_Country:");
+        System.out.println(a.report_TotalPopulation_Country("Germany"));
+        System.out.println("\nreport_TotalPopulation_District:");
+        System.out.println(a.report_TotalPopulation_District("Western"));
+        System.out.println("\nreport_TotalPopulation_City:");
+        System.out.println(a.report_TotalPopulation_City("London"));
 
         // Disconnect from database before termination
         a.disconnect();
@@ -76,6 +103,34 @@ public class App {
         print_Items_Capitals(a.report_CapitalCitiesInContinentDESC("North America"));
         System.out.println("\nreport_CapitalCitiesInRegionDESC: ");
         print_Items_Capitals(a.report_CapitalCitiesInRegionDESC("Western Europe"));
+
+        // TopN - CapitalCities
+        System.out.println("\nreport_TopN_PopulatedCapitalCitiesInWorld:");
+        print_Items(a.report_TopN_PopulatedCapitalCitiesInWorld(3));
+        System.out.println("\nreport_TopN_PopulatedCapitalCitiesInContinent:");
+        print_Items(a.report_TopN_PopulatedCapitalCitiesInContinent(3, "Asia"));
+        System.out.println("\nreport_TopN_PopulatedCapitalCitiesInRegion:");
+        print_Items(a.report_TopN_PopulatedCapitalCitiesInRegion(3,"Central America"));
+        // Breakdown
+        System.out.println("\nreport_PopulationBreakdown_AllContinents:");
+        print_Items(a.report_PopulationBreakdown_AllContinents());
+        System.out.println("\nreport_PopulationBreakdown_AllRegions:");
+        print_Items(a.report_PopulationBreakdown_AllRegions());
+        System.out.println("\nreport_PopulationBreakdown_AllCountries:");
+        print_Items(a.report_PopulationBreakdown_AllCountries());
+        // TotalPopulation
+        System.out.println("\nreport_TotalPopulation_World:");
+        System.out.println(a.report_TotalPopulation_World());
+        System.out.println("\nreport_TotalPopulation_Continent:");
+        System.out.println(a.report_TotalPopulation_Continent("Asia"));
+        System.out.println("\nreport_TotalPopulation_Region:");
+        System.out.println(a.report_TotalPopulation_Region("Central America"));
+        System.out.println("\nreport_TotalPopulation_Country:");
+        System.out.println(a.report_TotalPopulation_Country("Germany"));
+        System.out.println("\nreport_TotalPopulation_District:");
+        System.out.println(a.report_TotalPopulation_District("Western"));
+        System.out.println("\nreport_TotalPopulation_City:");
+        System.out.println(a.report_TotalPopulation_City("London"));
     }
 
     ///////////////////// REPORTS /////////////////////
@@ -304,33 +359,235 @@ public class App {
        return null;
     }
 
-    // Reports to be implemented
 
-//    public List<City> report_TopN_PopulatedCapitalCitiesInWorld(int N) {}
-//
-//    public List<City> report_TopN_PopulatedCapitalCitiesInContinent(int N, String continent) {}
-//
-//    public List<City> report_TopN_PopulatedCapitalCitiesInRegion(int N, String region) {}
-//
-//    public void report_PopulationBreakdown_AllContinents() {}
-//
-//    public void report_PopulationBreakdown_AllRegions() {}
-//
-//    public void report_PopulationBreakdown_AllCountries() {}
-//
-//    public void report_TotalPopulation_World() {}
-//
-//    public void report_TotalPopulation_Continent(String continent) {}
-//
-//    public void report_TotalPopulation_Region(String region) {}
-//
-//    public void report_TotalPopulation_Country(String country) {}
-//
-//    public void report_TotalPopulation_District(String district) {}
-//
-//    public void report_TotalPopulation_City(String city) {}
-//
-//    public void report_WorldLanguagesBreakdown() {}
+
+
+
+    /**
+     * Retrives top N most populated capital cities in the world.
+     * @param N number of items to retrieve
+     * @return List of top N populated capital cities
+     */
+    public List<City> report_TopN_PopulatedCapitalCitiesInWorld(int N) {
+        if (N < 1) return null;
+        //String query = "SELECT * FROM city ORDER BY population DESC LIMIT " + N;
+        String query = "SELECT * " +
+                "FROM city " +
+                "JOIN country ON city.ID = country.Capital " +
+                "ORDER BY city.Population DESC LIMIT " + N;
+        return getReport_City(query);
+    }
+
+    /**
+     * Retrives top N most populated capital cities within a given continent.
+     * @param N number of items to retrive
+     * @param continent continent name
+     * @return List of top N populated capital cities in a given continent
+     */
+    public List<City> report_TopN_PopulatedCapitalCitiesInContinent(int N, String continent) {
+        if (N < 1 || continent == null || continent.isEmpty()) return null;
+        String query = "SELECT * " +
+                "FROM city " +
+                "JOIN country ON city.ID = country.Capital " +
+                "WHERE country.Continent = '" + continent + "' ORDER BY city.population DESC LIMIT " + N;
+        return getReport_City(query);
+    }
+
+    /**
+     * Retrives top N most populated capital cities within a given region.
+     * @param N number of items to retrive
+     * @param region region name
+     * @return List of top N populated capital cities in a given region
+     */
+    public List<City> report_TopN_PopulatedCapitalCitiesInRegion(int N, String region) {
+        if (N < 1 || region == null || region.isEmpty()) return null;
+        String query = "SELECT * " +
+                "FROM city " +
+                "JOIN country ON city.ID = country.Capital " +
+                "WHERE country.Region = '" + region + "' ORDER BY city.population DESC LIMIT " + N ;
+        return getReport_City(query);
+    }
+
+    /**
+     * Retrives population breakdown (total, urban, rural) for all continents.
+     */
+    public List<PopulationBreakdown> report_PopulationBreakdown_AllContinents() {
+        String query = "SELECT c.Continent, " +
+                "SUM(c.Population) AS TotalPopulation, " +
+                "SUM(city.Population) AS UrbanPopulation, " +
+                "(SUM(c.Population) - SUM(city.Population)) AS  RuralPopulation " +
+                "FROM country c " +
+                "LEFT JOIN city ON c.Code = city.CountryCode " +
+                "GROUP BY c.Continent " +
+                "ORDER BY TotalPopulation DESC";
+
+
+        return getReport_PopulationBreakdown(query, "Continent");
+    }
+
+    /**
+     * Retrives population breakdown (total, urban, rural) for all regions.
+     */
+    public List<PopulationBreakdown> report_PopulationBreakdown_AllRegions() {
+        String query = "SELECT c.Region, " +
+                "SUM(c.Population) AS TotalPopulation, " +
+                "SUM(city.Population) AS UrbanPopulation, " +
+                "(SUM(c.Population) - SUM(city.Population)) AS RuralPopulation " +
+                "FROM country c " +
+                "LEFT JOIN city ON c.Code = city.CountryCode " +
+                "GROUP BY c.Region " +
+                "ORDER BY TotalPopulation DESC";
+
+        return getReport_PopulationBreakdown(query, "Region");
+    }
+
+    /**
+     * Retrives population breakdown (total, urban, rural) for all countries.
+     */
+    public List<PopulationBreakdown> report_PopulationBreakdown_AllCountries() {
+        String query = "SELECT c.Name AS Country, " +
+                "SUM(c.Population) AS TotalPopulation, " +
+                "SUM(city.Population) AS UrbanPopulation, " +
+                "(SUM(c.Population) - SUM(city.Population)) AS RuralPopulation " +
+                "FROM country c " +
+                "LEFT JOIN city ON c.Code = city.CountryCode " +
+                "GROUP BY c.Name " +
+                "ORDER BY c.Name ASC";
+
+        return getReport_PopulationBreakdown(query, "Country");
+    }
+
+    /**
+     * Calculates and retrives the total population of the world.
+     * @return total population of the world
+     */
+    public long report_TotalPopulation_World() {
+        String query = "SELECT SUM(Population) AS TotalWorldPopulation FROM country";
+
+        ResultSet rs = executeQuery(query);
+        try{
+            if(rs.next()){
+                return rs.getLong("TotalWorldPopulation");
+            }
+        }catch (Exception ignored) {}
+        return 0;
+    }
+
+    /**
+     * Retrives total population within a given continent.
+     * @param continent Name of the continent
+     * @return total population within the given continent
+     */
+    public long report_TotalPopulation_Continent(String continent) {
+        if (continent == null || continent.isEmpty()) return 0;
+
+        String query = "SELECT SUM(Population) AS TotalContinentPopulation " +
+                "FROM country WHERE continent = '" + continent + "'";
+
+        ResultSet rs = executeQuery(query);
+        try{
+            if(rs.next()){
+                return rs.getLong("TotalContinentPopulation");
+            }
+        }catch (Exception ignored) {}
+        return 0;
+    }
+
+    /**
+     * Retrives total population within a given region.
+     * @param region Name of the region
+     * @return total population within the given region
+     */
+    public long report_TotalPopulation_Region(String region) {
+        if (region == null || region.isEmpty()) return 0;
+
+        String query = "SELECT SUM(Population) AS TotalRegionPopulation " +
+                "FROM country WHERE region = '" + region + "'";
+
+        ResultSet rs = executeQuery(query);
+        try{
+            if(rs.next()){
+                return rs.getLong("TotalRegionPopulation");
+            }
+        }catch (Exception ignored) {}
+        return 0;
+    }
+
+    /**
+     * Retrives total population within a given country.
+     * @param country Name of the country
+     * @return total population within the given country
+     */
+    public long report_TotalPopulation_Country(String country) {
+        if (country == null || country.isEmpty()) return 0;
+
+        String query = "SELECT Population AS TotalCountryPopulation " +
+                "FROM country WHERE Name = '" + country + "'";
+
+        ResultSet rs = executeQuery(query);
+        try {
+            if (rs.next()) {
+                return rs.getLong("TotalCountryPopulation");  // Return the total country population
+            }
+        } catch (Exception ignored) {}
+        return 0;
+    }
+
+    /**
+     * Retrives total population within a given district.
+     * @param district Name of the district
+     * @return total population within the given district
+     */
+    public long report_TotalPopulation_District(String district) {
+        if (district == null || district.isEmpty()) return 0;
+
+        String query = "SELECT SUM(Population) AS TotalDistrictPopulation " +
+                "FROM city WHERE District = '" + district + "'";
+
+        ResultSet rs = executeQuery(query);
+        try {
+            if (rs.next()) {
+                return rs.getLong("TotalDistrictPopulation");
+            }
+        } catch (Exception ignored) {}
+        return 0;
+    }
+
+    /**
+     * Retrives total population within a given city.
+     * @param city Name of the city
+     * @return total population within the given city
+     */
+    public long report_TotalPopulation_City(String city) {
+        if (city == null || city.isEmpty()) return 0;
+
+        String query = "SELECT Population AS TotalCityPopulation " +
+                "FROM city WHERE name = '" + city + "'";
+
+        ResultSet rs = executeQuery(query);
+        try{
+            if (rs.next()){
+                return rs.getLong("TotalCityPopulation");
+            }
+        }catch(Exception ignored){}
+        return 0;
+    }
+
+    /**
+     * Retrives a breakdown of spoken languages, including total speakers and percentage of world population
+     */
+    public List<Language> report_WorldLanguagesBreakdown(long worldPopulation) {
+        if(worldPopulation < 0) return null;
+
+        String query = "SELECT cl.Language, SUM(c.Population * cl.Percentage / 100) AS TotalSpeakers " +
+                "FROM country c " +
+                "JOIN countrylanguage cl ON c.Code = cl.CountryCode " +
+                "WHERE cl.Language IN ('Chinese', 'English', 'Hindi', 'Spanish', 'Arabic') " +
+                "GROUP BY cl.Language " +
+                "ORDER BY TotalSpeakers DESC";
+
+        return getReport_Language(query, worldPopulation);
+    }
 
 //</editor-fold>
     ///////////////////// UTILS AND DATABASE CONNECTIONS /////////////////////
@@ -363,6 +620,8 @@ public class App {
             }
         }
     }
+
+
 
 
     /**
@@ -409,6 +668,8 @@ public class App {
         return countries;
     }
 
+
+
     /**
      * Retrieves a list of cities based on the specified SQL query
      *
@@ -442,37 +703,57 @@ public class App {
         return cities;
     }
 
+
     /**
-     * Retrieves a list of country languages based on the specified SQL query
-     *
-     * @param query SQL query to execute for retrieving country language records
-     * @return A list of CountryLanguage objects populated with data retrieved from the database
+     * Retrives a list of population breakdown based on the specified SQL query
+     * @param query SQL query to execute for retreiving population breakdowns objects
+     * @param title The scope of the breakdown (Country, Continent, Region)
+     * @return A list of PopulationBreakdown
      */
-    public static List<CountryLanguage> getReport_CountryLanguage(String query) {
-        // Create List of CountryLanguages
-        List<CountryLanguage> countryLanguages = new ArrayList<>();
+    public static List<PopulationBreakdown> getReport_PopulationBreakdown(String query, String title){
+        if(query == null || query.isEmpty() || title == null || title.isEmpty()) return null;
+        if(!title.equals("Country") && !title.equals("Continent") && !title.equals("Region")) return null;
 
-        // Execute query
+        List<PopulationBreakdown> populationBreakdowns = new ArrayList<>();
         ResultSet rs = executeQuery(query);
+
         try {
-            // Populate objects from ResultSet
             while (rs.next()) {
-                // Extract country-language details from ResultSet
-                String countryCode = rs.getString("CountryCode");
-                String language = rs.getString("Language");
-                String isOfficial = rs.getString("IsOfficial");
-                double percentage = rs.getDouble("Percentage");
+                String country = rs.getString(title);
+                long totalPopulation = rs.getLong("TotalPopulation");
+                long urbanPopulation = rs.getLong("UrbanPopulation");
+                long ruralPopulation = rs.getLong("RuralPopulation");
 
-                // Create CountryLanguage and add to list
-                CountryLanguage countryLanguage = new CountryLanguage(countryCode, language, isOfficial, percentage);
-
-                countryLanguages.add(countryLanguage);
+                populationBreakdowns.add(new PopulationBreakdown(title, country, totalPopulation, urbanPopulation, ruralPopulation));
             }
         } catch (Exception ignored) {}
-
-        return countryLanguages;
+        return populationBreakdowns;
     }
 
+
+    /**
+     * Retrieves a list of language breakdown based on the specified SQL query
+     * @param query SQL query to execute for retreiving language objects
+     * @param worldPopulation The total world population value, used for calculating world percentage
+     * @return A list of Language objects
+     */
+    public static List<Language> getReport_Language(String query, long worldPopulation){
+        if(query == null || query.isEmpty() ) return null;
+
+        List<Language> languages = new ArrayList<>();
+        ResultSet rs = executeQuery(query);
+
+        try {
+            while (rs.next()) {
+                // Language and total speakers
+                String language = rs.getString("Language");
+                double totalSpeakers = rs.getDouble("TotalSpeakers");
+                double percentage = (totalSpeakers / worldPopulation) * 100;
+                languages.add(new Language(language, totalSpeakers, percentage));
+            }
+        } catch (Exception ignored) {}
+        return languages;
+    }
 
 
     /**

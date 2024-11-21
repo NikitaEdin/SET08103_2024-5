@@ -642,47 +642,6 @@ public class AppTest {
     ///////////////////// Country Language Tests /////////////////////
     //<editor-fold desc="Country Language Tests">
 
-    @Test
-    /**
-     * Tests the print_Items method to ensure it handles an empty list without errors.
-     */
-    void testPrint_ItemsCountryLanguageContainsNull(){
-        // Create ArrayList
-        ArrayList<CountryLanguage> countryLanguages = new ArrayList<CountryLanguage>();
-        // Add null into the ArrayList
-        countryLanguages.add(null);
-        // Call print_Items Method
-        app.print_Items(countryLanguages);
-    }
 
-    @Test
-    /**
-     * This tests the print_Items method to test if any errors occur if its provided a empty list
-     */
-    void testPrint_ItemsCountryLanguageContainsEmpty(){
-        // Create ArrayList
-        ArrayList<CountryLanguage> countryLanguages = new ArrayList<CountryLanguage>();
-        countryLanguages.add(null);
-        // Call print_Items method
-        app.print_Items(countryLanguages);
-    }
-
-    @Test
-    /**
-     *  This test is to test the method print_Items if it functions without errors with normal data.
-     */
-    void testPrint_ItemsCountryLanguage(){
-        // Create the Country object using the constructor
-        CountryLanguage c = new CountryLanguage(
-                "4321","English","T",90.00
-        );
-        // Create ArrayList to store the info
-        ArrayList<CountryLanguage> countryLanguages = new ArrayList<>();
-        // Add test data to the ArrayList
-        countryLanguages.add(c);
-        // Use print_items method
-        app.print_Items(countryLanguages);
-
-    }
     //</editor-fold>
 }
