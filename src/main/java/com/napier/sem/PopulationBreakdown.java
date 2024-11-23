@@ -60,17 +60,17 @@ public class PopulationBreakdown {
      * Get total population
      * @return returns value of total population
      */
-    public long getTotalPopulation() { return totalPopulation; }
+    public long getTotalPopulation() { return totalPopulation < 0 ? 0 : totalPopulation; }
 
     /**
      * Get total urban population
      * @return returns value of total population in urban areas
      */
-    public long getUrbanPopulation() { return urbanPopulation; }
+    public long getUrbanPopulation() { return urbanPopulation < 0 ? 0 : urbanPopulation; }
 
     /**
      * Get total rural population
      * @return returns value of total population in rural
      */
-    public long getRuralPopulation() { return ruralPopulation; }
+    public long getRuralPopulation() { return ruralPopulation < 0 ? 0 : ruralPopulation; }
 }

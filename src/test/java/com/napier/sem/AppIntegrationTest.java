@@ -1,8 +1,11 @@
 package com.napier.sem;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.sql.Connection;
 import java.util.Collections;
 import java.util.List;
 
@@ -10,14 +13,28 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class AppIntegrationTest {
     static App app;
+    static Connection actualCon;
 
-    /**
-     * Method to initialise required logic before the tests are executed
-     */
+    /**  Method to initialise required logic before the tests are executed */
     @BeforeAll
     static void init() {
         app = new App();
         app.connect("localhost:33060", 30000);
+
+        // Save reference to actual connection
+        actualCon = App.con;
+    }
+
+    @AfterEach
+    void tearDown() {
+        // Restore original connection after each test
+        App.con = actualCon;
+    }
+
+    @AfterAll
+    static void close() {
+        App.con = actualCon;
+        app.disconnect();
     }
 
     /**
@@ -636,6 +653,365 @@ public class AppIntegrationTest {
 
 
     /**
+     * Tests the report TopN_PopulatedCapitalCitiesInWorld to ensure it returns a list of cities
+     * sorted in decensding order by population
+     */
+    @Test
+    void test_report_TopN_PopulatedCapitalCitiesInWorld(){
+        List<City> cities = app.report_TopN_PopulatedCapitalCitiesInWorld(5);
+        // Not null
+        assertNotNull(cities);
+
+        if(!cities.isEmpty()){
+            // Within range
+            assertTrue(cities.size() <= 5);
+
+            // Check if in desc
+            assertTrue(isDescending_City(cities));
+        }
+    }
+
+    /**
+     * Tests report TopN_PopulatedCapitalCitiesInWorld with invalid parameters
+     */
+    @Test
+    void test_report_TopN_PopulatedCapitalCitiesInWorld_invalid(){
+        assertNull(app.report_TopN_PopulatedCapitalCitiesInWorld(-1));
+    }
+
+    /**
+     * Tests report TopN_PopulatedCapitalCitiesInContinent to ensure it returns a list of cities
+     * sorted and structured in descensing order
+     */
+    @Test
+    void test_report_TopN_PopulatedCapitalCitiesInContinent(){
+        List<City> cities = app.report_TopN_PopulatedCapitalCitiesInContinent(3, "Asia");
+        // Not null
+        assertNotNull(cities);
+
+        if(!cities.isEmpty()){
+            // Within range
+            assertTrue(cities.size() <= 3);
+            // Check if in desc
+            assertTrue(isDescending_City(cities));
+        }
+    }
+
+    /**
+     * Tests report TopN_PopulatedCapitalCitiesInContinent for non-existing continents and invalid parameters
+     */
+    @Test
+    void test_report_TopN_PopulatedCapitalCitiesInContinent_invalid(){
+        // Negative limit
+        List<City> cities = app.report_TopN_PopulatedCapitalCitiesInContinent(-1, "Asia");
+        assertNull(cities, "Cities should be null on negative limit");
+        // Non-existing continent
+        cities = app.report_TopN_PopulatedCapitalCitiesInContinent(3, "111");
+        assertNotNull(cities, "Cities should be not null on non-existing continent");
+        assertTrue(cities.isEmpty(), "Cities should be empty on non-existing continent");
+        // null string
+        cities = app.report_TopN_PopulatedCapitalCitiesInContinent(3, null);
+        assertNull(cities, "Cities should be null on null continent");
+    }
+
+    /**
+     * Tests report TopN_PopulatedCapitalCitiesInRegion to ensure it returns a list of cities within given region
+     * and in a decsending order
+     */
+    @Test
+    void test_report_TopN_PopulatedCapitalCitiesInRegion(){
+        List<City> cities = app.report_TopN_PopulatedCapitalCitiesInRegion(3, "Central America");
+        // Not null
+        assertNotNull(cities);
+
+        if(!cities.isEmpty()){
+            // Within range
+            assertTrue(cities.size() <= 3);
+            // Check if in desc
+            assertTrue(isDescending_City(cities));
+        }
+    }
+
+    /**
+     * Tests report TopN_PopulatedCapitalCitiesInRegion for non-existing regions and invalid parameters
+     */
+    @Test
+    void test_report_TopN_PopulatedCapitalCitiesInRegion_invalid(){
+        // Negative limit
+        List<City> cities = app.report_TopN_PopulatedCapitalCitiesInRegion(-1, "Central America");
+        assertNull(cities, "Cities should be null on negative limit");
+        // Non-existing continent
+        cities = app.report_TopN_PopulatedCapitalCitiesInRegion(3, "111");
+        assertNotNull(cities, "Cities should be not null on non-existing continent");
+        assertTrue(cities.isEmpty(), "Cities should be empty on non-existing continent");
+        // null string
+        cities = app.report_TopN_PopulatedCapitalCitiesInRegion(3, null);
+        assertNull(cities, "Cities should be null on null continent");
+    }
+
+    /**
+     * Tests report PopulationBreakdown_AllContinents for correctly structured population breakdown
+     * grouped by continents
+     */
+    @Test
+    void test_report_PopulationBreakdown_AllContinents(){
+        List<PopulationBreakdown> lst = app.report_PopulationBreakdown_AllContinents();
+        // Not null (can be empty)
+        assertNotNull(lst);
+        // validate integrity
+        assertTrue(isDecendingAndValid_PopulationBreakdown(lst));
+    }
+
+    /**
+     * Tests report PopulationBreakdown_AllRegions for correctly structured population breakdown,
+     * grouped by regions
+     */
+    @Test
+    void test_report_PopulationBreakdown_AllRegions(){
+        List<PopulationBreakdown> lst = app.report_PopulationBreakdown_AllRegions();
+        // Not null (can be empty)
+        assertNotNull(lst);
+        // validate integrity
+        assertTrue(isDecendingAndValid_PopulationBreakdown(lst));
+    }
+
+    /**
+     * Tests report PopulationBreakdown_AllCountries for correctly structured population breakdown,
+     * grouped by countries
+     */
+    @Test
+    void test_report_PopulationBreakdown_AllCountries(){
+        List<PopulationBreakdown> lst = app.report_PopulationBreakdown_AllCountries();
+        // Not null (can be empty)
+        assertNotNull(lst);
+        // validate integrity
+        assertTrue(isDecendingAndValid_PopulationBreakdown(lst));
+    }
+
+    /**
+     * Tests report TotalPopulation_World to ensure it returns a valid number
+     */
+    @Test
+    void test_report_TotalPopulation_World(){
+        long total = app.report_TotalPopulation_World();
+        assertTrue(total >= 0);
+    }
+
+    /**
+     * Tests report TotalPopulation_World for runtime exceptions in case of null connection
+     */
+    @Test
+    void test_report_TotalPopulation_World_invalid(){
+        App.con = null;
+        assertThrows( RuntimeException.class, () ->
+                app.report_TotalPopulation_World(), "Expected report_TotalPopulation_World to throw, but it didn't.");
+    }
+
+    /**
+     * Tests report TotalPopulation_Continent to ensure it returns a valid number for total population within given continent
+     */
+    @Test
+    void test_report_TotalPopulation_Continent(){
+        long total = app.report_TotalPopulation_Continent("Asia");
+        assertTrue(total >= 0);
+    }
+
+    /**
+     * Tests report TotalPopulation_Continent for runtime exceptions in case of null connection
+     */
+    @Test
+    void test_report_TotalPopulation_Continent_invalid(){
+        App.con = null;
+        assertThrows( RuntimeException.class, () ->
+                app.report_TotalPopulation_Continent("Asia"), "Expected report_TotalPopulation_World to throw, but it didn't.");
+    }
+
+    /**
+     * Tests report TotalPopulation_Continent for non-existing or null continent
+     */
+    @Test
+    void test_report_TotalPopulation_Continent_emptyNull(){
+        // Non-existing continent
+        long total = app.report_TotalPopulation_Continent("123");
+        assertEquals(0, total, "Expected 0 population for non-existing continent");
+        // Null continent
+        total = app.report_TotalPopulation_Continent(null);
+        assertEquals(0, total, "Expected 0 population for null continent");
+    }
+
+    /**
+     * Tests report TotalPopulation_Region to ensure it returns a valid number for total population within given region
+     */
+    @Test
+    void test_report_TotalPopulation_Region(){
+        long total = app.report_TotalPopulation_Region("Central America");
+        assertTrue(total >= 0);
+    }
+
+    /**
+     * Tests report TotalPopulation_Region for runtime exceptions in case of null connection
+     */
+    @Test
+    void test_report_TotalPopulation_Region_invalid(){
+        App.con = null;
+        assertThrows( RuntimeException.class, () ->
+                app.report_TotalPopulation_Region("Central America"), "Expected report_TotalPopulation_Region to throw, but it didn't.");
+    }
+
+    /**
+     * Tests report TotalPopulation_Region for non-existing or null region
+     */
+    @Test
+    void test_report_TotalPopulation_Region_emptyNull(){
+        // Non-existing region
+        long total = app.report_TotalPopulation_Region("123");
+        assertEquals(0, total, "Expected 0 population for non-existing region");
+        // Null region
+        total = app.report_TotalPopulation_Region(null);
+        assertEquals(0, total, "Expected 0 population for null region");
+    }
+
+    /**
+     * Tests report TotalPopulation_Country to ensure it returns a valid number for total population within given country
+     */
+    @Test
+    void test_report_TotalPopulation_Country(){
+        long total = app.report_TotalPopulation_Country("Germany");
+        // Not negative
+        assertTrue(total >= 0, "Country population can not be negative");
+    }
+
+    /**
+     * Tests report TotalPopulation_Country for runtime exceptions in case of null connection
+     */
+    @Test
+    void test_report_TotalPopulation_Country_invalid(){
+        App.con = null;
+        assertThrows(RuntimeException.class, () ->
+                app.report_TotalPopulation_Country("Germany"), "Expected report_TotalPopulation_Country to throw, but it didn't.");
+    }
+
+    /**
+     * Tests report TotalPopulation_Country for non-existing or null country
+     */
+    @Test
+    void test_report_TotalPopulation_Country_emptyNull(){
+        // Non-existing country
+        long total = app.report_TotalPopulation_Country("123");
+        assertEquals(0, total, "Expected 0 population for non-existing country");
+        // Null country
+        total = app.report_TotalPopulation_Country(null);
+        assertEquals(0, total, "Expected 0 population for null country");
+    }
+
+    /**
+     * Tests report TotalPopulation_District to ensure it returns a valid number for total population within given district
+     */
+    @Test
+    void test_report_TotalPopulation_District(){
+        long total = app.report_TotalPopulation_District("Western");
+        // Non negative population
+        assertTrue(total >= 0, "District population can not be negative");
+    }
+
+    /**
+     * Tests report TotalPopulation_District for runtime exceptions in case of null connection
+     */
+    @Test
+    void test_report_TotalPopulation_District_invalid(){
+        App.con = null;
+        assertThrows(RuntimeException.class, () ->
+                app.report_TotalPopulation_District("Western"), "Expected report_TotalPopulation_District to throw, but it didn't.");
+    }
+
+
+    /**
+     * Tests report TotalPopulation_District for non-existing or null district
+     */
+    @Test
+    void test_report_TotalPopulation_District_emptyNull(){
+        long total = app.report_TotalPopulation_District("");
+        assertEquals(0, total, "Expected 0 population for non-existing district");
+        total = app.report_TotalPopulation_District(null);
+        assertEquals(0, total, "Expected 0 population for null district");
+    }
+
+    /**
+     * Tests report TotalPopulation_City for a non-negative population with given city
+     */
+    @Test
+    void test_report_TotalPopulation_City(){
+        long total = app.report_TotalPopulation_City("London");
+        assertTrue(total >= 0, "City population can not be negative");
+    }
+
+    /**
+     * Tests report TotalPopulation_City for runtime exception in case of a null connection
+     */
+    @Test
+    void test_report_TotalPopulation_City_invalid(){
+        App.con = null;
+        assertThrows(RuntimeException.class, () ->
+                app.report_TotalPopulation_City("London"), "Expected report_TotalPopulation_City to throw, but it didn't.");
+    }
+
+    /**
+     * Tests report TotalPopulation_City for non-existing and null city parameter
+     */
+    @Test
+    void test_report_TotalPopulation_City_emptyNull(){
+        long total = app.report_TotalPopulation_City("123");
+        assertEquals(0, total, "Expected 0 population for non-existing city");
+        total = app.report_TotalPopulation_City(null);
+        assertEquals(0, total, "Expected 0 population for null city");
+    }
+
+    /**
+     * Tests report WorldLanguagesBreakdown for integrity and structure of retrieved data, ensuring items are loaded and ordered in descending order.
+     */
+    @Test
+    void test_report_WorldLanguagesBreakdown(){
+        List<Language> languages = app.report_WorldLanguagesBreakdown(6000000000L);
+        assertNotNull(languages);
+
+        if(!languages.isEmpty()){
+            // Validate populated fields
+            for(Language language : languages){
+                assertTrue(language.getLanguage() != null && !language.getLanguage().isEmpty(), "Language name can not be empty or null.");
+                assertTrue(language.getSpeakers() >= 0, "Speakers can not be negative");
+                assertTrue(language.getPercentage() >= 0, "Percentage can not be negative");
+            }
+
+            // Check languages are ordered by descending order of speakers
+            if(languages.size() >= 2){
+                for(int i = 0; i < languages.size()-1; i++){
+                    assertTrue(languages.get(i).getSpeakers() >= languages.get(i+1).getSpeakers(), "Languages have to be ordered by descending order of total pseakers.");
+                }
+            }
+        }
+    }
+
+    /**
+     * Tests report WorldLanguagesBreakdown for empty and invalid world population
+     */
+    @Test
+    void test_report_WorldLanguagesBreakdown_emptyNull(){
+        List<Language> languages = app.report_WorldLanguagesBreakdown(0);
+        assertNotNull(languages);
+
+        // Languages with 0 world population will result in zero percentage
+        if(!languages.isEmpty()){
+            for(Language language : languages){
+                assertEquals(0, language.getPercentage(), "Percentage should be zero with zero world population");
+            }
+        }
+
+        languages = app.report_WorldLanguagesBreakdown(-1);
+        assertNull(languages, "Languages list should be null with negative world population");
+
+    }
+
+    /**
      * Test generic PrintItems with Null
      */
     @Test
@@ -665,4 +1041,46 @@ public class AppIntegrationTest {
         }
     }
 
+
+    // UTIL Methods //
+    public boolean isDescending_City(List<City> cities){
+        if (cities == null || cities.isEmpty()) return false;
+        // Check if in desc
+        if(cities.size() > 1){
+            for (int i = 0; i < cities.size() - 1; i++) {
+               if (cities.get(i).Population < cities.get(i + 1).Population)
+                   return false;
+            }
+        }
+
+        return true;
+    }
+
+    public boolean isDecendingAndValid_PopulationBreakdown(List<PopulationBreakdown> lst){
+        if(!lst.isEmpty()){
+            // Populated class fields
+            for (PopulationBreakdown pop : lst) {
+                // Strings are not empty/null
+                if(pop.getName() == null || pop.getName().isEmpty())
+                    return false;
+                if(pop.getTitle() == null || pop.getTitle().isEmpty())
+                    return false;
+                // Pop not negative
+                if(pop.getTotalPopulation() < 0)
+                    return false;
+                if(pop.getRuralPopulation() < 0)
+                    return false;
+                if(pop.getUrbanPopulation() < 0)
+                    return false;
+            }
+            // In desc order
+            if(lst.size() >= 2){
+                for(int i = 0 ; i < lst.size() -1; i++){
+                    if(lst.get(i).getTotalPopulation() < lst.get(i+1).getTotalPopulation())
+                        return false;
+                }
+            }
+        }
+        return  true;
+    }
 }

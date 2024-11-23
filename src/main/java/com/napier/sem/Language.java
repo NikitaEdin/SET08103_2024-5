@@ -17,6 +17,16 @@ public class Language {
     public Language(String language, double speakers, double percentage) {
         this.language = language;
         this.speakers = speakers;
+
+        // Normalise percentage into bounds
+        if (Double.isInfinite(percentage) || Double.isNaN(percentage)){
+            percentage = 0;
+        } else if (percentage > 100) {
+            percentage = 100;
+        } else if (percentage < 0) {
+            percentage = 0;
+        }
+
         this.percentage = percentage;
     }
 

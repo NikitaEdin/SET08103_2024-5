@@ -24,35 +24,9 @@ public class App {
         }
 
         // ######## REPORTS BEGIN HERE ######## ///
-        //generateAllReports(a);
+        generateAllReports(a);
 
-        // TopN - CapitalCities
-        System.out.println("\nreport_TopN_PopulatedCapitalCitiesInWorld:");
-        print_Items(a.report_TopN_PopulatedCapitalCitiesInWorld(3));
-        System.out.println("\nreport_TopN_PopulatedCapitalCitiesInContinent:");
-        print_Items(a.report_TopN_PopulatedCapitalCitiesInContinent(3, "Asia"));
-        System.out.println("\nreport_TopN_PopulatedCapitalCitiesInRegion:");
-        print_Items(a.report_TopN_PopulatedCapitalCitiesInRegion(3,"Central America"));
-        // Breakdown
-        System.out.println("\nreport_PopulationBreakdown_AllContinents:");
-        print_Items(a.report_PopulationBreakdown_AllContinents());
-        System.out.println("\nreport_PopulationBreakdown_AllRegions:");
-        print_Items(a.report_PopulationBreakdown_AllRegions());
-        System.out.println("\nreport_PopulationBreakdown_AllCountries:");
-        print_Items(a.report_PopulationBreakdown_AllCountries());
-        // TotalPopulation
-        System.out.println("\nreport_TotalPopulation_World:");
-        System.out.println(a.report_TotalPopulation_World());
-        System.out.println("\nreport_TotalPopulation_Continent:");
-        System.out.println(a.report_TotalPopulation_Continent("Asia"));
-        System.out.println("\nreport_TotalPopulation_Region:");
-        System.out.println(a.report_TotalPopulation_Region("Central America"));
-        System.out.println("\nreport_TotalPopulation_Country:");
-        System.out.println(a.report_TotalPopulation_Country("Germany"));
-        System.out.println("\nreport_TotalPopulation_District:");
-        System.out.println(a.report_TotalPopulation_District("Western"));
-        System.out.println("\nreport_TotalPopulation_City:");
-        System.out.println(a.report_TotalPopulation_City("London"));
+
 
         // Disconnect from database before termination
         a.disconnect();
@@ -111,6 +85,7 @@ public class App {
         print_Items(a.report_TopN_PopulatedCapitalCitiesInContinent(3, "Asia"));
         System.out.println("\nreport_TopN_PopulatedCapitalCitiesInRegion:");
         print_Items(a.report_TopN_PopulatedCapitalCitiesInRegion(3,"Central America"));
+
         // Breakdown
         System.out.println("\nreport_PopulationBreakdown_AllContinents:");
         print_Items(a.report_PopulationBreakdown_AllContinents());
@@ -118,9 +93,11 @@ public class App {
         print_Items(a.report_PopulationBreakdown_AllRegions());
         System.out.println("\nreport_PopulationBreakdown_AllCountries:");
         print_Items(a.report_PopulationBreakdown_AllCountries());
+
         // TotalPopulation
         System.out.println("\nreport_TotalPopulation_World:");
-        System.out.println(a.report_TotalPopulation_World());
+        long world = a.report_TotalPopulation_World();
+        System.out.println(world);
         System.out.println("\nreport_TotalPopulation_Continent:");
         System.out.println(a.report_TotalPopulation_Continent("Asia"));
         System.out.println("\nreport_TotalPopulation_Region:");
@@ -131,6 +108,8 @@ public class App {
         System.out.println(a.report_TotalPopulation_District("Western"));
         System.out.println("\nreport_TotalPopulation_City:");
         System.out.println(a.report_TotalPopulation_City("London"));
+        System.out.println("\nreport_WorldLanguagesBreakdown:");
+        print_Items(a.report_WorldLanguagesBreakdown(world < 1 ? 6000000000L : world));
     }
 
     ///////////////////// REPORTS /////////////////////
@@ -452,7 +431,7 @@ public class App {
                 "FROM country c " +
                 "LEFT JOIN city ON c.Code = city.CountryCode " +
                 "GROUP BY c.Name " +
-                "ORDER BY c.Name ASC";
+                "ORDER BY TotalPopulation DESC";
 
         return getReport_PopulationBreakdown(query, "Country");
     }
@@ -778,7 +757,7 @@ public class App {
      * Connection to MySQL database.
      */
 
-    private static Connection con = null;
+    public static Connection con = null;
 
     public static void setConnection(Connection connection) {
         con = connection;
