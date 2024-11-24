@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - develop
+      - feature/ReleasesGitHubAction
 jobs:
   UnitTests:
     name: Unit Tests
