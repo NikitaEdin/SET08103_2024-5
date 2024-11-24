@@ -18,21 +18,21 @@ class CountryTest {
     // Initialising Country object and variables that will be used to create Country object.
     static private Country country;
     static private Country countryNull;
-    static private String code = "AND";
-    static private String name = "Andorra";
-    static private String continent = "Europe";
-    static private String region = "Southern Europe";
-    static private double surfaceArea = 468.00;
-    static private int indepYear = 1278;
-    static private int population = 78000;
-    static private double lifeExpectancy = 83.5;
-    static private double gnp = 1630.00;
-    static private double gnpOld = 0.0;
-    static private String localName = "Andorra";
-    static private String governmentForm = "Parliamentary Coprincipality";
-    static private String headOfState = "";
-    static private Integer capital = 55;
-    static private String code2 = "AD";
+    static private final String code = "AND";
+    static private final String name = "Andorra";
+    static private final String continent = "Europe";
+    static private final String region = "Southern Europe";
+    static private final double surfaceArea = 468.00;
+    static private final int indepYear = 1278;
+    static private final int population = 78000;
+    static private final double lifeExpectancy = 83.5;
+    static private final double gnp = 1630.00;
+    static private final double gnpOld = 0.0;
+    static private final String localName = "Andorra";
+    static private final String governmentForm = "Parliamentary Coprincipality";
+    static private final String headOfState = "";
+    static private final int capital = 55;
+    static private final String code2 = "AD";
 
     /**
      * Sets up the test fixture before all test methods run.
@@ -62,15 +62,15 @@ class CountryTest {
                 null,
                 null,
                 0,
-                null,
+                0,
+                0,
+                0,
+                0,
                 0,
                 null,
                 null,
                 null,
-                null,
-                null,
-                null,
-                null,
+                0,
                 null);
     }
 
@@ -105,14 +105,13 @@ class CountryTest {
         assertNull(countryNull.Name);
         assertNull(countryNull.Continent);
         assertNull(countryNull.Region);
-        assertNull(countryNull.IndepYear);
-        assertNull(countryNull.LifeExpectancy);
-        assertNull(countryNull.GNP);
-        assertNull(countryNull.GNPOld);
+        assertEquals(0, countryNull.LifeExpectancy);
+        assertEquals(0, countryNull.GNP);
+        assertEquals(0, countryNull.GNPOld);
         assertNull(countryNull.LocalName);
         assertNull(countryNull.GovernmentForm);
         assertNull(countryNull.HeadOfState);
-        assertNull(countryNull.Capital);
+        assertEquals(0, countryNull.Capital);
         assertNull(countryNull.Code2);
     }
 
@@ -197,14 +196,6 @@ class CountryTest {
     }
 
     /**
-     * Tests the getIndepYear method with a null value.
-     */
-    @Test
-    void testGetIndepYearNull(){
-        assertNull(countryNull.getIndepYear());
-    }
-
-    /**
      * Tests the getPopulation method.
      */
     @Test
@@ -221,14 +212,6 @@ class CountryTest {
     }
 
     /**
-     * Tests the getLifeExpectancy method with a null value.
-     */
-    @Test
-    void testGetLifeExpectancyNull(){
-        assertNull(countryNull.getLifeExpectancy());
-    }
-
-    /**
      * Tests the getGNP method.
      */
     @Test
@@ -237,27 +220,11 @@ class CountryTest {
     }
 
     /**
-     * Tests the getGNP method with a null value.
-     */
-    @Test
-    void testGetGNPNull(){
-        assertNull(countryNull.getGNP());
-    }
-
-    /**
      * Tests the getGNPOld method.
      */
     @Test
     void testGetGNPOld(){
         assertEquals(gnpOld, country.getGNPOld(), 0.2);
-    }
-
-    /**
-     * Tests the getGNPOld method with a null value.
-     */
-    @Test
-    void testGetGNPOldNull(){
-        assertNull(countryNull.getGNPOld());
     }
 
     /**
@@ -314,14 +281,6 @@ class CountryTest {
     @Test
     void testGetCapital(){
         assertEquals(capital, country.getCapital());
-    }
-
-    /**
-     * Tests the getCapital method with a null value.
-     */
-    @Test
-    void testGetCapitalNull(){
-        assertNull(countryNull.getCapital());
     }
 
     /**

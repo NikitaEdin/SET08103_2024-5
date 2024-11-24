@@ -6,6 +6,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 
@@ -803,7 +805,7 @@ public class AppIntegrationTest {
     @Test
     void test_report_TotalPopulation_World_invalid(){
         App.con = null;
-        assertThrows( RuntimeException.class, () ->
+        assertThrows(RuntimeException.class, () ->
                 app.report_TotalPopulation_World(), "Expected report_TotalPopulation_World to throw, but it didn't.");
     }
 
@@ -888,7 +890,7 @@ public class AppIntegrationTest {
     void test_report_TotalPopulation_Country_invalid(){
         App.con = null;
         assertThrows(RuntimeException.class, () ->
-                app.report_TotalPopulation_Country("Germany"), "Expected report_TotalPopulation_Country to throw, but it didn't.");
+                app.report_TotalPopulation_Country("1"), "Expected report_TotalPopulation_Country to throw, but it didn't.");
     }
 
     /**
@@ -921,7 +923,7 @@ public class AppIntegrationTest {
     void test_report_TotalPopulation_District_invalid(){
         App.con = null;
         assertThrows(RuntimeException.class, () ->
-                app.report_TotalPopulation_District("Western"), "Expected report_TotalPopulation_District to throw, but it didn't.");
+                app.report_TotalPopulation_District("1"), "Expected report_TotalPopulation_District to throw, but it didn't.");
     }
 
 
@@ -952,7 +954,7 @@ public class AppIntegrationTest {
     void test_report_TotalPopulation_City_invalid(){
         App.con = null;
         assertThrows(RuntimeException.class, () ->
-                app.report_TotalPopulation_City("London"), "Expected report_TotalPopulation_City to throw, but it didn't.");
+                app.report_TotalPopulation_City("1"), "Expected report_TotalPopulation_City to throw, but it didn't.");
     }
 
     /**
@@ -1032,6 +1034,9 @@ public class AppIntegrationTest {
         System.out.println();
     }
 
+    /**
+     * Tests all reports by printing all of them at once.
+     */
     @Test
     void test_allReports(){
         try{
@@ -1041,6 +1046,71 @@ public class AppIntegrationTest {
         }
     }
 
+    /**
+     * Tests invalid query execution order
+     */
+    @Test
+    void test_executeQuery_invalid(){
+        assertThrows( RuntimeException.class, () ->
+                App.executeQuery("1"), "Invalid query should throw");
+    }
+
+    /**
+     * Test Language object constructor for its Percentage validation
+     */
+    @Test
+    void test_class_language(){
+        // Check for NaN and Infinity values in percentage
+        Language lang = new Language("test", 1, Double.NaN);
+        assertEquals(0, lang.getPercentage());
+        lang = new Language("test", 1, Double.POSITIVE_INFINITY);
+        assertEquals(0, lang.getPercentage());
+
+        // Check for above 100 or below 0 percentages
+        lang = new Language("test", 1, -1);
+        assertEquals(0, lang.getPercentage());
+        lang = new Language("test", 1, 101);
+        assertEquals(100, lang.getPercentage());
+    }
+
+    /**
+     * Tests class City and its getters
+     */
+    @Test
+    void test_class_city(){
+        // Create a new City object and verify getters returning correct values
+        City c = new City(1, "CityName", "ABC", "A", 2);
+        assertEquals(1, c.getID());
+        assertEquals("CityName", c.getName());
+        assertEquals("ABC", c.getCountryCode());
+        assertEquals("A", c.getDistrict());
+        assertEquals(2, c.getPopulation());
+    }
+
+    @Test
+    void test_class_country(){
+        // Create a new Country object and verify getters returning correct values
+        Country c = new Country("Code", "Name", "Continent", "Region", 2,
+                3, 4, 5.0,6.0 , 7.0, "LocalName",
+                "GovernmentForm", "HeadOfState", 8, "Code2");
+        assertEquals("Code", c.getCode());
+        assertEquals("Name", c.getName());
+        assertEquals("Continent", c.getContinent());
+        assertEquals("Region", c.getRegion());
+        assertEquals(2, c.getSurfaceArea());
+        assertEquals(3, c.getIndepYear());
+        assertEquals(4, c.getPopulation());
+        assertEquals(5.0d, c.getLifeExpectancy());
+        assertEquals(6.0d, c.getGNP());
+        assertEquals(7.0d, c.getGNPOld());
+        assertEquals("LocalName", c.getLocalName());
+        assertEquals("GovernmentForm", c.getGovernmentForm());
+        assertEquals("HeadOfState", c.getHeadOfState());
+        assertEquals(8, c.getCapital());
+        assertEquals("Code2", c.getCode2());
+
+
+    }
 
     // UTIL Methods //
     public boolean isDescending_City(List<City> cities){

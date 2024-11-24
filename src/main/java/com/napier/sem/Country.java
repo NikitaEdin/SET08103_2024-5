@@ -21,19 +21,19 @@ public class Country {
     public double SurfaceArea;
 
     /** Year the country gained independence, if available */
-    public Integer IndepYear;
+    public int IndepYear;
 
     /** Population of the country */
     public int Population;
 
     /** Life expectancy in the country (if available) */
-    public Double LifeExpectancy;
+    public double LifeExpectancy;
 
     /** Gross National Product (GNP) of the country */
-    public Double GNP;
+    public double GNP;
 
     /** Previous Gross National Product (GNP) of the country (if available) */
-    public Double GNPOld;
+    public double GNPOld;
 
     /** Local name of the country */
     public String LocalName;
@@ -45,7 +45,7 @@ public class Country {
     public String HeadOfState;
 
     /** ID of the capital city of the country (if available) */
-    public Integer Capital;
+    public int Capital;
 
     /** Country code (2-character alternative) */
     public String Code2;
@@ -70,9 +70,9 @@ public class Country {
      * @param Code2         Alternative country code (2-character)
      */
     public Country(String Code, String Name, String Continent, String Region, double SurfaceArea,
-                   Integer IndepYear, int Population, Double LifeExpectancy, Double GNP,
-                   Double GNPOld, String LocalName, String GovernmentForm, String HeadOfState,
-                   Integer Capital, String Code2) {
+                   int IndepYear, int Population, double LifeExpectancy, double GNP,
+                   double GNPOld, String LocalName, String GovernmentForm, String HeadOfState,
+                   int Capital, String Code2) {
         this.Code = Code;
         this.Name = Name;
         this.Continent = Continent;
@@ -128,7 +128,7 @@ public class Country {
      * Method to retrieve the Independence year of a Country object.
      * @return Independence year of the object.
      */
-    public Integer getIndepYear() {return IndepYear;}
+    public int getIndepYear() {return IndepYear;}
 
     /**
      * Method to retrieve the total population of this country.
@@ -140,19 +140,19 @@ public class Country {
      * Method to retrieve the life expectancy of a Country object.
      * @return Life expectancy of the object.
      */
-    public Double getLifeExpectancy() {return LifeExpectancy;}
+    public double getLifeExpectancy() {return LifeExpectancy;}
 
     /**
      * Method to retrieve the GNP of a Country object.
      * @return GNP of the object.
      */
-    public Double getGNP() {return GNP;}
+    public double getGNP() {return GNP;}
 
     /**
      * Method to retrieve the old GNP of a Country object.
      * @return Old GNP of the object.
      */
-    public Double getGNPOld() {return GNPOld;}
+    public double getGNPOld() {return GNPOld;}
 
     /**
      * Method to retrieve the local name of a Country object.
@@ -176,7 +176,7 @@ public class Country {
      * Method to retrieve the capital of a Country object.
      * @return Capital of the object.
      */
-    public Integer getCapital() {return Capital;}
+    public int getCapital() {return Capital;}
 
     /**
      * Method to retrieve the second country code of a Country object.

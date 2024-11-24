@@ -198,7 +198,7 @@ public class AppTest {
         // Create the Country object using the constructor
         Country c = new Country(
                 "123", "Scotland", "Europe", "Rainy", 300.0,
-                0, 5000000, null, 867.518, 600.629, "Scotland",
+                0, 5000000, 0, 867.518, 600.629, "Scotland",
                 "Government Form", "King", 1, "456"
         );
         // Create ArrayList to store the info
