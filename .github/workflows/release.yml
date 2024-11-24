@@ -2,7 +2,7 @@ name: A workflow for my Hello World App
 on:
   push:
     branches:
-      - feature/ReleasesGitHubAction
+      - main
 jobs:
   build:
     name: Build and Start Using docker compose
