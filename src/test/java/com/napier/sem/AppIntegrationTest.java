@@ -30,7 +30,7 @@ public class AppIntegrationTest {
     @AfterEach
     void tearDown() {
         // Restore original connection after each test
-        App.con = actualCon;
+        App.setConnection(actualCon);
     }
 
     @AfterAll
@@ -101,6 +101,8 @@ public class AppIntegrationTest {
         assertNull(countries, "The result should be null");
         countries = app.report_TopN_PopulatedCountriesByContinent(null,0);
         assertNull(countries, "The result should be null");
+        countries = app.report_TopN_PopulatedCountriesByContinent(null,-5);
+        assertNull(countries, "The result should be null");
     }
 
     /**
@@ -141,6 +143,8 @@ public class AppIntegrationTest {
         List<Country> countries = app.report_TopN_PopulatedCountriesByRegion("",0);
         assertNull(countries, "The result should be null");
         countries = app.report_TopN_PopulatedCountriesByRegion(null,0);
+        assertNull(countries, "The result should be null");
+        countries = app.report_TopN_PopulatedCountriesByRegion("null",-5);
         assertNull(countries, "The result should be null");
     }
 
@@ -834,7 +838,7 @@ public class AppIntegrationTest {
     @Test
     void test_report_TotalPopulation_Continent_emptyNull(){
         // Non-existing continent
-        long total = app.report_TotalPopulation_Continent("123");
+        long total = app.report_TotalPopulation_Continent("");
         assertEquals(0, total, "Expected 0 population for non-existing continent");
         // Null continent
         total = app.report_TotalPopulation_Continent(null);
@@ -866,7 +870,7 @@ public class AppIntegrationTest {
     @Test
     void test_report_TotalPopulation_Region_emptyNull(){
         // Non-existing region
-        long total = app.report_TotalPopulation_Region("123");
+        long total = app.report_TotalPopulation_Region("");
         assertEquals(0, total, "Expected 0 population for non-existing region");
         // Null region
         total = app.report_TotalPopulation_Region(null);
@@ -899,7 +903,7 @@ public class AppIntegrationTest {
     @Test
     void test_report_TotalPopulation_Country_emptyNull(){
         // Non-existing country
-        long total = app.report_TotalPopulation_Country("123");
+        long total = app.report_TotalPopulation_Country("");
         assertEquals(0, total, "Expected 0 population for non-existing country");
         // Null country
         total = app.report_TotalPopulation_Country(null);
@@ -962,7 +966,7 @@ public class AppIntegrationTest {
      */
     @Test
     void test_report_TotalPopulation_City_emptyNull(){
-        long total = app.report_TotalPopulation_City("123");
+        long total = app.report_TotalPopulation_City("");
         assertEquals(0, total, "Expected 0 population for non-existing city");
         total = app.report_TotalPopulation_City(null);
         assertEquals(0, total, "Expected 0 population for null city");
@@ -1087,6 +1091,9 @@ public class AppIntegrationTest {
         assertEquals(2, c.getPopulation());
     }
 
+    /**
+     * Tests class Country and its getters
+     */
     @Test
     void test_class_country(){
         // Create a new Country object and verify getters returning correct values
@@ -1108,9 +1115,24 @@ public class AppIntegrationTest {
         assertEquals("HeadOfState", c.getHeadOfState());
         assertEquals(8, c.getCapital());
         assertEquals("Code2", c.getCode2());
-
-
     }
+
+    /**
+     * Tests class populationBreakdown
+     */
+    @Test
+    void test_class_populationBreakdown(){
+        PopulationBreakdown pb = new PopulationBreakdown("", "", -10, -10, -10);
+        assertEquals(0, pb.getTotalPopulation());
+        assertEquals(0, pb.getRuralPopulation());
+        assertEquals(0, pb.getUrbanPopulation());
+        pb = new PopulationBreakdown("", "", 10, 20, 30);
+        assertEquals(10, pb.getTotalPopulation());
+        assertEquals(20, pb.getUrbanPopulation());
+        assertEquals(30, pb.getRuralPopulation());
+    }
+
+
 
     // UTIL Methods //
     public boolean isDescending_City(List<City> cities){
