@@ -346,7 +346,8 @@ public class App {
      * @param continent Name of district to filter the cities by.
      * @return List of capital cities in the specified continent, sorted by descending order by population.
      */
-    public List<City> report_CapitalCitiesInContinentDESC(String continent) {
+    @RequestMapping("report_CapitalCitiesInContinentDESC")
+    public List<City> report_CapitalCitiesInContinentDESC(@RequestParam(value = "continent") String continent) {
         if(continent == null || continent.isEmpty()) return null;
         String query = "SELECT * FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Continent = '" + continent + "' AND country.Capital = city.ID ORDER BY city.population DESC";
         return getReport_City(query);
@@ -357,7 +358,8 @@ public class App {
      * @param region Name of region to filter the cities by.
      * @return List of capital cities in the specified region, sorted by descending order by population.
      */
-    public List<City> report_CapitalCitiesInRegionDESC(String region) {
+    @RequestMapping("report_CapitalCitiesInRegionDESC")
+    public List<City> report_CapitalCitiesInRegionDESC(@RequestParam(value = "region") String region) {
         if (region != null && !region.isEmpty()){
             String query = "SELECT * FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Region = '" + region + "' AND country.Capital = city.ID ORDER BY city.population DESC";
             return getReport_City(query);
@@ -372,7 +374,8 @@ public class App {
      * @param N number of items to retrieve
      * @return List of top N populated capital cities
      */
-    public List<City> report_TopN_PopulatedCapitalCitiesInWorld(int N) {
+    @RequestMapping("report_TopN_PopulatedCapitalCitiesInWorld")
+    public List<City> report_TopN_PopulatedCapitalCitiesInWorld(@RequestParam(value = "N") int N) {
         if (N < 1) return null;
         //String query = "SELECT * FROM city ORDER BY population DESC LIMIT " + N;
         String query = "SELECT * " +
