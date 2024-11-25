@@ -202,7 +202,7 @@ public class App {
      * @return A list of top N populated countries in the specified region
      */
     @RequestMapping("report_TopN_PopulatedCountriesByRegion")
-    public List<Country> report_TopN_PopulatedCountriesByRegion(String region, int N) {
+    public List<Country> report_TopN_PopulatedCountriesByRegion(@RequestParam(value = "region") String region,@RequestParam(value = "N") int N) {
         if( N < 1 || region == null || region.isEmpty()) return null;
         String query = "SELECT * FROM country WHERE region = '" + region + "' ORDER BY population DESC LIMIT "+ N;
         return getReport_Country(query);
@@ -213,7 +213,8 @@ public class App {
      * @param N Number of top populated cities to retrieve
      * @return List of top N populated cities, sorted in descending order by population
      */
-    public List<City> report_TopN_PopulatedCities(int N) {
+    @RequestMapping("report_TopN_PopulatedCities")
+    public List<City> report_TopN_PopulatedCities(@RequestParam(value = "N") int N) {
         if (N < 1) return null;
         String query = "SELECT * FROM city ORDER BY population DESC LIMIT " + N;
         return getReport_City(query);
@@ -225,7 +226,8 @@ public class App {
      * @param N Number of top populated cities to retrieve
      * @return List of top N populated cities in the specified continent, sorted in descending order by population
      */
-    public List<City> report_TopN_PopulatedCitiesByContinent(String continent, int N) {
+    @RequestMapping("report_TopN_PopulatedCitiesByContinent")
+    public List<City> report_TopN_PopulatedCitiesByContinent(@RequestParam(value = "contient") String continent,@RequestParam(value = "N") int N) {
         if (N < 1 || continent == null || continent.isEmpty()) return null;
         String query = "SELECT city.* FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Continent = '" + continent + "' ORDER BY city.Population DESC LIMIT " + N;
         return getReport_City(query);
@@ -238,7 +240,8 @@ public class App {
      * @param N Number of top populated cities to retrieve
      * @return List of top N populated cities in specified region, sorted in descending order by population
      */
-    public List<City> report_TopN_PopulatedCitiesByRegion(String region, int N) {
+    @RequestMapping("report_TopN_PopulatedCitiesByRegion")
+    public List<City> report_TopN_PopulatedCitiesByRegion(@RequestParam(value = "region") String region,@RequestParam(value = "N") int N) {
         if (N < 1 || region == null || region.isEmpty()) return null;
         String query = "SELECT city.* FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Region = '" + region + "' ORDER BY city.Population DESC LIMIT " + N;
         return getReport_City(query);
@@ -250,7 +253,8 @@ public class App {
      * @param N Number of top populated cities to retrieve
      * @return List of top N populated cities in specified country, sorted in descending order by population
      */
-    public List<City> report_TopN_PopulatedCitiesByCountry(String country, int N) {
+    @RequestMapping("report_TopN_PopulatedCitiesByCountry")
+    public List<City> report_TopN_PopulatedCitiesByCountry(@RequestParam(value = "country") String country,@RequestParam(value = "N") int N) {
         if (N < 1 || country == null || country.isEmpty()) return null;
         String query = "SELECT city.* FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Name = '" + country + "' ORDER BY city.Population DESC LIMIT " + N;
         return getReport_City(query);
