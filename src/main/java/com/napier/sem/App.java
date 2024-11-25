@@ -391,7 +391,8 @@ public class App {
      * @param continent continent name
      * @return List of top N populated capital cities in a given continent
      */
-    public List<City> report_TopN_PopulatedCapitalCitiesInContinent(int N, String continent) {
+    @RequestMapping("report_TopN_PopulatedCapitalCitiesInContinent")
+    public List<City> report_TopN_PopulatedCapitalCitiesInContinent(@RequestParam(value = "N") int N,@RequestParam(value = "continent") String continent) {
         if (N < 1 || continent == null || continent.isEmpty()) return null;
         String query = "SELECT * " +
                 "FROM city " +
@@ -406,7 +407,8 @@ public class App {
      * @param region region name
      * @return List of top N populated capital cities in a given region
      */
-    public List<City> report_TopN_PopulatedCapitalCitiesInRegion(int N, String region) {
+    @RequestMapping("report_TopN_PopulatedCapitalCitiesInRegion")
+    public List<City> report_TopN_PopulatedCapitalCitiesInRegion(@RequestParam(value = "N") int N,@RequestParam(value = "region") String region) {
         if (N < 1 || region == null || region.isEmpty()) return null;
         String query = "SELECT * " +
                 "FROM city " +
@@ -418,6 +420,7 @@ public class App {
     /**
      * Retrives population breakdown (total, urban, rural) for all continents.
      */
+    @RequestMapping("report_PopulationBreakdown_AllContinents")
     public List<PopulationBreakdown> report_PopulationBreakdown_AllContinents() {
         String query = "SELECT c.Continent, " +
                 "SUM(c.Population) AS TotalPopulation, " +
@@ -435,6 +438,7 @@ public class App {
     /**
      * Retrives population breakdown (total, urban, rural) for all regions.
      */
+    @RequestMapping("report_PopulationBreakdown_AllRegions")
     public List<PopulationBreakdown> report_PopulationBreakdown_AllRegions() {
         String query = "SELECT c.Region, " +
                 "SUM(c.Population) AS TotalPopulation, " +
@@ -451,6 +455,7 @@ public class App {
     /**
      * Retrives population breakdown (total, urban, rural) for all countries.
      */
+    @RequestMapping("report_PopulationBreakdown_AllCountries")
     public List<PopulationBreakdown> report_PopulationBreakdown_AllCountries() {
         String query = "SELECT c.Name AS Country, " +
                 "SUM(c.Population) AS TotalPopulation, " +
@@ -589,7 +594,8 @@ public class App {
     /**
      * Retrives a breakdown of spoken languages, including total speakers and percentage of world population
      */
-    public List<Language> report_WorldLanguagesBreakdown(long worldPopulation) {
+    @RequestMapping("report_WorldLanguagesBreakdown")
+    public List<Language> report_WorldLanguagesBreakdown(@RequestParam(value = "worldPopulation") long worldPopulation) {
         if(worldPopulation < 0) return null;
 
         String query = "SELECT cl.Language, SUM(c.Population * cl.Percentage / 100) AS TotalSpeakers " +
