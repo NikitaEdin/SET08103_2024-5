@@ -3,6 +3,8 @@ package com.napier.sem;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,7 +43,6 @@ public class App {
         // Disconnect from database before termination
        // a.disconnect();
     }
-
     public static void generateAllReports(App a){
         // World Reports
         System.out.println("\nreport_PopulationDESC: ");
@@ -130,6 +131,7 @@ public class App {
      * All the countries in the world organised by largest population to smallest
      * @return Return a list of Country type in DESC order
      */
+    @RequestMapping("report_PopulationDESC")
     public List<Country> report_PopulationDESC() {
         String query = "SELECT * FROM country ORDER BY population DESC";
         return getReport_Country(query);
@@ -140,7 +142,8 @@ public class App {
      * @param continent Continent name to filter by
      * @return  Return a list of Country type in DESC order
      */
-    public List<Country> report_PopulationByContinentDESC(String continent) {
+    @RequestMapping("report_PopulationByContinentDESC")
+    public List<Country> report_PopulationByContinentDESC(@RequestParam(value = "continent") String continent) {
         if(continent != null && !continent.isEmpty()){
             String query = "SELECT * FROM country WHERE continent = '" + continent + "' ORDER BY population DESC";
             return getReport_Country(query);
@@ -157,7 +160,8 @@ public class App {
      * @param region Region name to filter by
      * @return Returns a list of Country type in DESC order
      */
-    public List<Country> report_CountriesByRegionDESC(String region) {
+    @RequestMapping("report_CountriesByRegionDESC")
+    public List<Country> report_CountriesByRegionDESC(@RequestParam(value = "region") String region) {
         if (region !=null && !region.isEmpty()){
             String query = "SELECT * FROM country WHERE region = '"+ region +"' ORDER BY population DESC";
             return getReport_Country(query);
@@ -172,7 +176,8 @@ public class App {
      * @param N Number of top populated countries to retrieve
      * @return A list of the top N populated countries, sorted in descending order by population
      */
-    public List<Country> report_TopN_PopulatedCountries(int N){
+    @RequestMapping("report_TopN_PopulatedCountries")
+    public List<Country> report_TopN_PopulatedCountries(@RequestParam(value = "N") int N){
         if (N < 1) return null;
         return getReport_Country("SELECT * FROM country ORDER BY population DESC LIMIT "+ N);
     }
@@ -183,9 +188,10 @@ public class App {
      * @param N The number of top populated countries to retrieve for the specified continent
      * @return List of top N populated countries in the specified continent
      */
-    public List<Country> report_TopN_PopulatedCountriesByContinent(String continent, int N) {
+    @RequestMapping("report_TopN_PopulatedCountriesByContinent")
+    public List<Country> report_TopN_PopulatedCountriesByContinent(@RequestParam(value = "continent") String continent, @RequestParam(value = "N") int N) {
         if( N < 1 || continent == null || continent.isEmpty()) return null;
-        String query = "SELECT * FROM country WHERE continent = '"+ continent +"' ORDER BY population DESC LIMIT "+ N;
+        String query = "SELECT * FROM country WHERE continent = '"+ continent +"' ORDER BY population DESC LIMIT " + N;
         return getReport_Country(query);
     }
 
@@ -195,6 +201,7 @@ public class App {
      * @param N Number of top populated countries to retrieve for the specified region
      * @return A list of top N populated countries in the specified region
      */
+    @RequestMapping("report_TopN_PopulatedCountriesByRegion")
     public List<Country> report_TopN_PopulatedCountriesByRegion(String region, int N) {
         if( N < 1 || region == null || region.isEmpty()) return null;
         String query = "SELECT * FROM country WHERE region = '" + region + "' ORDER BY population DESC LIMIT "+ N;
@@ -347,9 +354,6 @@ public class App {
         System.out.println("Invalid Region");
        return null;
     }
-
-
-
 
 
     /**
