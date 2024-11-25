@@ -266,7 +266,8 @@ public class App {
      * @param N Number of top populated cities to retrieve
      * @return List of top N populated cities in specified district, sorted in descending order by population
      */
-    public List<City> report_TopN_PopulatedCitiesByDistrict(String district, int N) {
+    @RequestMapping("report_TopN_PopulatedCitiesByDistrict")
+    public List<City> report_TopN_PopulatedCitiesByDistrict(@RequestParam(value = "district") String district,@RequestParam(value = "N") int N) {
         if (N < 1 || district == null || district.isEmpty()) return null;
         String query = "SELECT * FROM city WHERE District = '" + district + "' ORDER BY Population DESC LIMIT " + N;
         return getReport_City(query);
@@ -276,6 +277,7 @@ public class App {
      * All the cities in the world organised by largest population to smallest.
      * @return List of all cities in the world, sorted in descending order by population.
      */
+    @RequestMapping("report_CitiesInWorldDESC")
     public List<City> report_CitiesInWorldDESC() {
         String query = "SELECT * FROM city ORDER BY population DESC";
         return getReport_City(query);
@@ -286,7 +288,8 @@ public class App {
      * @param continent Name of continent to filter the cities by.
      * @return List of cities in specified continent, sorted by descending order by population.
      */
-    public List<City> report_CitiesInContinentDESC(String continent) {
+    @RequestMapping("report_CitiesInContinentDESC")
+    public List<City> report_CitiesInContinentDESC(@RequestParam(value = "continent") String continent) {
         if(continent == null || continent.isEmpty()) return null;
         String query = "SELECT * FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Continent = '" + continent + "' ORDER BY city.population DESC";
         return getReport_City(query);
@@ -297,7 +300,8 @@ public class App {
      * @param region Name of region to filter the cities by.
      * @return List of cities in specified region, sorted by descending order by population.
      */
-    public List<City> report_CitiesInRegionDESC(String region) {
+    @RequestMapping("report_CitiesInRegionDESC")
+    public List<City> report_CitiesInRegionDESC(@RequestParam(value = "region") String region) {
         if(region == null || region.isEmpty()) return null;
         String query = "SELECT * FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Region = '" + region + "' ORDER BY city.population DESC";
         return getReport_City(query);
@@ -308,7 +312,8 @@ public class App {
      * @param country Name of country to filter the cities by.
      * @return List of cities in the specified country, sorted by descending order by population.
      */
-    public List<City> report_CitiesInCountryDESC(String country) {
+    @RequestMapping("report_CitiesInCountryDESC")
+    public List<City> report_CitiesInCountryDESC(@RequestParam(value = "country") String country) {
         if(country == null || country.isEmpty()) return null;
         String query = "SELECT * FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Name = '" + country + "' ORDER BY city.population DESC";
         return getReport_City(query);
@@ -319,7 +324,8 @@ public class App {
      * @param district Name of district to filter the cities by.
      * @return List of cities in the specified country, sorted by descending order by population.
      */
-    public List<City> report_CitiesInDistrictDESC(String district) {
+    @RequestMapping("report_CitiesInDistrictDESC")
+    public List<City> report_CitiesInDistrictDESC(@RequestParam(value = "district") String district) {
         if(district == null || district.isEmpty()) return null;
         String query = "SELECT * FROM city WHERE District = '" + district + "' ORDER BY city.population DESC";
         return getReport_City(query);
@@ -329,6 +335,7 @@ public class App {
      * All the capital cities in the world organised by largest population to smallest.
      * @return List of all capital cities in the world, sorted by descending order by population.
      */
+    @RequestMapping("report_CapitalCitiesInWorldDESC")
     public List<City> report_CapitalCitiesInWorldDESC() {
         String query = "SELECT * FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Capital = city.ID ORDER BY city.population DESC";
         return getReport_City(query);
