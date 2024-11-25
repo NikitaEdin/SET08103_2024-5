@@ -3,10 +3,17 @@ package com.napier.sem;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * This is class is to run the program and print the reports that are needed.
  */
+@SpringBootApplication
+@RestController
 public class App {
 
     /**
@@ -766,7 +773,7 @@ public class App {
     /**
      * Connect to the MySQL database.
      */
-    public void connect(String location, int delay) {
+    public static void connect(String location, int delay) {
         if (location != null) {
             try {
                 // Load Database driver
@@ -811,7 +818,7 @@ public class App {
     /**
      * Disconnect from the MySQL database.
      */
-    public void disconnect() {
+    public static void disconnect() {
         if (con != null) {
             try {
                 // Close connection
