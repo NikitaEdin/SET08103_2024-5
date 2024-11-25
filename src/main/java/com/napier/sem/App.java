@@ -30,13 +30,16 @@ public class App {
             a.connect(args[0], Integer.parseInt(args[1]));
         }
 
+        // Run the spring application
+        SpringApplication.run(App.class, args);
+
         // ######## REPORTS BEGIN HERE ######## ///
         generateAllReports(a);
 
 
 
         // Disconnect from database before termination
-        a.disconnect();
+       // a.disconnect();
     }
 
     public static void generateAllReports(App a){
@@ -447,6 +450,7 @@ public class App {
      * Calculates and retrives the total population of the world.
      * @return total population of the world
      */
+    @RequestMapping("report_TotalPopulation_World")
     public long report_TotalPopulation_World() {
         String query = "SELECT SUM(Population) AS TotalWorldPopulation FROM country";
 
@@ -464,7 +468,8 @@ public class App {
      * @param continent Name of the continent
      * @return total population within the given continent
      */
-    public long report_TotalPopulation_Continent(String continent) {
+    @RequestMapping("report_TotalPopulation_Continent")
+    public long report_TotalPopulation_Continent(@RequestParam(value = "continent") String continent) {
         if (continent == null || continent.isEmpty()) return 0;
 
         String query = "SELECT SUM(Population) AS TotalContinentPopulation " +
@@ -484,7 +489,8 @@ public class App {
      * @param region Name of the region
      * @return total population within the given region
      */
-    public long report_TotalPopulation_Region(String region) {
+    @RequestMapping("report_TotalPopulation_Region")
+    public long report_TotalPopulation_Region(@RequestParam(value= "region")String region) {
         if (region == null || region.isEmpty()) return 0;
 
         String query = "SELECT SUM(Population) AS TotalRegionPopulation " +
@@ -504,7 +510,8 @@ public class App {
      * @param country Name of the country
      * @return total population within the given country
      */
-    public long report_TotalPopulation_Country(String country) {
+    @RequestMapping("report_TotalPopulation_Country")
+    public long report_TotalPopulation_Country(@RequestParam(value = "country") String country) {
         if (country == null || country.isEmpty()) return 0;
 
         String query = "SELECT Population AS TotalCountryPopulation " +
@@ -524,7 +531,8 @@ public class App {
      * @param district Name of the district
      * @return total population within the given district
      */
-    public long report_TotalPopulation_District(String district) {
+    @RequestMapping("report_TotalPopulation_District")
+    public long report_TotalPopulation_District(@RequestParam(value = "district") String district) {
         if (district == null || district.isEmpty()) return 0;
 
         String query = "SELECT SUM(Population) AS TotalDistrictPopulation " +
@@ -544,7 +552,8 @@ public class App {
      * @param city Name of the city
      * @return total population within the given city
      */
-    public long report_TotalPopulation_City(String city) {
+    @RequestMapping("report_TotalPopulation_City")
+    public long report_TotalPopulation_City(@RequestParam(value = "city") String city) {
         if (city == null || city.isEmpty()) return 0;
 
         String query = "SELECT Population AS TotalCityPopulation " +
