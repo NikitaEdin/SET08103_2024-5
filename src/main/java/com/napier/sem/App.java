@@ -38,8 +38,6 @@ public class App {
         // ######## REPORTS BEGIN HERE ######## ///
         generateAllReports(a);
 
-
-
         // Disconnect from database before termination
        // a.disconnect();
     }
