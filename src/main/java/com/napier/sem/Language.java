@@ -7,11 +7,11 @@ import java.text.DecimalFormat;
  */
 public class Language {
     /** The spoken lanauge */
-    private final String language;
+    private String language;
     /**  Total amount of speakers */
-    private final double speakers;
+    private double speakers;
     /**  Percentage of speakers in the world */
-    private final double percentage;
+    private double percentage;
 
     /**  Constructs a new Lanauge object of the spoken language and its speakers */
     public Language(String language, double speakers, double percentage) {

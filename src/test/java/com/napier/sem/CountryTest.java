@@ -105,6 +105,9 @@ class CountryTest {
         assertNull(countryNull.Name);
         assertNull(countryNull.Continent);
         assertNull(countryNull.Region);
+        assertEquals(0, countryNull.SurfaceArea);
+        assertEquals(0, countryNull.IndepYear);
+        assertEquals(0, countryNull.Population);
         assertEquals(0, countryNull.LifeExpectancy);
         assertEquals(0, countryNull.GNP);
         assertEquals(0, countryNull.GNPOld);
