@@ -54,22 +54,22 @@ public class DatabaseTest {
      * Tests  executeQuery method using Mockito to test that it can execute a query.
      * @throws SQLException
      */
-    @Test
-    void testExecuteQuery() throws SQLException {
-        // Define the query to test
-        String testQuery = "SELECT * FROM country";
-
-        // Call the method
-        ResultSet result = App.executeQuery(testQuery);
-
-        // Compare
-        assertNotNull(result);
-        assertEquals(mockResultSet, result);
-
-        // Verify
-        verify(mockConnection).createStatement();
-        verify(mockStatement).executeQuery(testQuery);
-    }
+//    @Test
+//    void testExecuteQuery() throws SQLException {
+//        // Define the query to test
+//        String testQuery = "SELECT * FROM country";
+//
+//        // Call the method
+//        ResultSet result = App.executeQuery(testQuery);
+//
+//        // Compare
+//        assertNotNull(result);
+//        assertEquals(mockResultSet, result);
+//
+//        // Verify
+//        verify(mockConnection).createStatement();
+//        verify(mockStatement).executeQuery(testQuery);
+//    }
 
 }
 

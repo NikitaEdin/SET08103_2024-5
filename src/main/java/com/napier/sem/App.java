@@ -4,7 +4,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,9 +26,9 @@ public class App {
         App a = new App();
 
         if (args.length < 1) {
-            a.connect("localhost:33060", 10000);
+            connect("localhost:33060", 10000);
         } else {
-            a.connect(args[0], Integer.parseInt(args[1]));
+            connect(args[0], Integer.parseInt(args[1]));
         }
 
         // Run the spring application
@@ -662,15 +661,15 @@ public class App {
                 String continent = rs.getString("Continent");
                 String region = rs.getString("Region");
                 double surfaceArea = rs.getDouble("SurfaceArea");
-                Integer indepYear = rs.getObject("IndepYear") != null ? rs.getInt("IndepYear") : null;
+                int indepYear = rs.getObject("IndepYear") != null ? rs.getInt("IndepYear") : 0;
                 int population = rs.getInt("Population");
-                Double lifeExpectancy = rs.getObject("LifeExpectancy") != null ? rs.getDouble("LifeExpectancy") : null;
-                Double gnp = rs.getObject("GNP") != null ? rs.getDouble("GNP") : null;
-                Double gnpOld = rs.getObject("GNPOld") != null ? rs.getDouble("GNPOld") : null;
+                double lifeExpectancy = rs.getObject("LifeExpectancy") != null ? rs.getDouble("LifeExpectancy") : 0;
+                double gnp = rs.getObject("GNP") != null ? rs.getDouble("GNP") : 0;
+                double gnpOld = rs.getObject("GNPOld") != null ? rs.getDouble("GNPOld") : 0;
                 String localName = rs.getString("LocalName");
                 String governmentForm = rs.getString("GovernmentForm");
                 String headOfState = rs.getString("HeadOfState");
-                Integer capital = rs.getObject("Capital") != null ? rs.getInt("Capital") : null;
+                int capital = rs.getObject("Capital") != null ? rs.getInt("Capital") : 0;
                 String code2 = rs.getString("Code2");
 
                 // Create Country with extracted data

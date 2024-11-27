@@ -8,6 +8,12 @@
     <artifactId>seMethods</artifactId>
     <version>0.3.0.0</version>
 
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.0.RELEASE</version>
+    </parent>
+
     <!-- Application Dependencies -->
     <dependencies>
         <dependency>
@@ -19,8 +25,9 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>3.1.0</version>
         </dependency>
+
+
 
         <dependency>
             <groupId>org.mockito</groupId>
