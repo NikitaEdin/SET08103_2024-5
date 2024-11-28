@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class App {
 
+    private final static int TIMEOUT_DEFAULT = 100;
+
     /**
      * Main app method to initialise the application.
      * @param args launching parameters
@@ -25,11 +27,21 @@ public class App {
         // Create new Application
         App a = new App();
 
+        // Auto timeout in seconds
+        int timeoutSeconds =  TIMEOUT_DEFAULT;
+
         if (args.length < 1) {
             connect("localhost:33060", 10000);
         } else {
             connect(args[0], Integer.parseInt(args[1]));
+
+            // 3 args? use last for timeout
+            if(args.length == 3)
+                timeoutSeconds = Integer.parseInt(args[2]);
         }
+
+        // Start auto disconnect timer
+        a.startAutoDisconnectTimer(timeoutSeconds);
 
         // Run the spring application
         SpringApplication.run(App.class, args);
@@ -37,8 +49,9 @@ public class App {
         // ######## REPORTS BEGIN HERE ######## ///
         generateAllReports(a);
 
+
         // Disconnect from database before termination
-       // a.disconnect();
+        //disconnect();
     }
     public static void generateAllReports(App a){
         // World Reports
@@ -858,6 +871,32 @@ public class App {
             }
         }
     }
+
+    /**
+     * Starts a thread which disconnects after given time.
+     * @param timeout Timeout in seconds.
+     */
+    public void startAutoDisconnectTimer(int timeout) {
+        // Skip if zero or negative time
+        if(timeout <= 0 ){
+            System.out.println("Invalid timeout, auto-disconnect cancled.");
+            return;
+        }
+
+        // Start a new thread to disconnect after x seconds
+        new Thread(() -> {
+            try {
+                System.out.println("Auto-disconnect timeout: " + timeout + " seconds.");
+                Thread.sleep(timeout * 1000L);
+                System.out.println("Auto-disconnect triggered after " + timeout + " seconds.");
+                disconnect();
+                System.exit(0);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }, "AutoDisconnect").start();
+    }
+
 //</editor-fold>
 }
 
