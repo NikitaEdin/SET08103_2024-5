@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - develop
+      - feature/mockitoHotFIx
 jobs:
   UnitTests:
     name: Unit Tests
