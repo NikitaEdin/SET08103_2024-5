@@ -224,7 +224,7 @@ public class App {
      * @return List of top N populated cities in the specified continent, sorted in descending order by population
      */
     @RequestMapping("report_TopN_PopulatedCitiesByContinent")
-    public List<City> report_TopN_PopulatedCitiesByContinent(@RequestParam(value = "contient") String continent,@RequestParam(value = "N") int N) {
+    public List<City> report_TopN_PopulatedCitiesByContinent(@RequestParam(value = "continent") String continent,@RequestParam(value = "N") int N) {
         if (N < 1 || continent == null || continent.isEmpty()) return null;
         String query = "SELECT city.* FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Continent = '" + continent + "' ORDER BY city.Population DESC LIMIT " + N;
         return getReport_City(query);
