@@ -40,7 +40,7 @@ public class DatabaseTest {
     @BeforeEach
     void setUp() throws SQLException {
         App app = new App();
-        MockitoAnnotations.openMocks(this);
+        MockitoAnnotations.initMocks(this);
 
         // Set the connection
         App.setConnection(mockConnection);

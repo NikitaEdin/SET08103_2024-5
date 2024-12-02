@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Index</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .theme-switch {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Theme Switch -->
+<div class="theme-switch">
+    <button id="themeToggle" class="btn btn-secondary btn-sm">Light Mode</button>
+</div>
+
+<div class="container my-5">
+    <h1 class="text-center mb-4">API Index</h1>
+    <h2>World Reports </h2>
+    <div class="list-group">
+        <!-- report_PopulationDESC -->
+        <a href="/report_PopulationDESC" class="list-group-item list-group-item-action">
+            <h5 class="mb-1">PopulationDESC</h5>
+            <p class="mb-1 text-muted">All the countries in the world organised by largest population to smallest</p>
+        </a>
+
+
+        <!-- report_PopulationByContinentDESC -->
+        <div class="list-group-item list-group-item-action"
+             data-report="report_PopulationByContinentDESC">
+            <h5 class="mb-1">PopulationByContinentDESC</h5>
+            <p class="mb-1 text-muted">All the countries in a continent organised by largest population to smallest</p>
+
+            <label class="mt-2">Continent:</label>
+            <input type="text" data-param="continent" placeholder="Asia" class="form-control me-2" value="Asia" />
+            <button class="btn btn-primary mt-2" onclick="generateReportUrl(this)">Get Report</button>
+        </div>
+
+        <!-- report_CountriesByRegionDESC -->
+        <div class="list-group-item list-group-item-action"
+             data-report="report_CountriesByRegionDESC">
+            <h5 class="mb-1">CountriesByRegionDESC</h5>
+            <p class="mb-1 text-muted">All the countries in a region organised by largest population to smallest</p>
+
+            <label class="mt-2">Region:</label>
+            <input type="text" data-param="region" placeholder="Asia" class="form-control me-2" value="South America" />
+            <button class="btn btn-primary mt-2" onclick="generateReportUrl(this)">Get Report</button>
+        </div>
+
+
+    </div>
+    <h2 class="mt-5">TopN Reports - Countries</h2>
+    <div class="list-group">
+
+        <!-- report_TopN_PopulatedCountries -->
+        <div class="list-group-item list-group-item-action"
+             data-report="report_TopN_PopulatedCountries">
+            <h5 class="mb-1">TopN_PopulatedCountries</h5>
+            <p class="mb-1 text-muted">The top N populated countries in the world where N is provided by the user</p>
+
+            <label class="mt-2">Number of countries:</label>
+            <input type="text" data-param="N" placeholder="5" class="form-control me-2" value="5" />
+            <button class="btn btn-primary mt-2" onclick="generateReportUrl(this)">Get Report</button>
+        </div>
+
+
+        <!-- report_TopN_PopulatedCountriesByContinent -->
+        <div class="list-group-item list-group-item-action"
+             data-report="report_TopN_PopulatedCountriesByContinent">
+            <h5 class="mb-1">TopN_PopulatedCountriesByContinent</h5>
+            <p class="mb-1 text-muted">The top N populated countries in a continent where N is provided by the user</p>
+
+            <label class="mt-2">Continent:</label>
+            <input type="text" data-param="continent" placeholder="North America" value="North America" class="form-control me-2"/>
+            <label class="mt-2">Number of countries:</label>
+            <input type="text" data-param="N" placeholder="4" value="4" class="form-control me-2"/>
+            <button class="btn btn-primary mt-2" onclick="generateReportUrl(this)">Get Report</button>
+        </div>
+
+        <!-- report_TopN_PopulatedCountriesByRegion -->
+        <div class="list-group-item list-group-item-action"
+             data-report="report_TopN_PopulatedCountriesByRegion">
+            <h5 class="mb-1">TopN_PopulatedCountriesByRegion</h5>
+            <p class="mb-1 text-muted">The top N populated countries in a region where N is provided by the user</p>
+
+            <label class="mt-2">Region:</label>
+            <input type="text" data-param="region" placeholder="Central Africa" value="Central Africa" class="form-control me-2"/>
+            <label class="mt-2">Number of countries::</label>
+            <input type="text" data-param="N" placeholder="5" value="5" class="form-control me-2"/>
+            <button class="btn btn-primary mt-2" onclick="generateReportUrl(this)">Get Report</button>
+        </div>
+
+    </div>
+    <h2 class="mt-5">TopN Reports - Cities</h2>
+    <div class="list-group">
+
+        <!-- report_TopN_PopulatedCities -->
+        <div class="list-group-item list-group-item-action"
+             data-report="report_TopN_PopulatedCities">
+            <h5 class="mb-1">TopN_PopulatedCities</h5>
+            <p class="mb-1 text-muted">The top N populated cities in the world where N is provided by the user.</p>
+
+            <label class="mt-2">Continent:</label>
+            <input type="text" data-param="N" placeholder="3" value="3" class="form-control me-2"/>
+            <button class="btn btn-primary mt-2" onclick="generateReportUrl(this)">Get Report</button>
+        </div>
+
+        <!-- report_TopN_PopulatedCitiesByContinent -->
+        <div class="list-group-item list-group-item-action"
+             data-report="report_TopN_PopulatedCitiesByContinent">
+            <h5 class="mb-1">TopN_PopulatedCitiesByContinent</h5>
+            <p class="mb-1 text-muted">The top N populated cities in a continent where N is provided by the user.</p>
+
+            <label class="mt-2">Continent:</label>
+            <input type="text" data-param="continent" placeholder="North America" value="North America" class="form-control me-2"/>
+            <label class="mt-2">Number of cities:</label>
+            <input type="text" data-param="N" placeholder="5" value="5" class="form-control me-2"/>
+            <button class="btn btn-primary mt-2" onclick="generateReportUrl(this)">Get Report</button>
+        </div>
+
+        <!-- report_TopN_PopulatedCitiesByRegion -->
+        <div class="list-group-item list-group-item-action"
+             data-report="report_TopN_PopulatedCitiesByRegion">
+            <h5 class="mb-1">TopN_PopulatedCitiesByRegion</h5>
+            <p class="mb-1 text-muted">The top N populated cities in a region where N is provided by the user.</p>
+
+            <label class="mt-2">Region:</label>
+            <input type="text" data-param="region" placeholder="Central America" value="Central America" class="form-control me-2"/>
+            <label class="mt-2">Number of cities:</label>
+            <input type="text" data-param="N" placeholder="4" value="4" class="form-control me-2"/>
+            <button class="btn btn-primary mt-2" onclick="generateReportUrl(this)">Get Report</button>
+        </div>
+
+        <!-- report_TopN_PopulatedCitiesByCountry -->
+        <div class="list-group-item list-group-item-action"
+             data-report="report_TopN_PopulatedCitiesByCountry">
+            <h5 class="mb-1">TopN_PopulatedCitiesByCountry</h5>
+            <p class="mb-1 text-muted">The top N populated cities in a country where N is provided by the user.</p>
+
+            <label class="mt-2">Country:</label>
+            <input type="text" data-param="country" placeholder="United States" value="United States" class="form-control me-2"/>
+            <label class="mt-2">Number of cities:</label>
+            <input type="text" data-param="N" placeholder="2" value="2" class="form-control me-2"/>
+            <button class="btn btn-primary mt-2" onclick="generateReportUrl(this)">Get Report</button>
+        </div>
+
+        <!-- report_TopN_PopulatedCitiesByDistrict -->
+        <div class="list-group-item list-group-item-action"
+             data-report="report_TopN_PopulatedCitiesByDistrict">
+            <h5 class="mb-1">TopN_PopulatedCitiesByDistrict</h5>
+            <p class="mb-1 text-muted">The top N populated cities in a district where N is provided by the user.</p>
+
+            <label class="mt-2">District:</label>
+            <input type="text" data-param="district" placeholder="Western" value="Western" class="form-control me-2"/>
+            <label class="mt-2">Number of cities:</label>
+            <input type="text" data-param="N" placeholder="6" value="6" class="form-control me-2"/>
+            <button class="btn btn-primary mt-2" onclick="generateReportUrl(this)">Get Report</button>
+        </div>
+
+
+    </div>
+    <h2 class="mt-5">City Reports</h2>
+    <div class="list-group">
+
+        <!-- report_CitiesInWorldDESC -->
+        <a href="/report_CitiesInWorldDESC" class="list-group-item list-group-item-action">
+            <h5 class="mb-1">CitiesInWorldDESC</h5>
+            <p class="mb-1 text-muted">All the cities in the world organised by largest population to smallest.</p>
+        </a>
+
+        <!-- report_CitiesInContinentDESC -->
+        <div class="list-group-item list-group-item-action"
+             data-report="report_CitiesInContinentDESC">
+            <h5 class="mb-1">CitiesInContinentDESC</h5>
+            <p class="mb-1 text-muted">All the cities in a continent organised by largest population to smallest.</p>
+
+            <label class="mt-2">Continent:</label>
+            <input type="text" data-param="continent" placeholder="Africa" value="Africa" class="form-control me-2"/>
+            <button class="btn btn-primary mt-2" onclick="generateReportUrl(this)">Get Report</button>
+        </div>
+
+
+        <!-- report_CitiesInRegionDESC -->
+        <div class="list-group-item list-group-item-action"
+             data-report="report_CitiesInRegionDESC">
+            <h5 class="mb-1">CitiesInRegionDESC</h5>
+            <p class="mb-1 text-muted">All the cities in a region organised by largest population to smallest.</p>
+
+            <label class="mt-2">Region:</label>
+            <input type="text" data-param="region" placeholder="Central America" value="Central America" class="form-control me-2"/>
+            <button class="btn btn-primary mt-2" onclick="generateReportUrl(this)">Get Report</button>
+        </div>
+
+
+        <!-- report_CitiesInCountryDESC -->
+        <div class="list-group-item list-group-item-action"
+             data-report="report_CitiesInCountryDESC">
+            <h5 class="mb-1">CitiesInCountryDESC</h5>
+            <p class="mb-1 text-muted">All the cities in a country organised by largest population to smallest.</p>
+
+            <label class="mt-2">Country:</label>
+            <input type="text" data-param="country" placeholder="Angola" value="Angola" class="form-control me-2"/>
+            <button class="btn btn-primary mt-2" onclick="generateReportUrl(this)">Get Report</button>
+        </div>
+
+
+        <!-- report_CitiesInDistrictDESC -->
+        <div class="list-group-item list-group-item-action"
+             data-report="report_CitiesInDistrictDESC">
+            <h5 class="mb-1">CitiesInDistrictDESC</h5>
+            <p class="mb-1 text-muted">All the cities in a district organised by largest population to smallest.</p>
+
+            <label class="mt-2">District:</label>
+            <input type="text" data-param="district" placeholder="Scotland" value="Scotland" class="form-control me-2"/>
+            <button class="btn btn-primary mt-2" onclick="generateReportUrl(this)">Get Report</button>
+        </div>
+
+
+        <!-- report_CapitalCitiesInWorldDESC -->
+        <a href="/report_CapitalCitiesInWorldDESC" class="list-group-item list-group-item-action">
+            <h5 class="mb-1">CapitalCitiesInWorldDESC</h5>
+            <p class="mb-1 text-muted">All the capital cities in the world organised by largest population to smallest.</p>
+        </a>
+
+
+        <!-- report_CapitalCitiesInContinentDESC -->
+        <div class="list-group-item list-group-item-action"
+             data-report="report_CapitalCitiesInContinentDESC">
+            <h5 class="mb-1">CapitalCitiesInContinentDESC</h5>
+            <p class="mb-1 text-muted">All the capital cities in a continent organised by largest population to smallest.</p>
+
+            <label class="mt-2">Continent:</label>
+            <input type="text" data-param="continent" placeholder="North America" value="North America" class="form-control me-2"/>
+            <button class="btn btn-primary mt-2" onclick="generateReportUrl(this)">Get Report</button>
+        </div>
+
+
+        <!-- report_CapitalCitiesInRegionDESC -->
+        <div class="list-group-item list-group-item-action"
+             data-report="report_CapitalCitiesInRegionDESC">
+            <h5 class="mb-1">CapitalCitiesInRegionDESC</h5>
+            <p class="mb-1 text-muted">All the capital cities in a region organised by largest to smallest.</p>
+
+            <label class="mt-2">Region:</label>
+            <input type="text" data-param="region" placeholder="Western Europe" value="Western Europe" class="form-control me-2"/>
+            <button class="btn btn-primary mt-2" onclick="generateReportUrl(this)">Get Report</button>
+        </div>
+
+    </div>
+    <h2 class="mt-5">TopN Reports - Capital Cities</h2>
+    <div class="list-group">
+
+        <!-- report_TopN_PopulatedCapitalCitiesInWorld -->
+        <div class="list-group-item list-group-item-action"
+             data-report="report_TopN_PopulatedCapitalCitiesInWorld">
+            <h5 class="mb-1">TopN_PopulatedCapitalCitiesInWorld</h5>
+            <p class="mb-1 text-muted">Retrives top N most populated capital cities in the world.</p>
+
+            <label class="mt-2">Number of capital cities:</label>
+            <input type="text" data-param="N" placeholder="3" value="3" class="form-control me-2"/>
+            <button class="btn btn-primary mt-2" onclick="generateReportUrl(this)">Get Report</button>
+        </div>
+
+
+        <!-- report_TopN_PopulatedCapitalCitiesInContinent -->
+        <div class="list-group-item list-group-item-action"
+             data-report="report_TopN_PopulatedCapitalCitiesInContinent">
+            <h5 class="mb-1">TopN_PopulatedCapitalCitiesInContinent</h5>
+            <p class="mb-1 text-muted">Retrives top N most populated capital cities within a given continent.</p>
+
+            <label class="mt-2">Continent:</label>
+            <input type="text" data-param="continent" placeholder="Asia" value="Asia" class="form-control me-2"/>
+            <label class="mt-2">Number of cities:</label>
+            <input type="text" data-param="N" placeholder="3" value="3" class="form-control me-2"/>
+            <button class="btn btn-primary mt-2" onclick="generateReportUrl(this)">Get Report</button>
+        </div>
+
+
+        <!-- report_TopN_PopulatedCapitalCitiesInRegion -->
+        <div class="list-group-item list-group-item-action"
+             data-report="report_TopN_PopulatedCapitalCitiesInRegion">
+            <h5 class="mb-1">TopN_PopulatedCapitalCitiesInRegion</h5>
+            <p class="mb-1 text-muted">Retrives top N most populated capital cities within a given region.</p>
+
+            <label class="mt-2">Region:</label>
+            <input type="text" data-param="region" placeholder="Central America" value="Central America" class="form-control me-2"/>
+            <label class="mt-2">Number of cities:</label>
+            <input type="text" data-param="N" placeholder="3" value="3" class="form-control me-2"/>
+            <button class="btn btn-primary mt-2" onclick="generateReportUrl(this)">Get Report</button>
+        </div>
+
+
+    </div>
+    <h2 class="mt-5">Population Breakdown</h2>
+    <div class="list-group">
+
+        <!-- report_PopulationBreakdown_AllContinents -->
+        <a href="/report_PopulationBreakdown_AllContinents" class="list-group-item list-group-item-action">
+            <h5 class="mb-1">PopulationBreakdown_AllContinents</h5>
+            <p class="mb-1 text-muted">Retrives population breakdown (total, urban, rural) for all continents.</p>
+        </a>
+
+        <!-- report_PopulationBreakdown_AllRegions -->
+        <a href="/report_PopulationBreakdown_AllRegions" class="list-group-item list-group-item-action">
+            <h5 class="mb-1">PopulationBreakdown_AllRegions</h5>
+            <p class="mb-1 text-muted">Retrives population breakdown (total, urban, rural) for all regions.</p>
+        </a>
+
+        <!-- report_PopulationBreakdown_AllCountries -->
+        <a href="/report_PopulationBreakdown_AllCountries" class="list-group-item list-group-item-action">
+            <h5 class="mb-1">PopulationBreakdown_AllCountries</h5>
+            <p class="mb-1 text-muted">Retrives population breakdown (total, urban, rural) for all countries.</p>
+        </a>
+
+    </div>
+    <h2 class="mt-5">Total Population</h2>
+    <div class="list-group">
+
+        <!-- report_TotalPopulation_World -->
+        <a href="/report_TotalPopulation_World" class="list-group-item list-group-item-action">
+            <h5 class="mb-1">TotalPopulation_World</h5>
+            <p class="mb-1 text-muted">Calculates and retrives the total population of the world.</p>
+        </a>
+
+
+        <!-- report_TotalPopulation_Continent -->
+        <div class="list-group-item list-group-item-action"
+             data-report="report_TotalPopulation_Continent">
+            <h5 class="mb-1">TotalPopulation_Continent</h5>
+            <p class="mb-1 text-muted">Retrives total population within a given continent.</p>
+
+            <label class="mt-2">Continent:</label>
+            <input type="text" data-param="continent" placeholder="Asia" value="Asia" class="form-control me-2"/>
+            <button class="btn btn-primary mt-2" onclick="generateReportUrl(this)">Get Report</button>
+        </div>
+
+
+        <!-- report_TotalPopulation_Region -->
+        <div class="list-group-item list-group-item-action"
+             data-report="report_TotalPopulation_Region">
+            <h5 class="mb-1">TotalPopulation_Region</h5>
+            <p class="mb-1 text-muted">Retrives total population within a given region.</p>
+
+            <label class="mt-2">Region:</label>
+            <input type="text" data-param="region" placeholder="Central America" value="Central America" class="form-control me-2"/>
+            <button class="btn btn-primary mt-2" onclick="generateReportUrl(this)">Get Report</button>
+        </div>
+
+
+        <!-- report_TotalPopulation_Country -->
+        <div class="list-group-item list-group-item-action"
+             data-report="report_TotalPopulation_Country">
+            <h5 class="mb-1">TotalPopulation_Country</h5>
+            <p class="mb-1 text-muted">Retrives total population within a given country.</p>
+
+            <label class="mt-2">Country:</label>
+            <input type="text" data-param="country" placeholder="Germany" value="Germany" class="form-control me-2"/>
+            <button class="btn btn-primary mt-2" onclick="generateReportUrl(this)">Get Report</button>
+        </div>
+
+        <!-- report_TotalPopulation_District -->
+        <div class="list-group-item list-group-item-action"
+             data-report="report_TotalPopulation_District">
+            <h5 class="mb-1">TotalPopulation_District</h5>
+            <p class="mb-1 text-muted">Retrives total population within a given district.</p>
+
+            <label class="mt-2">Continent:</label>
+            <input type="text" data-param="district" placeholder="Western" value="Western" class="form-control me-2"/>
+            <button class="btn btn-primary mt-2" onclick="generateReportUrl(this)">Get Report</button>
+        </div>
+
+
+        <!-- report_TotalPopulation_City -->
+        <div class="list-group-item list-group-item-action"
+             data-report="report_TotalPopulation_City">
+            <h5 class="mb-1">TotalPopulation_City</h5>
+            <p class="mb-1 text-muted">Retrives total population within a given city.</p>
+
+            <label class="mt-2">City:</label>
+            <input type="text" data-param="city" placeholder="London" value="London" class="form-control me-2"/>
+            <button class="btn btn-primary mt-2" onclick="generateReportUrl(this)">Get Report</button>
+        </div>
+
+    </div>
+    <h2 class="mt-5">Languages</h2>
+    <div class="list-group">
+
+        <!-- report_WorldLanguagesBreakdown -->
+        <div class="list-group-item list-group-item-action"
+             data-report="report_WorldLanguagesBreakdown">
+            <h5 class="mb-1">WorldLanguagesBreakdown</h5>
+            <p class="mb-1 text-muted">Retrives a breakdown of spoken languages, including total speakers and percentage of world population</p>
+
+            <label class="mt-2">Total World Population:</label>
+            <input type="text" data-param="worldPopulation" placeholder="6078749450" value="6078749450" class="form-control me-2"/>
+            <div class="alert alert-warning mt-2" role="alert">
+                Adjusting the world population will affect the final percentages.
+            </div>
+
+            <button class="btn btn-primary mt-2" onclick="generateReportUrl(this)">Get Report</button>
+        </div>
+
+
+
+
+    </div>
+</div>
+
+<!-- Generate report REST url with parameters-->
+<script>
+    // Generate dynamic URL for reports with parameters
+    function generateReportUrl(buttonElement) {
+        // Get parent div and extract report name
+        const reportContainer = buttonElement.closest('.list-group-item');
+        const reportName = reportContainer.getAttribute('data-report');
+
+        let url = `/${reportName}`;
+
+        // Get all input fields
+        const inputs = reportContainer.querySelectorAll('input[data-param]');
+
+        // Query parameters
+        const queryParams = [];
+        inputs.forEach(input => {
+            const paramName = input.getAttribute('data-param');
+            const paramValue = input.value.trim();
+
+            if (paramValue) {
+                // Encode parameter name + value and add to queryParams
+                queryParams.push(`${encodeURIComponent(paramName)}=${encodeURIComponent(paramValue)}`);
+            }
+        });
+
+        // Any query parameters? append into URL
+        if (queryParams.length > 0) {
+            url += `?${queryParams.join('&')}`;
+        }
+
+        // Redirect to new url
+        window.location.href = url;
+    }
+</script>
+
+<!-- Dark/Light Logic-->
+<script>
+    const btn_theme = document.getElementById('themeToggle');
+    const htmlElement = document.documentElement;
+
+    // Update btn based on state
+    const currentTheme = htmlElement.getAttribute('data-bs-theme');
+    btn_theme.textContent = currentTheme === 'dark' ? 'Light Mode' : 'Dark Mode';
+
+    // Delegate on theme btn press
+    btn_theme.addEventListener('click', () => {
+        // If dark -> set light (and vice versa)
+        const newTheme = htmlElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+        htmlElement.setAttribute('data-bs-theme', newTheme);
+        btn_theme.textContent = newTheme === 'dark' ? 'Light Mode' : 'Dark Mode';
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

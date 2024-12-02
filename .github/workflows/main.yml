@@ -1,4 +1,4 @@
-name: A workflow for my Hello World App
+name: Workflow for the application, runs tests and code coverage
 on:
   push:
     branches:
@@ -18,7 +18,7 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       - name: Unit Tests
-        run: mvn -Dtest='com.napier.sem.AppTest,com.napier.sem.CityTest,com.napier.sem.CountryLanguageTest,com.napier.sem.CountryTest,com.napier.sem.DatabaseTest' test
+        run: mvn -Dtest='com.napier.sem.AppTest,com.napier.sem.CityTest,com.napier.sem.CountryTest,com.napier.sem.DatabaseTest' test
 
   IntegrationTests:
     name: Integration Tests

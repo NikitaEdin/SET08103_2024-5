@@ -49,9 +49,11 @@ class CityTest {
      */
     @Test
     void testCityConstructorNull() {
+        assertEquals(0, cityNull.ID);
         assertNull(cityNull.Name);
         assertNull(cityNull.CountryCode);
         assertNull(cityNull.District);
+        assertEquals(0, cityNull.Population);
     }
 
     /**

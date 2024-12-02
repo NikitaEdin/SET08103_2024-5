@@ -1,0 +1,60 @@
+name: Feature Request [FORM]
+description: Suggest a new feature or enhancement for SET08103_2024-5 Project.
+title: "[Feature Request]: "
+labels: ["feature", "enhancement"]
+projects: ["SET08103_2024-5", "SET08103_2024-5/features"]
+assignees:
+  - project-maintainer
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for suggesting a new feature! Please provide as much detail as possible to help us understand your request.
+
+  - type: textarea
+    id: feature-request
+    attributes:
+      label: Feature Request Description
+      description: Describe the feature or enhancement you would like to see.
+      placeholder: "E.g., Add the ability to order results in ascending order."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: feature-area
+    attributes:
+      label: Area of Impact
+      description: Which part of the application will this feature affect?
+      options:
+        - World Reports
+        - TopN Reports - Countries
+        - TopN Reports - Cities
+        - City Reports
+        - TopN Reports - Capital Cities
+        - Population Breakdown
+        - Total Population
+        - Languages
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How important is this feature to the overall project?
+      options:
+        - Low (Nice to have)
+        - Medium (Useful but not urgent)
+        - High (Essential for the project)
+        - Critical (Must-have for project success)
+    validations:
+      required: true
+
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Use Case
+      description: Explain the use case for this feature. How would it benefit the users?
+      placeholder: "E.g., This feature would allow users to explore reports in ascending order as well."
+

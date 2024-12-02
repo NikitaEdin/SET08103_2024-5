@@ -4,10 +4,20 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 /**
  * This is class is to run the program and print the reports that are needed.
  */
+@SpringBootApplication
+@RestController
 public class App {
+
+    private final static int TIMEOUT_DEFAULT = 100;
 
     /**
      * Main app method to initialise the application.
@@ -17,20 +27,37 @@ public class App {
         // Create new Application
         App a = new App();
 
+        // Auto timeout in seconds
+        int timeoutSeconds =  TIMEOUT_DEFAULT;
+
         if (args.length < 1) {
-            a.connect("localhost:33060", 10000);
+            connect("localhost:33060", 10000);
         } else {
-            a.connect(args[0], Integer.parseInt(args[1]));
+            connect(args[0], Integer.parseInt(args[1]));
+
+            // 3 args? use last for timeout
+            if(args.length == 3)
+                timeoutSeconds = Integer.parseInt(args[2]);
         }
 
+        // Start auto disconnect timer
+        a.startAutoDisconnectTimer(timeoutSeconds);
+
+        // Run the spring application
+        SpringApplication.run(App.class, args);
 
         // ######## REPORTS BEGIN HERE ######## ///
         generateAllReports(a);
 
+
         // Disconnect from database before termination
-        a.disconnect();
+        //disconnect();
     }
 
+    /**
+     * Method to produce all the reports.
+     * @param a App object to be used to run App methods.
+     */
     public static void generateAllReports(App a){
         // World Reports
         System.out.println("\nreport_PopulationDESC: ");
@@ -76,6 +103,39 @@ public class App {
         print_Items_Capitals(a.report_CapitalCitiesInContinentDESC("North America"));
         System.out.println("\nreport_CapitalCitiesInRegionDESC: ");
         print_Items_Capitals(a.report_CapitalCitiesInRegionDESC("Western Europe"));
+
+        // TopN - CapitalCities
+        System.out.println("\nreport_TopN_PopulatedCapitalCitiesInWorld:");
+        print_Items(a.report_TopN_PopulatedCapitalCitiesInWorld(3));
+        System.out.println("\nreport_TopN_PopulatedCapitalCitiesInContinent:");
+        print_Items(a.report_TopN_PopulatedCapitalCitiesInContinent(3, "Asia"));
+        System.out.println("\nreport_TopN_PopulatedCapitalCitiesInRegion:");
+        print_Items(a.report_TopN_PopulatedCapitalCitiesInRegion(3,"Central America"));
+
+        // Breakdown
+        System.out.println("\nreport_PopulationBreakdown_AllContinents:");
+        print_Items(a.report_PopulationBreakdown_AllContinents());
+        System.out.println("\nreport_PopulationBreakdown_AllRegions:");
+        print_Items(a.report_PopulationBreakdown_AllRegions());
+        System.out.println("\nreport_PopulationBreakdown_AllCountries:");
+        print_Items(a.report_PopulationBreakdown_AllCountries());
+
+        // TotalPopulation
+        System.out.println("\nreport_TotalPopulation_World:");
+        long world = a.report_TotalPopulation_World();
+        System.out.println(world);
+        System.out.println("\nreport_TotalPopulation_Continent:");
+        System.out.println(a.report_TotalPopulation_Continent("Asia"));
+        System.out.println("\nreport_TotalPopulation_Region:");
+        System.out.println(a.report_TotalPopulation_Region("Central America"));
+        System.out.println("\nreport_TotalPopulation_Country:");
+        System.out.println(a.report_TotalPopulation_Country("Germany"));
+        System.out.println("\nreport_TotalPopulation_District:");
+        System.out.println(a.report_TotalPopulation_District("Western"));
+        System.out.println("\nreport_TotalPopulation_City:");
+        System.out.println(a.report_TotalPopulation_City("London"));
+        System.out.println("\nreport_WorldLanguagesBreakdown:");
+        print_Items(a.report_WorldLanguagesBreakdown(world < 1 ? 6000000000L : world));
     }
 
     ///////////////////// REPORTS /////////////////////
@@ -86,6 +146,7 @@ public class App {
      * All the countries in the world organised by largest population to smallest
      * @return Return a list of Country type in DESC order
      */
+    @RequestMapping("report_PopulationDESC")
     public List<Country> report_PopulationDESC() {
         String query = "SELECT * FROM country ORDER BY population DESC";
         return getReport_Country(query);
@@ -96,7 +157,8 @@ public class App {
      * @param continent Continent name to filter by
      * @return  Return a list of Country type in DESC order
      */
-    public List<Country> report_PopulationByContinentDESC(String continent) {
+    @RequestMapping("report_PopulationByContinentDESC")
+    public List<Country> report_PopulationByContinentDESC(@RequestParam(value = "continent") String continent) {
         if(continent != null && !continent.isEmpty()){
             String query = "SELECT * FROM country WHERE continent = '" + continent + "' ORDER BY population DESC";
             return getReport_Country(query);
@@ -113,7 +175,8 @@ public class App {
      * @param region Region name to filter by
      * @return Returns a list of Country type in DESC order
      */
-    public List<Country> report_CountriesByRegionDESC(String region) {
+    @RequestMapping("report_CountriesByRegionDESC")
+    public List<Country> report_CountriesByRegionDESC(@RequestParam(value = "region") String region) {
         if (region !=null && !region.isEmpty()){
             String query = "SELECT * FROM country WHERE region = '"+ region +"' ORDER BY population DESC";
             return getReport_Country(query);
@@ -128,7 +191,8 @@ public class App {
      * @param N Number of top populated countries to retrieve
      * @return A list of the top N populated countries, sorted in descending order by population
      */
-    public List<Country> report_TopN_PopulatedCountries(int N){
+    @RequestMapping("report_TopN_PopulatedCountries")
+    public List<Country> report_TopN_PopulatedCountries(@RequestParam(value = "N") int N){
         if (N < 1) return null;
         return getReport_Country("SELECT * FROM country ORDER BY population DESC LIMIT "+ N);
     }
@@ -139,9 +203,10 @@ public class App {
      * @param N The number of top populated countries to retrieve for the specified continent
      * @return List of top N populated countries in the specified continent
      */
-    public List<Country> report_TopN_PopulatedCountriesByContinent(String continent, int N) {
+    @RequestMapping("report_TopN_PopulatedCountriesByContinent")
+    public List<Country> report_TopN_PopulatedCountriesByContinent(@RequestParam(value = "continent") String continent, @RequestParam(value = "N") int N) {
         if( N < 1 || continent == null || continent.isEmpty()) return null;
-        String query = "SELECT * FROM country WHERE continent = '"+ continent +"' ORDER BY population DESC LIMIT "+ N;
+        String query = "SELECT * FROM country WHERE continent = '"+ continent +"' ORDER BY population DESC LIMIT " + N;
         return getReport_Country(query);
     }
 
@@ -151,7 +216,8 @@ public class App {
      * @param N Number of top populated countries to retrieve for the specified region
      * @return A list of top N populated countries in the specified region
      */
-    public List<Country> report_TopN_PopulatedCountriesByRegion(String region, int N) {
+    @RequestMapping("report_TopN_PopulatedCountriesByRegion")
+    public List<Country> report_TopN_PopulatedCountriesByRegion(@RequestParam(value = "region") String region,@RequestParam(value = "N") int N) {
         if( N < 1 || region == null || region.isEmpty()) return null;
         String query = "SELECT * FROM country WHERE region = '" + region + "' ORDER BY population DESC LIMIT "+ N;
         return getReport_Country(query);
@@ -162,7 +228,8 @@ public class App {
      * @param N Number of top populated cities to retrieve
      * @return List of top N populated cities, sorted in descending order by population
      */
-    public List<City> report_TopN_PopulatedCities(int N) {
+    @RequestMapping("report_TopN_PopulatedCities")
+    public List<City> report_TopN_PopulatedCities(@RequestParam(value = "N") int N) {
         if (N < 1) return null;
         String query = "SELECT * FROM city ORDER BY population DESC LIMIT " + N;
         return getReport_City(query);
@@ -174,7 +241,8 @@ public class App {
      * @param N Number of top populated cities to retrieve
      * @return List of top N populated cities in the specified continent, sorted in descending order by population
      */
-    public List<City> report_TopN_PopulatedCitiesByContinent(String continent, int N) {
+    @RequestMapping("report_TopN_PopulatedCitiesByContinent")
+    public List<City> report_TopN_PopulatedCitiesByContinent(@RequestParam(value = "continent") String continent,@RequestParam(value = "N") int N) {
         if (N < 1 || continent == null || continent.isEmpty()) return null;
         String query = "SELECT city.* FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Continent = '" + continent + "' ORDER BY city.Population DESC LIMIT " + N;
         return getReport_City(query);
@@ -187,7 +255,8 @@ public class App {
      * @param N Number of top populated cities to retrieve
      * @return List of top N populated cities in specified region, sorted in descending order by population
      */
-    public List<City> report_TopN_PopulatedCitiesByRegion(String region, int N) {
+    @RequestMapping("report_TopN_PopulatedCitiesByRegion")
+    public List<City> report_TopN_PopulatedCitiesByRegion(@RequestParam(value = "region") String region,@RequestParam(value = "N") int N) {
         if (N < 1 || region == null || region.isEmpty()) return null;
         String query = "SELECT city.* FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Region = '" + region + "' ORDER BY city.Population DESC LIMIT " + N;
         return getReport_City(query);
@@ -199,7 +268,8 @@ public class App {
      * @param N Number of top populated cities to retrieve
      * @return List of top N populated cities in specified country, sorted in descending order by population
      */
-    public List<City> report_TopN_PopulatedCitiesByCountry(String country, int N) {
+    @RequestMapping("report_TopN_PopulatedCitiesByCountry")
+    public List<City> report_TopN_PopulatedCitiesByCountry(@RequestParam(value = "country") String country,@RequestParam(value = "N") int N) {
         if (N < 1 || country == null || country.isEmpty()) return null;
         String query = "SELECT city.* FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Name = '" + country + "' ORDER BY city.Population DESC LIMIT " + N;
         return getReport_City(query);
@@ -211,7 +281,8 @@ public class App {
      * @param N Number of top populated cities to retrieve
      * @return List of top N populated cities in specified district, sorted in descending order by population
      */
-    public List<City> report_TopN_PopulatedCitiesByDistrict(String district, int N) {
+    @RequestMapping("report_TopN_PopulatedCitiesByDistrict")
+    public List<City> report_TopN_PopulatedCitiesByDistrict(@RequestParam(value = "district") String district,@RequestParam(value = "N") int N) {
         if (N < 1 || district == null || district.isEmpty()) return null;
         String query = "SELECT * FROM city WHERE District = '" + district + "' ORDER BY Population DESC LIMIT " + N;
         return getReport_City(query);
@@ -221,6 +292,7 @@ public class App {
      * All the cities in the world organised by largest population to smallest.
      * @return List of all cities in the world, sorted in descending order by population.
      */
+    @RequestMapping("report_CitiesInWorldDESC")
     public List<City> report_CitiesInWorldDESC() {
         String query = "SELECT * FROM city ORDER BY population DESC";
         return getReport_City(query);
@@ -231,7 +303,8 @@ public class App {
      * @param continent Name of continent to filter the cities by.
      * @return List of cities in specified continent, sorted by descending order by population.
      */
-    public List<City> report_CitiesInContinentDESC(String continent) {
+    @RequestMapping("report_CitiesInContinentDESC")
+    public List<City> report_CitiesInContinentDESC(@RequestParam(value = "continent") String continent) {
         if(continent == null || continent.isEmpty()) return null;
         String query = "SELECT * FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Continent = '" + continent + "' ORDER BY city.population DESC";
         return getReport_City(query);
@@ -242,7 +315,8 @@ public class App {
      * @param region Name of region to filter the cities by.
      * @return List of cities in specified region, sorted by descending order by population.
      */
-    public List<City> report_CitiesInRegionDESC(String region) {
+    @RequestMapping("report_CitiesInRegionDESC")
+    public List<City> report_CitiesInRegionDESC(@RequestParam(value = "region") String region) {
         if(region == null || region.isEmpty()) return null;
         String query = "SELECT * FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Region = '" + region + "' ORDER BY city.population DESC";
         return getReport_City(query);
@@ -253,7 +327,8 @@ public class App {
      * @param country Name of country to filter the cities by.
      * @return List of cities in the specified country, sorted by descending order by population.
      */
-    public List<City> report_CitiesInCountryDESC(String country) {
+    @RequestMapping("report_CitiesInCountryDESC")
+    public List<City> report_CitiesInCountryDESC(@RequestParam(value = "country") String country) {
         if(country == null || country.isEmpty()) return null;
         String query = "SELECT * FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Name = '" + country + "' ORDER BY city.population DESC";
         return getReport_City(query);
@@ -264,7 +339,8 @@ public class App {
      * @param district Name of district to filter the cities by.
      * @return List of cities in the specified country, sorted by descending order by population.
      */
-    public List<City> report_CitiesInDistrictDESC(String district) {
+    @RequestMapping("report_CitiesInDistrictDESC")
+    public List<City> report_CitiesInDistrictDESC(@RequestParam(value = "district") String district) {
         if(district == null || district.isEmpty()) return null;
         String query = "SELECT * FROM city WHERE District = '" + district + "' ORDER BY city.population DESC";
         return getReport_City(query);
@@ -274,6 +350,7 @@ public class App {
      * All the capital cities in the world organised by largest population to smallest.
      * @return List of all capital cities in the world, sorted by descending order by population.
      */
+    @RequestMapping("report_CapitalCitiesInWorldDESC")
     public List<City> report_CapitalCitiesInWorldDESC() {
         String query = "SELECT * FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Capital = city.ID ORDER BY city.population DESC";
         return getReport_City(query);
@@ -284,7 +361,8 @@ public class App {
      * @param continent Name of district to filter the cities by.
      * @return List of capital cities in the specified continent, sorted by descending order by population.
      */
-    public List<City> report_CapitalCitiesInContinentDESC(String continent) {
+    @RequestMapping("report_CapitalCitiesInContinentDESC")
+    public List<City> report_CapitalCitiesInContinentDESC(@RequestParam(value = "continent") String continent) {
         if(continent == null || continent.isEmpty()) return null;
         String query = "SELECT * FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Continent = '" + continent + "' AND country.Capital = city.ID ORDER BY city.population DESC";
         return getReport_City(query);
@@ -295,7 +373,8 @@ public class App {
      * @param region Name of region to filter the cities by.
      * @return List of capital cities in the specified region, sorted by descending order by population.
      */
-    public List<City> report_CapitalCitiesInRegionDESC(String region) {
+    @RequestMapping("report_CapitalCitiesInRegionDESC")
+    public List<City> report_CapitalCitiesInRegionDESC(@RequestParam(value = "region") String region) {
         if (region != null && !region.isEmpty()){
             String query = "SELECT * FROM city JOIN country ON city.CountryCode = country.Code WHERE country.Region = '" + region + "' AND country.Capital = city.ID ORDER BY city.population DESC";
             return getReport_City(query);
@@ -304,33 +383,245 @@ public class App {
        return null;
     }
 
-    // Reports to be implemented
 
-//    public List<City> report_TopN_PopulatedCapitalCitiesInWorld(int N) {}
-//
-//    public List<City> report_TopN_PopulatedCapitalCitiesInContinent(int N, String continent) {}
-//
-//    public List<City> report_TopN_PopulatedCapitalCitiesInRegion(int N, String region) {}
-//
-//    public void report_PopulationBreakdown_AllContinents() {}
-//
-//    public void report_PopulationBreakdown_AllRegions() {}
-//
-//    public void report_PopulationBreakdown_AllCountries() {}
-//
-//    public void report_TotalPopulation_World() {}
-//
-//    public void report_TotalPopulation_Continent(String continent) {}
-//
-//    public void report_TotalPopulation_Region(String region) {}
-//
-//    public void report_TotalPopulation_Country(String country) {}
-//
-//    public void report_TotalPopulation_District(String district) {}
-//
-//    public void report_TotalPopulation_City(String city) {}
-//
-//    public void report_WorldLanguagesBreakdown() {}
+    /**
+     * Retrieves top N most populated capital cities in the world.
+     * @param N number of items to retrieve
+     * @return List of top N populated capital cities
+     */
+    @RequestMapping("report_TopN_PopulatedCapitalCitiesInWorld")
+    public List<City> report_TopN_PopulatedCapitalCitiesInWorld(@RequestParam(value = "N") int N) {
+        if (N < 1) return null;
+        //String query = "SELECT * FROM city ORDER BY population DESC LIMIT " + N;
+        String query = "SELECT * " +
+                "FROM city " +
+                "JOIN country ON city.ID = country.Capital " +
+                "ORDER BY city.Population DESC LIMIT " + N;
+        return getReport_City(query);
+    }
+
+    /**
+     * Retrieves top N most populated capital cities within a given continent.
+     * @param N number of items to retrive
+     * @param continent continent name
+     * @return List of top N populated capital cities in a given continent
+     */
+    @RequestMapping("report_TopN_PopulatedCapitalCitiesInContinent")
+    public List<City> report_TopN_PopulatedCapitalCitiesInContinent(@RequestParam(value = "N") int N,@RequestParam(value = "continent") String continent) {
+        if (N < 1 || continent == null || continent.isEmpty()) return null;
+        String query = "SELECT * " +
+                "FROM city " +
+                "JOIN country ON city.ID = country.Capital " +
+                "WHERE country.Continent = '" + continent + "' ORDER BY city.population DESC LIMIT " + N;
+        return getReport_City(query);
+    }
+
+    /**
+     * Retrieves top N most populated capital cities within a given region.
+     * @param N number of items to retrive
+     * @param region region name
+     * @return List of top N populated capital cities in a given region
+     */
+    @RequestMapping("report_TopN_PopulatedCapitalCitiesInRegion")
+    public List<City> report_TopN_PopulatedCapitalCitiesInRegion(@RequestParam(value = "N") int N,@RequestParam(value = "region") String region) {
+        if (N < 1 || region == null || region.isEmpty()) return null;
+        String query = "SELECT * " +
+                "FROM city " +
+                "JOIN country ON city.ID = country.Capital " +
+                "WHERE country.Region = '" + region + "' ORDER BY city.population DESC LIMIT " + N ;
+        return getReport_City(query);
+    }
+
+    /**
+     * Retrieves population breakdown (total, urban, rural) for all continents.
+     */
+    @RequestMapping("report_PopulationBreakdown_AllContinents")
+    public List<PopulationBreakdown> report_PopulationBreakdown_AllContinents() {
+        String query = "SELECT c.Continent, " +
+                "SUM(c.Population) AS TotalPopulation, " +
+                "SUM(city.Population) AS UrbanPopulation, " +
+                "(SUM(c.Population) - SUM(city.Population)) AS  RuralPopulation " +
+                "FROM country c " +
+                "LEFT JOIN city ON c.Code = city.CountryCode " +
+                "GROUP BY c.Continent " +
+                "ORDER BY TotalPopulation DESC";
+
+
+        return getReport_PopulationBreakdown(query, "Continent");
+    }
+
+    /**
+     * Retrieves population breakdown (total, urban, rural) for all regions.
+     */
+    @RequestMapping("report_PopulationBreakdown_AllRegions")
+    public List<PopulationBreakdown> report_PopulationBreakdown_AllRegions() {
+        String query = "SELECT c.Region, " +
+                "SUM(c.Population) AS TotalPopulation, " +
+                "SUM(city.Population) AS UrbanPopulation, " +
+                "(SUM(c.Population) - SUM(city.Population)) AS RuralPopulation " +
+                "FROM country c " +
+                "LEFT JOIN city ON c.Code = city.CountryCode " +
+                "GROUP BY c.Region " +
+                "ORDER BY TotalPopulation DESC";
+
+        return getReport_PopulationBreakdown(query, "Region");
+    }
+
+    /**
+     * Retrieves population breakdown (total, urban, rural) for all countries.
+     */
+    @RequestMapping("report_PopulationBreakdown_AllCountries")
+    public List<PopulationBreakdown> report_PopulationBreakdown_AllCountries() {
+        String query = "SELECT c.Name AS Country, " +
+                "SUM(c.Population) AS TotalPopulation, " +
+                "SUM(city.Population) AS UrbanPopulation, " +
+                "(SUM(c.Population) - SUM(city.Population)) AS RuralPopulation " +
+                "FROM country c " +
+                "LEFT JOIN city ON c.Code = city.CountryCode " +
+                "GROUP BY c.Name " +
+                "ORDER BY TotalPopulation DESC";
+
+        return getReport_PopulationBreakdown(query, "Country");
+    }
+
+    /**
+     * Calculates and retrieves the total population of the world.
+     * @return total population of the world
+     */
+    @RequestMapping("report_TotalPopulation_World")
+    public long report_TotalPopulation_World() {
+        String query = "SELECT SUM(Population) AS TotalWorldPopulation FROM country";
+
+        ResultSet rs = executeQuery(query);
+        try{
+            if(rs.next()){
+                return rs.getLong("TotalWorldPopulation");
+            }
+        }catch (Exception ignored) {}
+        return 0;
+    }
+
+    /**
+     * Retrieves total population within a given continent.
+     * @param continent Name of the continent
+     * @return total population within the given continent
+     */
+    @RequestMapping("report_TotalPopulation_Continent")
+    public long report_TotalPopulation_Continent(@RequestParam(value = "continent") String continent) {
+        if (continent == null || continent.isEmpty()) return 0;
+
+        String query = "SELECT SUM(Population) AS TotalContinentPopulation " +
+                "FROM country WHERE continent = '" + continent + "'";
+
+        ResultSet rs = executeQuery(query);
+        try{
+            if(rs.next()){
+                return rs.getLong("TotalContinentPopulation");
+            }
+        }catch (Exception ignored) {}
+        return 0;
+    }
+
+    /**
+     * Retrieves total population within a given region.
+     * @param region Name of the region
+     * @return total population within the given region
+     */
+    @RequestMapping("report_TotalPopulation_Region")
+    public long report_TotalPopulation_Region(@RequestParam(value= "region")String region) {
+        if (region == null || region.isEmpty()) return 0;
+
+        String query = "SELECT SUM(Population) AS TotalRegionPopulation " +
+                "FROM country WHERE region = '" + region + "'";
+
+        ResultSet rs = executeQuery(query);
+        try{
+            if(rs.next()){
+                return rs.getLong("TotalRegionPopulation");
+            }
+        }catch (Exception ignored) {}
+        return 0;
+    }
+
+    /**
+     * Retrieves total population within a given country.
+     * @param country Name of the country
+     * @return total population within the given country
+     */
+    @RequestMapping("report_TotalPopulation_Country")
+    public long report_TotalPopulation_Country(@RequestParam(value = "country") String country) {
+        if (country == null || country.isEmpty()) return 0;
+
+        String query = "SELECT Population AS TotalCountryPopulation " +
+                "FROM country WHERE Name = '" + country + "'";
+
+        ResultSet rs = executeQuery(query);
+        try {
+            if (rs.next()) {
+                return rs.getLong("TotalCountryPopulation");  // Return the total country population
+            }
+        } catch (Exception ignored) {}
+        return 0;
+    }
+
+    /**
+     * Retrieves total population within a given district.
+     * @param district Name of the district
+     * @return total population within the given district
+     */
+    @RequestMapping("report_TotalPopulation_District")
+    public long report_TotalPopulation_District(@RequestParam(value = "district") String district) {
+        if (district == null || district.isEmpty()) return 0;
+
+        String query = "SELECT SUM(Population) AS TotalDistrictPopulation " +
+                "FROM city WHERE District = '" + district + "'";
+
+        ResultSet rs = executeQuery(query);
+        try {
+            if (rs.next()) {
+                return rs.getLong("TotalDistrictPopulation");
+            }
+        } catch (Exception ignored) {}
+        return 0;
+    }
+
+    /**
+     * Retrieves total population within a given city.
+     * @param city Name of the city
+     * @return total population within the given city
+     */
+    @RequestMapping("report_TotalPopulation_City")
+    public long report_TotalPopulation_City(@RequestParam(value = "city") String city) {
+        if (city == null || city.isEmpty()) return 0;
+
+        String query = "SELECT Population AS TotalCityPopulation " +
+                "FROM city WHERE name = '" + city + "'";
+
+        ResultSet rs = executeQuery(query);
+        try{
+            if (rs.next()){
+                return rs.getLong("TotalCityPopulation");
+            }
+        }catch(Exception ignored){}
+        return 0;
+    }
+
+    /**
+     * Retrieves a breakdown of spoken languages, including total speakers and percentage of world population
+     */
+    @RequestMapping("report_WorldLanguagesBreakdown")
+    public List<Language> report_WorldLanguagesBreakdown(@RequestParam(value = "worldPopulation") long worldPopulation) {
+        if(worldPopulation < 0) return null;
+
+        String query = "SELECT cl.Language, SUM(c.Population * cl.Percentage / 100) AS TotalSpeakers " +
+                "FROM country c " +
+                "JOIN countrylanguage cl ON c.Code = cl.CountryCode " +
+                "WHERE cl.Language IN ('Chinese', 'English', 'Hindi', 'Spanish', 'Arabic') " +
+                "GROUP BY cl.Language " +
+                "ORDER BY TotalSpeakers DESC";
+
+        return getReport_Language(query, worldPopulation);
+    }
 
 //</editor-fold>
     ///////////////////// UTILS AND DATABASE CONNECTIONS /////////////////////
@@ -365,6 +656,8 @@ public class App {
     }
 
 
+
+
     /**
      * Executes the given query and returns a list of Country objects
      *
@@ -386,15 +679,15 @@ public class App {
                 String continent = rs.getString("Continent");
                 String region = rs.getString("Region");
                 double surfaceArea = rs.getDouble("SurfaceArea");
-                Integer indepYear = rs.getObject("IndepYear") != null ? rs.getInt("IndepYear") : null;
+                int indepYear = rs.getObject("IndepYear") != null ? rs.getInt("IndepYear") : 0;
                 int population = rs.getInt("Population");
-                Double lifeExpectancy = rs.getObject("LifeExpectancy") != null ? rs.getDouble("LifeExpectancy") : null;
-                Double gnp = rs.getObject("GNP") != null ? rs.getDouble("GNP") : null;
-                Double gnpOld = rs.getObject("GNPOld") != null ? rs.getDouble("GNPOld") : null;
+                double lifeExpectancy = rs.getObject("LifeExpectancy") != null ? rs.getDouble("LifeExpectancy") : 0;
+                double gnp = rs.getObject("GNP") != null ? rs.getDouble("GNP") : 0;
+                double gnpOld = rs.getObject("GNPOld") != null ? rs.getDouble("GNPOld") : 0;
                 String localName = rs.getString("LocalName");
                 String governmentForm = rs.getString("GovernmentForm");
                 String headOfState = rs.getString("HeadOfState");
-                Integer capital = rs.getObject("Capital") != null ? rs.getInt("Capital") : null;
+                int capital = rs.getObject("Capital") != null ? rs.getInt("Capital") : 0;
                 String code2 = rs.getString("Code2");
 
                 // Create Country with extracted data
@@ -408,6 +701,8 @@ public class App {
         // Return populated List of Countries
         return countries;
     }
+
+
 
     /**
      * Retrieves a list of cities based on the specified SQL query
@@ -442,37 +737,57 @@ public class App {
         return cities;
     }
 
+
     /**
-     * Retrieves a list of country languages based on the specified SQL query
-     *
-     * @param query SQL query to execute for retrieving country language records
-     * @return A list of CountryLanguage objects populated with data retrieved from the database
+     * Retrieves a list of population breakdown based on the specified SQL query
+     * @param query SQL query to execute for retrieving population breakdowns objects
+     * @param title The scope of the breakdown (Country, Continent, Region)
+     * @return A list of PopulationBreakdown
      */
-    public static List<CountryLanguage> getReport_CountryLanguage(String query) {
-        // Create List of CountryLanguages
-        List<CountryLanguage> countryLanguages = new ArrayList<>();
+    public static List<PopulationBreakdown> getReport_PopulationBreakdown(String query, String title){
+        if(query == null || query.isEmpty() || title == null || title.isEmpty()) return null;
+        if(!title.equals("Country") && !title.equals("Continent") && !title.equals("Region")) return null;
 
-        // Execute query
+        List<PopulationBreakdown> populationBreakdowns = new ArrayList<>();
         ResultSet rs = executeQuery(query);
+
         try {
-            // Populate objects from ResultSet
             while (rs.next()) {
-                // Extract country-language details from ResultSet
-                String countryCode = rs.getString("CountryCode");
-                String language = rs.getString("Language");
-                String isOfficial = rs.getString("IsOfficial");
-                double percentage = rs.getDouble("Percentage");
+                String country = rs.getString(title);
+                long totalPopulation = rs.getLong("TotalPopulation");
+                long urbanPopulation = rs.getLong("UrbanPopulation");
+                long ruralPopulation = rs.getLong("RuralPopulation");
 
-                // Create CountryLanguage and add to list
-                CountryLanguage countryLanguage = new CountryLanguage(countryCode, language, isOfficial, percentage);
-
-                countryLanguages.add(countryLanguage);
+                populationBreakdowns.add(new PopulationBreakdown(title, country, totalPopulation, urbanPopulation, ruralPopulation));
             }
         } catch (Exception ignored) {}
-
-        return countryLanguages;
+        return populationBreakdowns;
     }
 
+
+    /**
+     * Retrieves a list of language breakdown based on the specified SQL query
+     * @param query SQL query to execute for retrieving language objects
+     * @param worldPopulation The total world population value, used for calculating world percentage
+     * @return A list of Language objects
+     */
+    public static List<Language> getReport_Language(String query, long worldPopulation){
+        if(query == null || query.isEmpty() ) return null;
+
+        List<Language> languages = new ArrayList<>();
+        ResultSet rs = executeQuery(query);
+
+        try {
+            while (rs.next()) {
+                // Language and total speakers
+                String language = rs.getString("Language");
+                double totalSpeakers = rs.getDouble("TotalSpeakers");
+                double percentage = (totalSpeakers / worldPopulation) * 100;
+                languages.add(new Language(language, totalSpeakers, percentage));
+            }
+        } catch (Exception ignored) {}
+        return languages;
+    }
 
 
     /**
@@ -497,7 +812,7 @@ public class App {
      * Connection to MySQL database.
      */
 
-    private static Connection con = null;
+    public static Connection con = null;
 
     public static void setConnection(Connection connection) {
         con = connection;
@@ -506,7 +821,7 @@ public class App {
     /**
      * Connect to the MySQL database.
      */
-    public void connect(String location, int delay) {
+    public static void connect(String location, int delay) {
         if (location != null) {
             try {
                 // Load Database driver
@@ -551,7 +866,7 @@ public class App {
     /**
      * Disconnect from the MySQL database.
      */
-    public void disconnect() {
+    public static void disconnect() {
         if (con != null) {
             try {
                 // Close connection
@@ -561,6 +876,32 @@ public class App {
             }
         }
     }
+
+    /**
+     * Starts a thread which disconnects after given time.
+     * @param timeout Timeout in seconds.
+     */
+    public void startAutoDisconnectTimer(int timeout) {
+        // Skip if zero or negative time
+        if(timeout <= 0 ){
+            System.out.println("Invalid timeout, auto-disconnect cancled.");
+            return;
+        }
+
+        // Start a new thread to disconnect after x seconds
+        new Thread(() -> {
+            try {
+                System.out.println("Auto-disconnect timeout: " + timeout + " seconds.");
+                Thread.sleep(timeout * 1000L);
+                System.out.println("Auto-disconnect triggered after " + timeout + " seconds.");
+                disconnect();
+                System.exit(0);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }, "AutoDisconnect").start();
+    }
+
 //</editor-fold>
 }
 
