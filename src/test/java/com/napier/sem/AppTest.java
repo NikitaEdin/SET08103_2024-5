@@ -16,11 +16,10 @@ public class AppTest {
 
     static App app;
 
-
-    @BeforeAll
     /**
      * This initialises the App before all tests in this class are started.
      */
+    @BeforeAll
     static void setUpBeforeClass(){
         app = new App();
     }
@@ -36,7 +35,7 @@ public class AppTest {
     //<editor-fold desc="Country Tests">
 
     /**
-     *
+     * Method to move Country objects from one array list to another.
      * @param countryList is a list of countries from the Country class
      * @return Returns a list of country objects
      */
@@ -60,11 +59,29 @@ public class AppTest {
     }
 
     /**
+     * Method to test the report_PopulationByContinentDESC method to make sure it can handle a null continent being passed in.
+     */
+    @Test
+    void testReport_PopulationByContinentDESC_nullContinent(){
+        String continent = null;
+        assertNull(app.report_PopulationByContinentDESC(continent));
+    }
+
+    /**
      * Method to test the report_CountriesByRegionDESC method to make sure it can handle an empty region being passed in.
      */
     @Test
     void testReport_CountriesByRegionDESC_emptyRegion(){
         String region = "";
+        assertNull(app.report_CountriesByRegionDESC(region));
+    }
+
+    /**
+     * Method to test the report_CountriesByRegionDESC method to make sure it can handle a null region being passed in.
+     */
+    @Test
+    void testReport_CountriesByRegionDESC_nullRegion(){
+        String region = null;
         assertNull(app.report_CountriesByRegionDESC(region));
     }
 
@@ -98,6 +115,16 @@ public class AppTest {
     }
 
     /**
+     * Method to test the report_TopN_PopulatedCountriesByContinent method to make sure it can handle a null continent being passed in.
+     */
+    @Test
+    void testReport_TopN_PopulatedCountriesByContinent_continentNull(){
+        int n = 3;
+        String continent = null;
+        assertNull(app.report_TopN_PopulatedCountriesByContinent(continent,n));
+    }
+
+    /**
      * Method to test the report_TopN_PopulatedCountriesByContinent method to make sure it can handle an empty continent being passed in
      * as well as an N value less than 1.
      */
@@ -125,6 +152,16 @@ public class AppTest {
     void testReport_TopN_PopulatedCountriesByRegion_regionEmpty(){
         int n = 3;
         String region = "";
+        assertNull(app.report_TopN_PopulatedCountriesByRegion(region,n));
+    }
+
+    /**
+     * Method to test the report_TopN_PopulatedCountriesByRegion method to make sure it can handle a null region being passed in.
+     */
+    @Test
+    void testReport_TopN_PopulatedCountriesByRegion_regionNull(){
+        int n = 3;
+        String region = null;
         assertNull(app.report_TopN_PopulatedCountriesByRegion(region,n));
     }
 
@@ -166,10 +203,11 @@ public class AppTest {
         assertEquals("USA",result.get(0).getCode());
         assertEquals("ESP",result.get(1).getCode());
     }
-    @Test
+
     /**
      * Tests the print_Items method to ensure it handles an empty list without errors.
      */
+    @Test
     void testPrint_ItemsCountryContainsNull(){
         // Create ArrayList
         ArrayList<Country> countries = new ArrayList<Country>();
@@ -179,10 +217,10 @@ public class AppTest {
         app.print_Items(countries);
     }
 
-    @Test
     /**
      * This tests the print_Items method to test if any errors occur if its provided a empty list
      */
+    @Test
     void testPrint_ItemsCountryContainsEmpty(){
         // Create ArrayList
         ArrayList<Country> countries = new ArrayList<Country>();
@@ -190,10 +228,10 @@ public class AppTest {
         app.print_Items(countries);
     }
 
-    @Test
     /**
      *  This test is to test the method print_Items if it functions without errors with normal data.
      */
+    @Test
     void testPrint_ItemsCountry(){
         // Create the Country object using the constructor
         Country c = new Country(
@@ -259,6 +297,16 @@ public class AppTest {
     }
 
     /**
+     * Method to test the report_TopN_PopulatedCitiesByContinent method to make sure it can handle a null continent being passed in.
+     */
+    @Test
+    void testReport_TopN_PopulatedCitiesByContinent_continentNull(){
+        int n = 3;
+        String continent = null;
+        assertNull(app.report_TopN_PopulatedCitiesByContinent(continent,n));
+    }
+
+    /**
      * Method to test the report_TopN_PopulatedCitiesByContinent method to make sure it can handle an empty continent being passed in
      * as well as an N value less than 1.
      */
@@ -286,6 +334,16 @@ public class AppTest {
     void testReport_TopN_PopulatedCitiesByRegion_regionEmpty(){
         int n = 3;
         String region = "";
+        assertNull(app.report_TopN_PopulatedCitiesByRegion(region,n));
+    }
+
+    /**
+     * Method to test the report_TopN_PopulatedCitiesByRegion method to make sure it can handle a null region being passed in.
+     */
+    @Test
+    void testReport_TopN_PopulatedCitiesByRegion_regionNull(){
+        int n = 3;
+        String region = null;
         assertNull(app.report_TopN_PopulatedCitiesByRegion(region,n));
     }
 
@@ -321,6 +379,16 @@ public class AppTest {
     }
 
     /**
+     * Method to test the report_TopN_PopulatedCitiesByCountry method to make sure it can handle a null country being passed in.
+     */
+    @Test
+    void testReport_TopN_PopulatedCitiesByCountry_countryNull(){
+        int n = 3;
+        String country = null;
+        assertNull(app.report_TopN_PopulatedCitiesByCountry(country,n));
+    }
+
+    /**
      * Method to test the report_TopN_PopulatedCitiesByCountry method to make sure it can handle an empty country
      * as well as an N value less than 1.
      */
@@ -352,6 +420,16 @@ public class AppTest {
     }
 
     /**
+     * Method to test the report_TopN_PopulatedCitiesByDistrict method to make sure it can handle a null district being passed in.
+     */
+    @Test
+    void testReport_TopN_PopulatedCitiesByDistrict_districtNull(){
+        int n = 3;
+        String district = null;
+        assertNull(app.report_TopN_PopulatedCitiesByDistrict(district,n));
+    }
+
+    /**
      * Method to test the report_TopN_PopulatedCitiesByDistrict method to make sure it can handle an empty district
      * as well as an N value less than 1.
      */
@@ -372,11 +450,29 @@ public class AppTest {
     }
 
     /**
+     * Method to test the report_CitiesInContinentDESC method to make sure it can handle a null continent being passed in.
+     */
+    @Test
+    void testReport_CitiesInContinentDESC_continentNull(){
+        String continent = null;
+        assertNull(app.report_CitiesInContinentDESC(continent));
+    }
+
+    /**
      * Method to test the report_CitiesInRegionDESC method to make sure it can handle an empty region being passed in.
      */
     @Test
     void testReport_CitiesInRegionDESC_regionEmpty(){
         String region = "";
+        assertNull(app.report_CitiesInRegionDESC(region));
+    }
+
+    /**
+     * Method to test the report_CitiesInRegionDESC method to make sure it can handle a null region being passed in.
+     */
+    @Test
+    void testReport_CitiesInRegionDESC_regionNull(){
+        String region = null;
         assertNull(app.report_CitiesInRegionDESC(region));
     }
 
@@ -390,11 +486,29 @@ public class AppTest {
     }
 
     /**
+     * Method to test the report_CitiesInCountryDESC method to make sure it can handle a null country being passed in.
+     */
+    @Test
+    void testReport_CitiesInCountryDESC_countryNull(){
+        String country = null;
+        assertNull(app.report_CitiesInCountryDESC(country));
+    }
+
+    /**
      * Method to test the report_CitiesInDistrictDESC method to make sure it can handle an empty district being passed in.
      */
     @Test
     void testReport_CitiesInDistrictDESC_districtEmpty(){
         String district = "";
+        assertNull(app.report_CitiesInDistrictDESC(district));
+    }
+
+    /**
+     * Method to test the report_CitiesInDistrictDESC method to make sure it can handle a null district being passed in.
+     */
+    @Test
+    void testReport_CitiesInDistrictDESC_districtNull(){
+        String district = null;
         assertNull(app.report_CitiesInDistrictDESC(district));
     }
 
@@ -408,6 +522,15 @@ public class AppTest {
     }
 
     /**
+     * Method to test the report_CapitalCitiesInContinentDESC method to make sure it can handle a null continent being passed in.
+     */
+    @Test
+    void testReport_CapitalCitiesInContinentDESC_continentNull(){
+        String continent = null;
+        assertNull(app.report_CapitalCitiesInContinentDESC(continent));
+    }
+
+    /**
      * Method to test the report_CapitalCitiesInRegionDESC method to make sure it can handle an empty region being passed in.
      */
     @Test
@@ -416,84 +539,111 @@ public class AppTest {
         assertNull(app.report_CapitalCitiesInRegionDESC(region));
     }
 
-    // Tests for City reports still to be implemented.
-//
-//    /**
-//     * Method to test the report_TopN_PopulatedCapitalCitiesInWorld method with an N value less than 1.
-//     */
-//    @Test
-//    void testReport_TopN_PopulatedCapitalCitiesInWorld_NLessThan1(){
-//        int n = 0;
-//        assertNull(app.report_TopN_PopulatedCapitalCitiesInWorld(n));
-//    }
-//
-//    /**
-//     * Method to test the report_TopN_PopulatedCapitalCitiesInContinent method with an N value less than 1.
-//     */
-//    @Test
-//    void testReport_TopN_PopulatedCapitalCitiesInContinent_NLessThan1(){
-//        int n = 0;
-//        String continent = "Africa";
-//        assertNull(app.report_TopN_PopulatedCapitalCitiesInContinent(n, continent));
-//    }
-//
-//    /**
-//     * Method to test the report_TopN_PopulatedCapitalCitiesInContinent method to make sure it can handle an empty continent being passed in.
-//     */
-//    @Test
-//    void testReport_TopN_PopulatedCapitalCitiesInContinent_continentEmpty(){
-//        int n = 3;
-//        String continent = "";
-//        assertNull(app.report_TopN_PopulatedCapitalCitiesInContinent(n, continent));
-//    }
-//
-//    /**
-//     * Method to test the report_TopN_PopulatedCapitalCitiesInContinent method to make sure it can handle an empty continent being passed in
-//     * as well as an N value less than 1.
-//     */
-//    @Test
-//    void testReport_TopN_PopulatedCapitalCitiesInContinent_continentEmptyAndNLessThan1(){
-//        int n = 0;
-//        String continent = "";
-//        assertNull(app.report_TopN_PopulatedCapitalCitiesInContinent(n, continnt));
-//    }
-//
-//    /**
-//     * Method to test the report_TopN_PopulatedCapitalCitiesInRegion method with an N value less than 1.
-//     */
-//    @Test
-//    void testReport_TopN_PopulatedCapitalCitiesInRegion_NLessThan1(){
-//        int n = 0;
-//        String region = "Central America";
-//        assertNull(app.report_TopN_PopulatedCapitalCitiesInRegion(n, region));
-//    }
-//
-//    /**
-//     * Method to test the report_TopN_PopulatedCapitalCitiesInRegion method to make sure it can handle an empty region being passed in.
-//     */
-//    @Test
-//    void testReport_TopN_PopulatedCapitalCitiesInRegion_regionEmpty(){
-//        int n = 3;
-//        String region = "";
-//        assertNull(app.report_TopN_PopulatedCapitalCitiesInRegion(n, region));
-//    }
-//
-//    /**
-//     * Method to test the report_TopN_PopulatedCapitalCitiesInRegion method to make sure it can handle an empty region being passed in
-//     * as well as an N value less than 1.
-//     */
-//    @Test
-//    void testReport_TopN_PopulatedCapitalCitiesInRegion_regionEmptyAndNLessThan1(){
-//        int n = 0;
-//        String region = "";
-//        assertNull(app.report_TopN_PopulatedCapitalCitiesInRegion(n, region));
-//    }
-
+    /**
+     * Method to test the report_CapitalCitiesInRegionDESC method to make sure it can handle a null region being passed in.
+     */
     @Test
+    void testReport_CapitalCitiesInRegionDESC_regionNull(){
+        String region = null;
+        assertNull(app.report_CapitalCitiesInRegionDESC(region));
+    }
+
+    /**
+     * Method to test the report_TopN_PopulatedCapitalCitiesInWorld method with an N value less than 1.
+     */
+    @Test
+    void testReport_TopN_PopulatedCapitalCitiesInWorld_NLessThan1(){
+        int n = 0;
+        assertNull(app.report_TopN_PopulatedCapitalCitiesInWorld(n));
+    }
+
+    /**
+     * Method to test the report_TopN_PopulatedCapitalCitiesInContinent method with an N value less than 1.
+     */
+    @Test
+    void testReport_TopN_PopulatedCapitalCitiesInContinent_NLessThan1(){
+        int n = 0;
+        String continent = "Africa";
+        assertNull(app.report_TopN_PopulatedCapitalCitiesInContinent(n, continent));
+    }
+
+    /**
+     * Method to test the report_TopN_PopulatedCapitalCitiesInContinent method to make sure it can handle an empty continent being passed in.
+     */
+    @Test
+    void testReport_TopN_PopulatedCapitalCitiesInContinent_continentEmpty(){
+        int n = 3;
+        String continent = "";
+        assertNull(app.report_TopN_PopulatedCapitalCitiesInContinent(n, continent));
+    }
+
+    /**
+     * Method to test the report_TopN_PopulatedCapitalCitiesInContinent method to make sure it can handle a null continent being passed in.
+     */
+    @Test
+    void testReport_TopN_PopulatedCapitalCitiesInContinent_continentNull(){
+        int n = 3;
+        String continent = null;
+        assertNull(app.report_TopN_PopulatedCapitalCitiesInContinent(n, continent));
+    }
+
+    /**
+     * Method to test the report_TopN_PopulatedCapitalCitiesInContinent method to make sure it can handle an empty continent being passed in
+     * as well as an N value less than 1.
+     */
+    @Test
+    void testReport_TopN_PopulatedCapitalCitiesInContinent_continentEmptyAndNLessThan1(){
+        int n = 0;
+        String continent = "";
+        assertNull(app.report_TopN_PopulatedCapitalCitiesInContinent(n, continent));
+    }
+
+    /**
+     * Method to test the report_TopN_PopulatedCapitalCitiesInRegion method with an N value less than 1.
+     */
+    @Test
+    void testReport_TopN_PopulatedCapitalCitiesInRegion_NLessThan1(){
+        int n = 0;
+        String region = "Central America";
+        assertNull(app.report_TopN_PopulatedCapitalCitiesInRegion(n, region));
+    }
+
+    /**
+     * Method to test the report_TopN_PopulatedCapitalCitiesInRegion method to make sure it can handle an empty region being passed in.
+     */
+    @Test
+    void testReport_TopN_PopulatedCapitalCitiesInRegion_regionEmpty(){
+        int n = 3;
+        String region = "";
+        assertNull(app.report_TopN_PopulatedCapitalCitiesInRegion(n, region));
+    }
+
+    /**
+     * Method to test the report_TopN_PopulatedCapitalCitiesInRegion method to make sure it can handle a null region being passed in.
+     */
+    @Test
+    void testReport_TopN_PopulatedCapitalCitiesInRegion_regionNull(){
+        int n = 3;
+        String region = null;
+        assertNull(app.report_TopN_PopulatedCapitalCitiesInRegion(n, region));
+    }
+
+    /**
+     * Method to test the report_TopN_PopulatedCapitalCitiesInRegion method to make sure it can handle an empty region being passed in
+     * as well as an N value less than 1.
+     */
+    @Test
+    void testReport_TopN_PopulatedCapitalCitiesInRegion_regionEmptyAndNLessThan1(){
+        int n = 0;
+        String region = "";
+        assertNull(app.report_TopN_PopulatedCapitalCitiesInRegion(n, region));
+    }
+
     /**
      *  Tests the method getReport_City method to test if it causes errors when no city is provided,
      *  and to check that the data provided returns the same when once inputted.
      */
+    @Test
     void testGetReport_City(){
         List<City> testData = new ArrayList<City>();
         // Test case for New York
@@ -517,10 +667,10 @@ public class AppTest {
     }
 
 
-    @Test
     /**
      * Tests the print_Items method to ensure it handles an empty list without errors.
      */
+    @Test
     void testPrint_ItemsCityContainsNull(){
         // Create ArrayList
         ArrayList<City> cities = new ArrayList<City>();
@@ -530,10 +680,10 @@ public class AppTest {
         app.print_Items(cities);
     }
 
-    @Test
     /**
      * This tests the print_Items method to test if any errors occur if its provided a empty list
      */
+    @Test
     void testPrint_ItemsCitiesContainsEmpty(){
         // Create ArrayList
         ArrayList<City> cities = new ArrayList<City>();
@@ -541,14 +691,14 @@ public class AppTest {
         app.print_Items(cities);
     }
 
-    @Test
     /**
      *  This test is to test the method print_Items if it functions without errors with normal data.
      */
+    @Test
     void testPrint_ItemsCity(){
         // Create the Country object using the constructor
         City c = new City(
-                001,"Edinburgh","123","District",1000000
+                1,"Edinburgh","123","District",1000000
         );
         // Create ArrayList to store the info
         ArrayList<City> cities = new ArrayList<>();
@@ -558,32 +708,32 @@ public class AppTest {
         app.print_Items(cities);
     }
 
-    @Test
     /**
      *  This is to test the method print_Items_Capitals and this is its normal use case
      */
+    @Test
     void testPrint_Items_Capitals(){
         City capital = new City(
-                002,"Paris","432","District",1500000
+                2,"Paris","432","District",1500000
         );
         ArrayList<City> capitals = new ArrayList<>();
         capitals.add(capital);
         app.print_Items_Capitals(capitals);
     }
 
-    @Test
     /**
      * This is to test the print_Items_Capitals method and to see if it can handle null being provided
      */
+    @Test
     void testPrint_Items_CapitalsNull(){
         ArrayList<City> capitals = null;
         app.print_Items_Capitals(capitals);
     }
 
-    @Test
     /**
      * This is to test the print_Items_Capitals method to see if it can handle no data being provided.
      */
+    @Test
     void testPrint_Items_CapitalsEmpty(){
         ArrayList<City> capitals = new ArrayList<>();
         app.print_Items_Capitals(capitals);
@@ -594,54 +744,110 @@ public class AppTest {
     //<editor-fold desc="Total Population Tests">
 
     // Tests for Total Population reports still to be implemented.
-//
-//    /**
-//     * Method to test the report_TotalPopulation_Continent method to make sure it can handle an empty continent being passed in.
-//     */
-//    @Test
-//    void testReport_TotalPopulation_Continent_continentEmpty(){
-//        String continent = "";
-//        assertNull(app.report_TotalPopulation_Continent(continent));
-//    }
-//
-//    /**
-//     * Method to test the report_TotalPopulation_Region method to make sure it can handle an empty region being passed in.
-//     */
-//    @Test
-//    void testReport_TotalPopulation_Region_regionEmpty(){
-//        String region = "";
-//        assertNull(app.report_TotalPopulation_Region(region));
-//    }
-//
-//    /**
-//     * Method to test the report_TotalPopulation_Country method to make sure it can handle an empty country being passed in.
-//     */
-//    @Test
-//    void testReport_TotalPopulation_Country_countryEmpty(){
-//        String country = "";
-//        assertNull(app.report_TotalPopulation_Country(country));
-//    }
-//
-//    /**
-//     * Method to test the report_TotalPopulation_District method to make sure it can handle an empty district being passed in.
-//     */
-//    @Test
-//    void testReport_TotalPopulation_District_districtEmpty(){
-//        String district = "";
-//        assertNull(app.report_TotalPopulation_District(district));
-//    }
-//
-//    @Test
-//    void testReport_TotalPopulation_City_cityEmpty(){
-//        String city = "";
-//        assertNull(app.report_TotalPopulation_City(city));
-//    }
+
+    /**
+     * Method to test the report_TotalPopulation_Continent method to make sure it can handle an empty continent being passed in.
+     */
+    @Test
+    void testReport_TotalPopulation_Continent_continentEmpty(){
+        String continent = "";
+        assertEquals(0,app.report_TotalPopulation_Continent(continent));
+    }
+
+    /**
+     * Method to test the report_TotalPopulation_Continent method to make sure it can handle a null continent being passed in.
+     */
+    @Test
+    void testReport_TotalPopulation_Continent_continentNull(){
+        String continent = null;
+        assertEquals(0,app.report_TotalPopulation_Continent(continent));
+    }
+
+    /**
+     * Method to test the report_TotalPopulation_Region method to make sure it can handle an empty region being passed in.
+     */
+    @Test
+    void testReport_TotalPopulation_Region_regionEmpty(){
+        String region = "";
+        assertEquals(0,app.report_TotalPopulation_Region(region));
+    }
+
+    /**
+     * Method to test the report_TotalPopulation_Region method to make sure it can handle a null region being passed in.
+     */
+    @Test
+    void testReport_TotalPopulation_Region_regionNull(){
+        String region = null;
+        assertEquals(0,app.report_TotalPopulation_Region(region));
+    }
+
+    /**
+     * Method to test the report_TotalPopulation_Country method to make sure it can handle an empty country being passed in.
+     */
+    @Test
+    void testReport_TotalPopulation_Country_countryEmpty(){
+        String country = "";
+        assertEquals(0,app.report_TotalPopulation_Country(country));
+    }
+
+    /**
+     * Method to test the report_TotalPopulation_Country method to make sure it can handle a null country being passed in.
+     */
+    @Test
+    void testReport_TotalPopulation_Country_countryNull(){
+        String country = null;
+        assertEquals(0,app.report_TotalPopulation_Country(country));
+    }
+
+    /**
+     * Method to test the report_TotalPopulation_District method to make sure it can handle an empty district being passed in.
+     */
+    @Test
+    void testReport_TotalPopulation_District_districtEmpty(){
+        String district = "";
+        assertEquals(0,app.report_TotalPopulation_District(district));
+    }
+
+    /**
+     * Method to test the report_TotalPopulation_District method to make sure it can handle a null district being passed in.
+     */
+    @Test
+    void testReport_TotalPopulation_District_districtNull(){
+        String district = null;
+        assertEquals(0,app.report_TotalPopulation_District(district));
+    }
+
+    /**
+     * Method to test the report_TotalPopulation_City method to make sure it can handle an empty city being passed in.
+     */
+    @Test
+    void testReport_TotalPopulation_City_cityEmpty(){
+        String city = "";
+        assertEquals(0,app.report_TotalPopulation_City(city));
+    }
+
+    /**
+     * Method to test the report_TotalPopulation_City method to make sure it can handle a null city being passed in.
+     */
+    @Test
+    void testReport_TotalPopulation_City_cityNull(){
+        String city = null;
+        assertEquals(0,app.report_TotalPopulation_City(city));
+    }
 
     //</editor-fold>
 
-    ///////////////////// Country Language Tests /////////////////////
-    //<editor-fold desc="Country Language Tests">
+    ///////////////////// Language Tests /////////////////////
+    //<editor-fold desc="Language Tests">
 
+    /**
+     * Tests the report_WorldLanguagesBreakdown method to make sure it can handle a population value that is negative.
+     */
+    @Test
+    void testReport_WorldLanguagesBreakdown_worldPopulationLessNegative(){
+        long worldPopulation = -3;
+        assertNull(app.report_WorldLanguagesBreakdown(worldPopulation));
+    }
 
     //</editor-fold>
 }

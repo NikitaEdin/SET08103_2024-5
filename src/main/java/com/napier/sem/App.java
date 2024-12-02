@@ -53,6 +53,11 @@ public class App {
         // Disconnect from database before termination
         //disconnect();
     }
+
+    /**
+     * Method to produce all the reports.
+     * @param a App object to be used to run App methods.
+     */
     public static void generateAllReports(App a){
         // World Reports
         System.out.println("\nreport_PopulationDESC: ");
@@ -380,7 +385,7 @@ public class App {
 
 
     /**
-     * Retrives top N most populated capital cities in the world.
+     * Retrieves top N most populated capital cities in the world.
      * @param N number of items to retrieve
      * @return List of top N populated capital cities
      */
@@ -396,7 +401,7 @@ public class App {
     }
 
     /**
-     * Retrives top N most populated capital cities within a given continent.
+     * Retrieves top N most populated capital cities within a given continent.
      * @param N number of items to retrive
      * @param continent continent name
      * @return List of top N populated capital cities in a given continent
@@ -412,7 +417,7 @@ public class App {
     }
 
     /**
-     * Retrives top N most populated capital cities within a given region.
+     * Retrieves top N most populated capital cities within a given region.
      * @param N number of items to retrive
      * @param region region name
      * @return List of top N populated capital cities in a given region
@@ -428,7 +433,7 @@ public class App {
     }
 
     /**
-     * Retrives population breakdown (total, urban, rural) for all continents.
+     * Retrieves population breakdown (total, urban, rural) for all continents.
      */
     @RequestMapping("report_PopulationBreakdown_AllContinents")
     public List<PopulationBreakdown> report_PopulationBreakdown_AllContinents() {
@@ -446,7 +451,7 @@ public class App {
     }
 
     /**
-     * Retrives population breakdown (total, urban, rural) for all regions.
+     * Retrieves population breakdown (total, urban, rural) for all regions.
      */
     @RequestMapping("report_PopulationBreakdown_AllRegions")
     public List<PopulationBreakdown> report_PopulationBreakdown_AllRegions() {
@@ -463,7 +468,7 @@ public class App {
     }
 
     /**
-     * Retrives population breakdown (total, urban, rural) for all countries.
+     * Retrieves population breakdown (total, urban, rural) for all countries.
      */
     @RequestMapping("report_PopulationBreakdown_AllCountries")
     public List<PopulationBreakdown> report_PopulationBreakdown_AllCountries() {
@@ -480,7 +485,7 @@ public class App {
     }
 
     /**
-     * Calculates and retrives the total population of the world.
+     * Calculates and retrieves the total population of the world.
      * @return total population of the world
      */
     @RequestMapping("report_TotalPopulation_World")
@@ -497,7 +502,7 @@ public class App {
     }
 
     /**
-     * Retrives total population within a given continent.
+     * Retrieves total population within a given continent.
      * @param continent Name of the continent
      * @return total population within the given continent
      */
@@ -518,7 +523,7 @@ public class App {
     }
 
     /**
-     * Retrives total population within a given region.
+     * Retrieves total population within a given region.
      * @param region Name of the region
      * @return total population within the given region
      */
@@ -539,7 +544,7 @@ public class App {
     }
 
     /**
-     * Retrives total population within a given country.
+     * Retrieves total population within a given country.
      * @param country Name of the country
      * @return total population within the given country
      */
@@ -560,7 +565,7 @@ public class App {
     }
 
     /**
-     * Retrives total population within a given district.
+     * Retrieves total population within a given district.
      * @param district Name of the district
      * @return total population within the given district
      */
@@ -581,7 +586,7 @@ public class App {
     }
 
     /**
-     * Retrives total population within a given city.
+     * Retrieves total population within a given city.
      * @param city Name of the city
      * @return total population within the given city
      */
@@ -602,7 +607,7 @@ public class App {
     }
 
     /**
-     * Retrives a breakdown of spoken languages, including total speakers and percentage of world population
+     * Retrieves a breakdown of spoken languages, including total speakers and percentage of world population
      */
     @RequestMapping("report_WorldLanguagesBreakdown")
     public List<Language> report_WorldLanguagesBreakdown(@RequestParam(value = "worldPopulation") long worldPopulation) {
@@ -734,8 +739,8 @@ public class App {
 
 
     /**
-     * Retrives a list of population breakdown based on the specified SQL query
-     * @param query SQL query to execute for retreiving population breakdowns objects
+     * Retrieves a list of population breakdown based on the specified SQL query
+     * @param query SQL query to execute for retrieving population breakdowns objects
      * @param title The scope of the breakdown (Country, Continent, Region)
      * @return A list of PopulationBreakdown
      */
@@ -762,7 +767,7 @@ public class App {
 
     /**
      * Retrieves a list of language breakdown based on the specified SQL query
-     * @param query SQL query to execute for retreiving language objects
+     * @param query SQL query to execute for retrieving language objects
      * @param worldPopulation The total world population value, used for calculating world percentage
      * @return A list of Language objects
      */
