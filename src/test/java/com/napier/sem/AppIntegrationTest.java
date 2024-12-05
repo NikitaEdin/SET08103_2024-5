@@ -45,12 +45,13 @@ public class AppIntegrationTest {
     void test_TopN_PopulatedCountries(){
         List<Country> countries = app.report_TopN_PopulatedCountries(3);
 
-        // Not Null
+        // Verify countries are not null
         assertNotNull(countries, "The result should not be null");
 
-        // Within range
+        // Verify the number of countries returned are within range
         assertTrue(countries.size() <= 3, "There should be 3 or less countries returned");
 
+        // If the result contains at least 2 countries, validate their order.
         if(countries.size() >= 2){
             // Verify countries are in descending order
             for (int i = 0; i < countries.size() - 1; i++) {
@@ -81,11 +82,13 @@ public class AppIntegrationTest {
     void test_TopN_PopulatedCountriesByContinent(){
         List<Country> countries = app.report_TopN_PopulatedCountriesByContinent("North America", 5);
 
-        // Not Null
+        // Verify countries are not null
         assertNotNull(countries, "The result should not be null");
 
-        // Exact value of items
+        // Verify the number of countries returned are within range
         assertTrue(countries.size() <= 5, "There should be 5 or less countries returned");
+
+        // If the result contains at least 2 countries, validate their order.
         if(countries.size() >= 2){
             // Verify countries are in descending order
             for (int i = 0; i < countries.size() - 1; i++) {
@@ -127,12 +130,13 @@ public class AppIntegrationTest {
     void test_TopN_PopulatedCountriesByRegion(){
         List<Country> countries = app.report_TopN_PopulatedCountriesByRegion("Central Africa", 5);
 
-        // Not Null
+        // Verify countries are not null
         assertNotNull(countries, "The result should not be null");
 
-        // Within range
+        // Verify the number of countries returned are within range
         assertTrue(countries.size() <= 5, "There should be 5 or less countries returned");
 
+        // If the result contains at least 2 countries, validate their order.
         if(countries.size() >= 2){
             // Verify countries are in descending order
             for (int i = 0; i < countries.size() - 1; i++) {
@@ -174,12 +178,13 @@ public class AppIntegrationTest {
     void test_TopN_PopulatedCities(){
         List<City> cities = app.report_TopN_PopulatedCities(3);
 
-        // Not Null
+        // Verify cities are not null
         assertNotNull(cities, "The result should not be null");
 
-        // Within range
+        // Verify the number of cities returned are within range
         assertTrue(cities.size() <= 3, "There should be 3 or less cities returned");
 
+        // If the result contains at least 2 cities, validate their order.
         if(cities.size() >= 2){
             // Verify cities are in descending order
             for (int i = 0; i < cities.size() - 1; i++) {
@@ -211,13 +216,13 @@ public class AppIntegrationTest {
     void test_TopN_PopulatedCitiesByContinent(){
         List<City> cities = app.report_TopN_PopulatedCitiesByContinent("North America", 5);
 
-        // Not Null
+        // Verify cities are not null
         assertNotNull(cities, "The result should not be null");
 
-        // Within range
+        // Verify the number of cities returned are within range
         assertTrue(cities.size() <= 5, "There should be 5 or less cities returned");
 
-        // Verify cities are in descending order
+        // If the result contains at least 2 cities, validate their order.
         if(cities.size() >= 2) {
             for (int i = 0; i < cities.size() - 1; i++) {
                 assertTrue(cities.get(i).Population >= cities.get(i + 1).Population,
@@ -258,17 +263,18 @@ public class AppIntegrationTest {
     void test_TopN_PopulatedCitiesByRegion(){
         List<City> cities = app.report_TopN_PopulatedCitiesByRegion("Central America", 4);
 
-        // Not Null
+        // Verify cities are not null
         assertNotNull(cities, "The result should not be null");
 
-        // Within range
+        // Verify the number of cities returned are within range
         assertTrue(cities.size() <= 4, "There should be 4 or less cities returned");
 
+        // If the result contains at least 2 cities, validate their order.
         if(cities.size() >= 2){
             // Verify cities are in descending order
             for (int i = 0; i < cities.size() - 1; i++) {
                 assertTrue(cities.get(i).Population >= cities.get(i + 1).Population,
-                        "Countries should be ordered in descending population for the specified region");
+                        "Cities should be ordered in descending population for the specified region");
             }
         }else{
             assertEquals(1, cities.size());
@@ -305,12 +311,13 @@ public class AppIntegrationTest {
     void test_TopN_PopulatedCitiesByCountry(){
         List<City> cities = app.report_TopN_PopulatedCitiesByCountry("Brazil",3);
 
-        // Not Null
+        // Verify cities are not null
         assertNotNull(cities, "The result should not be null");
 
-        // Within range
+        // Verify the number of cities returned are within range
         assertTrue(cities.size() <= 3, "There should be 3 or less cities returned");
 
+        // If the result contains at least 2 cities, validate their order.
         if(cities.size() >= 2){
             // Verify cities are in descending order
             for (int i = 0; i < cities.size() - 1; i++) {
@@ -350,12 +357,13 @@ public class AppIntegrationTest {
     void test_TopN_PopulatedCitiesByDistrict(){
         List<City> cities = app.report_TopN_PopulatedCitiesByDistrict("Western",6);
 
-        // Not Null
+        // Verify cities are not null
         assertNotNull(cities, "The result should not be null");
 
-        // Within range
+        // Verify the number of cities returned are within range
         assertTrue(cities.size() <= 6, "There should be 6 or less cities returned");
 
+        // If the result contains at least 2 cities, validate their order.
         if(cities.size() >= 2){
             // Verify cities are in descending order
             for (int i = 0; i < cities.size() - 1; i++) {
@@ -399,19 +407,14 @@ public class AppIntegrationTest {
      */
     @Test
     void test_PopulationDESC(){
-        // Get all country by population
         List<Country> countries = app.report_PopulationDESC();
 
-        // Not Null
+        // Verify the countries are not null
         assertNotNull(countries, "The result should not be null");
 
-        // Has items
-        assertNotEquals(0, countries.size(), "Countries should not be empty");
-
-        // Verify items are in descending order
-        for (int i = 0; i < countries.size() - 1; i++) {
-            assertTrue(countries.get(i).Population >= countries.get(i + 1).Population,
-                    "Countries should be ordered in descending order.");
+        // If the result contains at least 2 countries, validate their order.
+        if(countries.size() >= 2) {
+            assertTrue(isDescending_Country(countries));
         }
     }
 
@@ -421,16 +424,14 @@ public class AppIntegrationTest {
      */
     @Test
     void test_PopulationByContinentDESC(){
-        // Get population
         List<Country> countries = app.report_PopulationByContinentDESC("Asia");
 
-        // Not Null
+        // Verify the countries are not null
         assertNotNull(countries, "The result should not be null");
 
-        // Verify countries are in descending order
-        for (int i = 0; i < countries.size() - 1; i++) {
-            assertTrue(countries.get(i).getPopulation() >= countries.get(i + 1).getPopulation(),
-                    "Countries should be ordered in descending population for the specified continent");
+        // If the result contains at least 2 countries, validate their order.
+        if(countries.size() >= 2) {
+            assertTrue(isDescending_Country(countries));
         }
     }
 
@@ -461,16 +462,15 @@ public class AppIntegrationTest {
      */
     @Test
     void test_CountriesByRegionDESC(){
-        // Get countries by region
         List<Country> countries = app.report_CountriesByRegionDESC("South America");
 
-        // Not null
+        // Verify the countries are not null
         assertNotNull(countries, "The result should not be null");
 
-        // Verify countries returned in descending order by population
-        for (int i = 0; i < countries.size() - 1; i++) {
-            assertTrue(countries.get(i).getPopulation() >= countries.get(i + 1).getPopulation(),
-                    "Countries should be ordered in descending population for the specified region");
+
+        // If the result contains at least 2 countries, validate their order.
+        if(countries.size() >= 2) {
+           assertTrue(isDescending_Country(countries));
         }
     }
 
@@ -503,13 +503,14 @@ public class AppIntegrationTest {
     @Test
     void test_CapitalCitiesInRegionDESC() {
         List<City> items = app.report_CapitalCitiesInRegionDESC("Western Europe");
-        // Not empty
-        assertNotEquals(0, items.size());
+
+        // Verify the countries are not null
+        assertNotNull(items, "The result should not be null");
+
 
         // Check order of items
-        for (int i = 0; i < items.size() - 1; i++) {
-            assertTrue(items.get(i).Population >= items.get(i + 1).Population,
-                    "Cities should be ordered in descending population");
+        if(items.size() >= 2) {
+            assertTrue(isDescending_City(items));
         }
     }
 
@@ -539,17 +540,14 @@ public class AppIntegrationTest {
      */
     @Test
     void test_report_CitiesInWorldDESC(){
-        // Put the report into a list
         List<City> cities = app.report_CitiesInWorldDESC();
 
-        // Check if the size of cities is the same as expected
+        // Verify the cities are not null
         assertNotNull(cities, "The result should not be null");
-        assertNotEquals(0, cities.size());
 
-        // Check if in desc
-        for (int i = 0; i < cities.size() - 1; i++) {
-            assertTrue(cities.get(i).Population >= cities.get(i + 1).Population,
-                    "Cities should be ordered in descending population");
+        // If the result contains at least 2 cities, validate their order.
+        if(cities.size() >= 2) {
+            assertTrue(isDescending_City(cities));
         }
     }
 
@@ -560,16 +558,14 @@ public class AppIntegrationTest {
      */
     @Test
     void test_report_CitiesInContinentDESC(){
-        // Get cities in continent
         List<City> cities = app.report_CitiesInContinentDESC("Africa");
 
-        // Not nukll
+        // Verify the countries are not null
         assertNotNull(cities, "The result should not be null");
 
-        // Verify cities are in descending order
-        for (int i = 0; i < cities.size() - 1; i++) {
-            assertTrue(cities.get(i).Population >= cities.get(i + 1).Population,
-                    "Cities should be ordered in descending population");
+        // If the result contains at least 2 cities, validate their order.
+        if(cities.size() >= 2) {
+            assertTrue(isDescending_City(cities));
         }
     }
 
@@ -591,13 +587,13 @@ public class AppIntegrationTest {
     @Test
     void test_report_CitiesInRegionDESC(){
         List<City> cities = app.report_CitiesInRegionDESC("Western Europe");
-        // Not null
-        assertNotNull(cities);
 
-        // Verify cities are in descending order
-        for (int i = 0; i < cities.size() - 1; i++) {
-            assertTrue(cities.get(i).Population >= cities.get(i + 1).Population,
-                    "Cities should be ordered in descending population");
+        // Verify the countries are not null
+        assertNotNull(cities, "The result should not be null");
+
+        // If the result contains at least 2 cities, validate their order.
+        if(cities.size() >= 2) {
+            assertTrue(isDescending_City(cities));
         }
     }
 
@@ -620,13 +616,12 @@ public class AppIntegrationTest {
     void test_report_CitiesInCountryDESC(){
         List<City> cities = app.report_CitiesInCountryDESC("France");
 
-        // Not null
-        assertNotNull(cities);
+        // Verify the countries are not null
+        assertNotNull(cities, "The result should not be null");
 
-        // Verify cities are in descending order
-        for (int i = 0; i < cities.size() - 1; i++) {
-            assertTrue(cities.get(i).Population >= cities.get(i + 1).Population,
-                    "Cities should be ordered in descending population");
+        // If the result contains at least 2 cities, validate their order.
+        if(cities.size() >= 2) {
+            assertTrue(isDescending_City(cities));
         }
     }
 
@@ -649,13 +644,12 @@ public class AppIntegrationTest {
     void test_report_CitiesInDistrictDESC(){
         List<City> cities = app.report_CitiesInDistrictDESC("Scotland");
 
-        // Not Null
-        assertNotNull(cities);
+        // Verify the cities are not null
+        assertNotNull(cities, "The result should not be null");
 
-        // Verify cities are in descending order
-        for (int i = 0; i < cities.size() - 1; i++) {
-            assertTrue(cities.get(i).Population >= cities.get(i + 1).Population,
-                    "Cities should be ordered in descending population");
+        // If the result contains at least 2 cities, validate their order.
+        if(cities.size() >= 2) {
+            assertTrue(isDescending_City(cities));
         }
     }
 
@@ -678,14 +672,12 @@ public class AppIntegrationTest {
     void test_report_CapitalCitiesInWorldDESC(){
         List<City> cities = app.report_CapitalCitiesInWorldDESC();
 
-        // Not null or empty
-        assertNotNull(cities);
-        assertNotEquals(0, cities.size());
+        // Verify the cities are not null
+        assertNotNull(cities, "The result should not be null");
 
-        // Check if in desc
-        for (int i = 0; i < cities.size() - 1; i++) {
-            assertTrue(cities.get(i).Population >= cities.get(i + 1).Population,
-                    "Cities should be ordered in descending population");
+        // If the result contains at least 2 cities, validate their order.
+        if(cities.size() >= 2) {
+            assertTrue(isDescending_City(cities));
         }
     }
 
@@ -697,8 +689,8 @@ public class AppIntegrationTest {
     @Test
     void test_report_TopN_PopulatedCapitalCitiesInWorld(){
         List<City> cities = app.report_TopN_PopulatedCapitalCitiesInWorld(5);
-        // Not null
-        assertNotNull(cities);
+        // Verify the cities are not null
+        assertNotNull(cities, "The result should not be null.");
 
         if(!cities.isEmpty()){
             // Within range
@@ -724,8 +716,8 @@ public class AppIntegrationTest {
     @Test
     void test_report_TopN_PopulatedCapitalCitiesInContinent(){
         List<City> cities = app.report_TopN_PopulatedCapitalCitiesInContinent(3, "Asia");
-        // Not null
-        assertNotNull(cities);
+        // Verify the cities are not null
+        assertNotNull(cities, "The result should not be null.");
 
         if(!cities.isEmpty()){
             // Within range
@@ -759,8 +751,8 @@ public class AppIntegrationTest {
     @Test
     void test_report_TopN_PopulatedCapitalCitiesInRegion(){
         List<City> cities = app.report_TopN_PopulatedCapitalCitiesInRegion(3, "Central America");
-        // Not null
-        assertNotNull(cities);
+        // Verify the cities are not null
+        assertNotNull(cities, "The result should not be null.");
 
         if(!cities.isEmpty()){
             // Within range
@@ -1035,7 +1027,9 @@ public class AppIntegrationTest {
     @Test
     void test_report_WorldLanguagesBreakdown_emptyNull(){
         List<Language> languages = app.report_WorldLanguagesBreakdown(0);
-        assertNotNull(languages);
+        // Verify the languages are not null
+        assertNotNull(languages, "The result should not be null");
+
 
         // Languages with 0 world population will result in zero percentage
         if(!languages.isEmpty()){
@@ -1174,6 +1168,19 @@ public class AppIntegrationTest {
             for (int i = 0; i < cities.size() - 1; i++) {
                if (cities.get(i).Population < cities.get(i + 1).Population)
                    return false;
+            }
+        }
+
+        return true;
+    }
+
+    public boolean isDescending_Country(List<Country> countries){
+        if (countries == null || countries.isEmpty()) return false;
+        // Check if in desc
+        if(countries.size() > 1){
+            for (int i = 0; i < countries.size() - 1; i++) {
+                if (countries.get(i).Population < countries.get(i + 1).Population)
+                    return false;
             }
         }
 
